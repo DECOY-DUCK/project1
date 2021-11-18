@@ -60,13 +60,21 @@ export default {
       "asyncGetDongs",
       "asyncGetHouseDeals",
     ]),
-    ...mapMutations(houseDealStore, ["CLEAR_SIDO_LIST"]),
+    ...mapMutations(houseDealStore, [
+      "CLEAR_SIDO_LIST",
+      "CLEAR_GUGUN_LIST",
+      "CLEAR_DONG_LIST",
+    ]),
     setGugunList() {
+      this.CLEAR_GUGUN_LIST();
+      this.gugunCode = null;
       if (this.sidoCode) {
         this.asyncGetGuguns(this.sidoCode);
       }
     },
     setDongList() {
+      this.CLEAR_DONG_LIST();
+      this.dongCode = null;
       if (this.gugunCode) {
         this.asyncGetDongs(this.gugunCode);
       }
@@ -81,7 +89,6 @@ export default {
         alert("동을 선택해주세요.");
         return;
       }
-      console.log(this.dongName);
 
       this.asyncGetHouseDeals({
         gugunCode: this.gugunCode,
