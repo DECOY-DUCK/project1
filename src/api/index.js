@@ -37,5 +37,6 @@ class HttpClient {
   }
 }
 
+console.log(config.api.baseUrl);
 export const httpClient = new HttpClient(config.api.baseUrl);
 export const houseApiClient = new HttpClient(config.api.houseDealUrl);

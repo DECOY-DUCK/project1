@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: "/housedeal",
-    name: "housedeal",
+    name: "HouseDeal",
     //component: HouseDeal,
   },
   {

@@ -35,6 +35,9 @@
   --size-small: 0.5rem;
   --size-micro: 0.25rem;
 
+  /* Display size */
+  --display-maxWidth: 1200px;
+
   /* Navbar size */
   --navbar-height: 3.5rem;
 
