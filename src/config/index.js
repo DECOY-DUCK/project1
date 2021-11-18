@@ -1,0 +1,17 @@
+function required(key, defaultValue = undefined) {
+  const value = process.env[key] || defaultValue;
+  if (value == null) {
+    throw new Error(`Key ${key} is undefined`);
+  }
+  return value;
+}
+
+export const config = {
+  api: {
+    baseUrl: required("VUE_APP_BASE_URL", "http://localhost:80"),
+    houseDealUrl:
+      "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev",
+    houseDealKey: required("VUE_APP_HOUSE_DEAL_API_KEY"),
+    kakaoMapKey: required("VUE_APP_KAKAO_MAP_API_KEY"),
+  },
+};
