@@ -1,29 +1,33 @@
 <template>
   <footer id="contacts">
-    <header class="header">
-      <h3>Contact us</h3>
-    </header>
-    <ul class="items">
-      <li class="item">
-        <span class="icon">
-          <b-icon icon="geo-fill" />
-        </span>
-        <span>(SSAFY) 서울시 강남구 테헤란로 멀티스퀘어</span>
-      </li>
-      <li class="item">
-        <span class="icon">
-          <b-icon icon="telephone" />
-        </span>
-        <span>1544-9001</span>
-      </li>
-      <li class="item">
-        <span class="icon">
-          <b-icon icon="envelope" />
-        </span>
-        <span><a href="mailto:" target="__blank">admin@happyhouse.com</a></span>
-      </li>
-    </ul>
-    <span class="description"> 2021 dohmoon - All rights reserved </span>
+    <div class="container">
+      <header class="header">
+        <h3>Contact us</h3>
+      </header>
+      <ul class="items">
+        <li class="item">
+          <span class="icon">
+            <b-icon icon="geo-fill" />
+          </span>
+          <span>(SSAFY) 서울시 강남구 테헤란로 멀티스퀘어</span>
+        </li>
+        <li class="item">
+          <span class="icon">
+            <b-icon icon="telephone" />
+          </span>
+          <span>1544-9001</span>
+        </li>
+        <li class="item">
+          <span class="icon">
+            <b-icon icon="envelope" />
+          </span>
+          <span
+            ><a href="mailto:" target="__blank">admin@happyhouse.com</a></span
+          >
+        </li>
+      </ul>
+      <span class="description"> 2021 dohmoon - All rights reserved </span>
+    </div>
   </footer>
 </template>
 
@@ -35,6 +39,11 @@ export default {
 
 <style scoped>
 #contacts {
+  border-top: 1px solid var(--color-light-grey);
+}
+
+.container {
+  width: 100%;
   max-width: var(--display-maxWidth);
   margin: 0 auto;
   padding: var(--size-large);

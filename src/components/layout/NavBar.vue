@@ -195,11 +195,6 @@ export default {
   cursor: pointer;
 }
 
-.body-container {
-  height: 100%;
-  border-bottom: 1px solid var(--color-light-grey);
-}
-
 /* Media Query for below w768 */
 @media screen and (max-width: 768px) {
   .toggle-button,

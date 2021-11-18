@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
+import Notice from "@/views/Notice.vue";
+import NoticeView from "@/components/notice/NoticeView.vue";
 
 Vue.use(VueRouter);
 
@@ -47,19 +49,14 @@ const routes = [
   {
     path: "/notice",
     name: "Notice",
-    //component: Notice,
-    redirect: "/notice/list",
+    component: Notice,
+
     children: [
-      {
-        path: "list",
-        name: "NoticeList",
-        //component: NoticeList,
-      },
       {
         path: "detail/:no",
         name: "NoticeView",
         //beforeEnter: onlyAuthUser,
-        //component: NoticeView,
+        component: NoticeView,
       },
     ],
   },

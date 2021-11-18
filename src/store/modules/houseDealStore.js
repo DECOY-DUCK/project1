@@ -81,7 +81,7 @@ const houseDealStore = {
           pageNo,
           sizePerPage,
         });
-        console.log(result);
+
         commit("SET_HOUSEDEAL_LIST", result);
       } catch (e) {
         console.error(e);

@@ -1,10 +1,8 @@
 <template>
-  <div class="body-container">
-    <section id="home">
-      <home-header />
-      <home-main />
-    </section>
-  </div>
+  <section id="home">
+    <home-header />
+    <home-main />
+  </section>
 </template>
 
 <script>
@@ -18,6 +16,7 @@ export default {
 
 <style>
 #home {
+  width: 100%;
   max-width: var(--display-maxWidth);
   margin: 0 auto;
 }

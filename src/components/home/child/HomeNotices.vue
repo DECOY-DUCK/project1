@@ -1,7 +1,7 @@
 <template>
   <ul class="home-notices">
     <home-notice
-      v-for="(notice, index) in notices"
+      v-for="(notice, index) in noticeSummary"
       :key="index"
       :notice="notice"
     />
@@ -10,24 +10,23 @@
 
 <script>
 import HomeNotice from "@/components/home/child/HomeNotice.vue";
+import { mapState } from "vuex";
+
+const noticeStore = "noticeStore";
+
 export default {
   components: { HomeNotice },
   name: "HomeNotices",
   data() {
     return {
-      notices: [
-        {
-          no: 1,
-          title: "2월 공지",
-          image: "@/assets/images/marker.png",
-        },
-        {
-          no: 2,
-          title: "1월 공지",
-          image: "",
-        },
-      ],
+      noticeSummary: [],
     };
+  },
+  computed: {
+    ...mapState(noticeStore, ["notices", "totalCnt"]),
+  },
+  created() {
+    this.noticeSummary = this.notices.slice(0, 5);
   },
 };
 </script>
