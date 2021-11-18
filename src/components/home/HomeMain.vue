@@ -1,5 +1,5 @@
 <template>
-  <main class="contents">
+  <main id="home-main">
     <header class="header">
       <h3>공지사항</h3>
       <button>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.contents {
+#home-main {
   padding: calc(var(--size-large) * 3) var(--size-large);
 }
 

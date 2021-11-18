@@ -1,5 +1,5 @@
 <template>
-  <form id="search" @submit="onSearchHandler">
+  <form id="selector" @submit="onSearchHandler">
     <select name="sido" id="sido" v-model="sidoCode" @change="setGugunList">
       <option :value="null">도/광역시</option>
       <option v-for="(sido, index) in sidos" :key="index" :value="sido.value">
@@ -102,7 +102,7 @@ export default {
 </script>
 
 <style scoped>
-#search {
+#selector {
   width: 25rem;
   padding: 2px var(--size-large);
 }

@@ -1,5 +1,5 @@
 <template>
-  <ul class="items">
+  <ul class="home-notices">
     <home-notice
       v-for="(notice, index) in notices"
       :key="index"
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style scoped>
-.items {
+.home-notices {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;

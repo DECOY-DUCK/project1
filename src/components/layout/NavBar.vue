@@ -1,5 +1,5 @@
 <template>
-  <nav class="container">
+  <nav id="navbar">
     <div class="logo" @click="closeMenu">
       <router-link :to="{ name: 'Home' }" exact class="link">
         HappyHouse
@@ -110,7 +110,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+#navbar {
   width: 100%;
   max-width: var(--display-maxWidth);
   margin: 0 auto;
@@ -207,7 +207,7 @@ export default {
     display: block;
     cursor: pointer;
   }
-  .container {
+  #navbar {
     flex-direction: column;
     align-items: flex-start;
   }

@@ -1,10 +1,10 @@
 <template>
-  <li class="item">
+  <li class="home-notice">
     <div>
       <img
         class="image"
         src="@/assets/images/default_notice.png"
-        alt="item image"
+        alt="home notice image"
       />
     </div>
 
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-.item {
+.home-notice {
   flex-basis: 19.5%;
   min-width: 12.5rem;
   height: 17.5rem;

@@ -1,11 +1,11 @@
 <template>
-  <header class="container">
+  <header id="home-header">
     <img src="@/assets/images/home_cover.png" alt="main cover image" />
     <div class="contents">
       <h1>HappyHouse</h1>
       <p>원하시는 지역의 아파트 실거래가 정보를 찾아보세요</p>
       <div class="selector">
-        <region-selector></region-selector>
+        <region-selector />
       </div>
     </div>
   </header>
@@ -23,11 +23,11 @@ export default {
 </script>
 
 <style scoped>
-.container {
+#home-header {
   position: relative;
 }
 
-.container img {
+#home-header img {
   width: 100%;
   height: 35rem;
   object-fit: cover;

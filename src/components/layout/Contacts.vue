@@ -1,5 +1,5 @@
 <template>
-  <footer class="container">
+  <footer id="contacts">
     <header class="header">
       <h3>Contact us</h3>
     </header>
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+#contacts {
   max-width: var(--display-maxWidth);
   margin: 0 auto;
   padding: var(--size-large);
