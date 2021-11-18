@@ -1,7 +1,7 @@
 import axios from "axios";
+import { config } from "@/config";
 
-export const httpClient = new HttpClient("");
-export const houseApiClient = new HttpClient("");
+// houseDeal.js에 설명 적었습니다@@
 
 class HttpClient {
   constructor(baseURL) {
@@ -36,3 +36,6 @@ class HttpClient {
     }
   }
 }
+
+export const httpClient = new HttpClient(config.api.baseUrl);
+export const houseApiClient = new HttpClient(config.api.houseDealUrl);
