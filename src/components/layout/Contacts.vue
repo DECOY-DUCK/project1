@@ -6,19 +6,19 @@
     <ul class="items">
       <li class="item">
         <span class="icon">
-          <b-icon icon="geo-fill"></b-icon>
+          <b-icon icon="geo-fill" />
         </span>
         <span>(SSAFY) 서울시 강남구 테헤란로 멀티스퀘어</span>
       </li>
       <li class="item">
         <span class="icon">
-          <b-icon icon="telephone"></b-icon>
+          <b-icon icon="telephone" />
         </span>
         <span>1544-9001</span>
       </li>
       <li class="item">
         <span class="icon">
-          <b-icon icon="envelope"></b-icon>
+          <b-icon icon="envelope" />
         </span>
         <span><a href="mailto:" target="__blank">admin@happyhouse.com</a></span>
       </li>

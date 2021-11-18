@@ -12,7 +12,7 @@ class HttpClient {
   }
 
   async axios(url, options) {
-    const { data, method, headers } = options;
+    const { data, method, headers, params } = options;
     const req = {
       url,
       method,
@@ -20,6 +20,7 @@ class HttpClient {
         ...headers,
       },
       data,
+      params,
     };
 
     try {
@@ -37,6 +38,5 @@ class HttpClient {
   }
 }
 
-console.log(config.api.baseUrl);
 export const httpClient = new HttpClient(config.api.baseUrl);
 export const houseApiClient = new HttpClient(config.api.houseDealUrl);

@@ -41,7 +41,7 @@
             Login
           </router-link>
         </li>
-        <li class="item" id="signup-btn" @click="closeMenu">
+        <li class="item" id="signup-button" @click="closeMenu">
           <router-link
             :to="{ name: 'SignUp' }"
             class="link"
@@ -76,7 +76,7 @@
     </div>
 
     <!-- Toggle button -->
-    <button class="toggle-btn" @click="toggleMenu">
+    <button class="toggle-button" @click="toggleMenu">
       <i class="fas fa-bars"></i>
     </button>
   </nav>
@@ -152,21 +152,21 @@ export default {
   padding: var(--size-small) var(--size-regular);
 }
 
-#signup-btn {
+#signup-button {
   margin-left: var(--size-regular);
   background-color: var(--color-green);
   border-radius: var(--size-micro);
 }
 
-#signup-btn .link {
+#signup-button .link {
   color: var(--color-white);
 }
 
-#signup-btn:hover {
+#signup-button:hover {
   background-color: var(--color-dark-green);
 }
 
-.toggle-btn {
+.toggle-button {
   position: absolute;
   right: var(--size-large);
   top: var(--size-large);
@@ -174,7 +174,7 @@ export default {
   display: none;
 }
 
-.toggle-btn i {
+.toggle-button i {
   font-size: var(--font-regular);
   color: var(--color-black);
 }
@@ -202,8 +202,8 @@ export default {
 
 /* Media Query for below w768 */
 @media screen and (max-width: 768px) {
-  .toggle-btn,
-  .toggle-btn i {
+  .toggle-button,
+  .toggle-button i {
     display: block;
     cursor: pointer;
   }
@@ -247,7 +247,7 @@ export default {
     color: var(--color-grey);
   }
 
-  #signup-btn {
+  #signup-button {
     margin: 0;
     margin-top: var(--size-small);
   }

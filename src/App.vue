@@ -28,7 +28,13 @@ export default {
 /* font */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+
 /* global css */
 @import "./assets/css/reset.css";
 @import "./assets/css/common.css";
+
+.body-container {
+  height: 100%;
+  border-bottom: 1px solid var(--color-light-grey);
+}
 </style>
