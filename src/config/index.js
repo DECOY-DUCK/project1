@@ -6,6 +6,7 @@ function required(key, defaultValue = undefined) {
   return value;
 }
 
+// 사용할 vue 파일에서 import config 한다음에 config.api.baseUrl 이런식으로 사용하면 됩니다@@@@
 export const config = {
   api: {
     baseUrl: required("VUE_APP_BASE_URL", "http://localhost:80"),
