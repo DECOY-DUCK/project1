@@ -51,6 +51,13 @@ export default {
 }
 .section-container {
   flex: auto;
-  padding-top: 3.5rem;
+  padding-top: 4.375rem;
+}
+
+/* Media Query for below w768 */
+@media screen and (max-width: 768px) {
+  .section-container {
+    padding-top: 3.5rem;
+  }
 }
 </style>
