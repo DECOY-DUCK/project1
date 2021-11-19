@@ -25,6 +25,7 @@ export default {
 <style scoped>
 #home-header {
   position: relative;
+  overflow: hidden;
 }
 
 #home-header img {
@@ -52,5 +53,11 @@ export default {
   margin-top: calc(var(--size-large) * 2);
   border-radius: var(--size-micro);
   background-color: var(--color-white);
+}
+
+@media screen and (max-width: 768px) {
+  .contents {
+    left: 3.5%;
+  }
 }
 </style>

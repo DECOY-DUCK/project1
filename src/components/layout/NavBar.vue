@@ -1,12 +1,12 @@
 <template>
-  <nav id="navbar">
+  <nav id="navbar" :class="{ open: isMenuOpen }">
     <div class="logo" @click="closeMenu">
       <router-link :to="{ name: 'Home' }" exact class="link">
         HappyHouse
       </router-link>
     </div>
 
-    <div class="menu-container" :class="{ open: isMenuOpen }">
+    <div class="menu-container">
       <ul class="items">
         <li class="item" @click="closeMenu">
           <router-link
@@ -111,6 +111,7 @@ export default {
 
 <style scoped>
 #navbar {
+  position: fixed;
   width: 100%;
   max-width: var(--display-maxWidth);
   margin: 0 auto;
@@ -202,9 +203,18 @@ export default {
     display: block;
     cursor: pointer;
   }
+
   #navbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  #navbar.open {
+    background-color: var(--color-light-white);
+  }
+
+  #navbar.open .menu-container {
+    display: block;
   }
 
   .menu-container {
@@ -213,10 +223,6 @@ export default {
     flex-direction: column;
     text-align: center;
     display: none;
-  }
-
-  .menu-container.open {
-    display: block;
   }
 
   .divider {

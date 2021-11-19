@@ -49,4 +49,8 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 }
+.section-container {
+  flex: auto;
+  padding-top: 3.5rem;
+}
 </style>

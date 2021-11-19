@@ -1,5 +1,5 @@
 <template>
-  <section id="notice">
+  <section id="notice" class="section-container">
     <router-view v-if="$route.path !== '/notice'" />
     <div v-else>
       <header class="notice-header">
@@ -31,11 +31,12 @@ export default {
 
 <style>
 #notice {
-  padding: var(--size-large) 0;
+  padding-bottom: var(--size-large);
 }
 
 .notice-header {
   position: relative;
+  padding-top: 2rem;
   text-align: center;
 }
 
