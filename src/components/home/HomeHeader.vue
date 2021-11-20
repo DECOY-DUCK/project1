@@ -55,7 +55,7 @@ export default {
   background-color: var(--color-white);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 640px) {
   .contents {
     left: 3.5%;
   }

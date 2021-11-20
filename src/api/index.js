@@ -1,8 +1,6 @@
 import axios from "axios";
 import { config } from "@/config";
 
-// houseDeal.js에 설명 적었습니다@@
-
 class HttpClient {
   constructor(baseURL) {
     this.client = axios.create({

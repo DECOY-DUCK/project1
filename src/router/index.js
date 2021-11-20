@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
 import Notice from "@/views/Notice.vue";
+import HouseDeal from "@/views/HouseDeal.vue";
+
 import NoticeView from "@/components/notice/NoticeView.vue";
 
 Vue.use(VueRouter);
@@ -16,7 +18,7 @@ const routes = [
   {
     path: "/housedeal",
     name: "HouseDeal",
-    //component: HouseDeal,
+    component: HouseDeal,
   },
   {
     path: "/accounts",

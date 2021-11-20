@@ -54,8 +54,8 @@ export default {
   padding-top: 4.375rem;
 }
 
-/* Media Query for below w768 */
-@media screen and (max-width: 768px) {
+/* Media Query for below w640 */
+@media screen and (max-width: 640px) {
   .section-container {
     padding-top: 3.5rem;
   }

@@ -112,6 +112,8 @@ export default {
 <style scoped>
 #navbar {
   position: fixed;
+  left: 0;
+  right: 0;
   width: 100%;
   max-width: var(--display-maxWidth);
   margin: 0 auto;
@@ -121,7 +123,7 @@ export default {
   align-items: center;
   background-color: var(--color-white);
   color: var(--color-white);
-  z-index: 1;
+  z-index: 99;
   transition: all var(--animation-duration) ease-in;
 }
 
@@ -196,8 +198,8 @@ export default {
   cursor: pointer;
 }
 
-/* Media Query for below w768 */
-@media screen and (max-width: 768px) {
+/* Media Query for below w640 */
+@media screen and (max-width: 640px) {
   .toggle-button,
   .toggle-button i {
     display: block;

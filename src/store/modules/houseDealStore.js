@@ -1,11 +1,24 @@
-import { getSidos, getGuguns, getDongs, getHouseDeals } from "@/api/houseDeal";
+import {
+  getSidos,
+  getGuguns,
+  getDongs,
+  getHouseInfos,
+  getHouseDeals,
+} from "@/api/houseDeal";
 
 const houseDealStore = {
   namespaced: true,
   state: {
+    sidoCode: null,
+    sidoName: "",
+    gugunCode: null,
+    gugunName: "",
+    dongCode: null,
+    dongName: "",
     sidos: [],
     guguns: [],
     dongs: [],
+    houseInfos: [],
     houseDeals: [],
   },
 
@@ -28,18 +41,50 @@ const houseDealStore = {
         text: dong,
       }));
     },
+    SET_SIDO(state, { sidoName, sidoCode }) {
+      state.sidoName = sidoName;
+      state.sidoCode = sidoCode;
+    },
+    SET_GUGUN(state, { gugunName, gugunCode }) {
+      state.gugunName = gugunName;
+      state.gugunCode = gugunCode;
+    },
+    SET_DONG(state, { dongName, dongCode }) {
+      state.dongName = dongName;
+      state.dongCode = dongCode;
+    },
+    CLEAR_SIDO: (state) => {
+      state.sidoName = null;
+      state.sidoCode = null;
+    },
+    CLEAR_GUGUN: (state) => {
+      state.gugunName = null;
+      state.gugunCode = null;
+    },
+    CLEAR_DONG: (state) => {
+      state.dongName = null;
+      state.dongCode = null;
+    },
     CLEAR_SIDO_LIST: (state) => {
       state.sidos = [];
     },
     CLEAR_GUGUN_LIST: (state) => {
       state.guguns = [];
     },
-
     CLEAR_DONG_LIST: (state) => {
       state.dongs = [];
     },
     SET_HOUSEDEAL_LIST: (state, houseDeals) => {
       state.houseDeals = houseDeals;
+    },
+    SET_HOUSEINFO_LIST: (state, houseInfos) => {
+      state.houseInfos = houseInfos;
+    },
+    CLEAR_HOUSEDEAL_LIST: (state) => {
+      state.houseDeals = [];
+    },
+    CLEAR_HOUSEINFO_LIST: (state) => {
+      state.houseInfos = [];
     },
   },
   actions: {
@@ -70,19 +115,43 @@ const houseDealStore = {
       }
     },
 
-    asyncGetHouseDeals: async (
+    asyncGetHouseInfos: async (
       { commit },
       { gugunCode, dongName, pageNo, sizePerPage }
     ) => {
       try {
-        const result = await getHouseDeals({
+        !pageNo && (pageNo = 0);
+        !sizePerPage && (sizePerPage = 15);
+
+        const result = await getHouseInfos({
           gugunCode,
           dongName,
           pageNo,
           sizePerPage,
         });
 
-        commit("SET_HOUSEDEAL_LIST", result);
+        commit("SET_HOUSEINFO_LIST", addAddress(result));
+      } catch (e) {
+        console.error(e);
+      }
+    },
+
+    asyncGetHouseDeals: async (
+      { commit },
+      { aptName, gugunCode, dongName, pageNo, sizePerPage }
+    ) => {
+      try {
+        !pageNo && (pageNo = 0);
+        !sizePerPage && (sizePerPage = 15);
+
+        const result = await getHouseDeals(aptName, {
+          gugunCode,
+          dongName,
+          pageNo,
+          sizePerPage,
+        });
+
+        commit("SET_HOUSEDEAL_LIST", addAddress(result));
       } catch (e) {
         console.error(e);
       }
@@ -91,3 +160,10 @@ const houseDealStore = {
 };
 
 export default houseDealStore;
+
+function addAddress(list) {
+  return list.map((item) => {
+    item["address"] = `${item.dong} ${item.jibun} ${item.aptName}`;
+    return item;
+  });
+}
