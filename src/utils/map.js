@@ -178,15 +178,6 @@ function onClickListener(map, marker) {
 function onOverListener(map, marker, infowindow) {
   return () => {
     infowindow.open(map, marker);
-    const roadviewContainer = document.querySelector("#roadview");
-    const roadview = new kakao.maps.Roadview(roadviewContainer);
-    const roadviewClient = new kakao.maps.RoadviewClient();
-
-    const position = marker.getPosition();
-
-    roadviewClient.getNearestPanoId(position, 50, function (panoId) {
-      panoId && roadview.setPanoId(panoId, position);
-    });
   };
 }
 
