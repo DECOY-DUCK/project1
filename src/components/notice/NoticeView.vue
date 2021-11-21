@@ -20,6 +20,7 @@ export default {
   },
   async created() {
     this.notice = await getNotice(this.$route.params.no);
+    console.log(this.notice);
     if (!this.notice) {
       alert("잘못된 접근입니다!");
       this.$router.push({ name: "Notice" });

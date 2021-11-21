@@ -6,6 +6,7 @@ import Notice from "@/views/Notice.vue";
 import HouseDeal from "@/views/HouseDeal.vue";
 
 import NoticeView from "@/components/notice/NoticeView.vue";
+import NoticeWrite from "@/components/notice/NoticeWrite.vue";
 
 Vue.use(VueRouter);
 
@@ -55,9 +56,15 @@ const routes = [
 
     children: [
       {
+        //관리자 페이지에 생성시 path 수정 필요
+        path: "write",
+        name: "NoticeWrite",
+        //beforeEnter: onlyAuthUser,
+        component: NoticeWrite,
+      },
+      {
         path: "detail/:no",
         name: "NoticeView",
-        //beforeEnter: onlyAuthUser,
         component: NoticeView,
       },
     ],
@@ -74,7 +81,7 @@ const routes = [
         //component: QnAWrite,
       },
       {
-        path: "qna/write/:no",
+        path: "qna/write",
         name: "QnAWrite",
         //beforeEnter: onlyAuthUser,
         //component: QnAWrite,

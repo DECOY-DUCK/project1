@@ -5,18 +5,15 @@
       class="link"
     />
     <div class="img-container">
-      <img
-        src="@/assets/images/default_notice.png"
-        alt="notice content image"
-      />
+      <img :src="imageUrl" alt="notice content image" />
     </div>
     <div class="content">
       <div class="title">
         <span class="tag">Notice</span>
         <h5>{{ notice.title }}</h5>
       </div>
-      <div class="info">
-        <a :href="`mailto:${notice.authorEmail}`">{{ notice.authorName }}</a>
+      <div class="info" v-if="location !== 'home'">
+        <span>{{ notice.authorName }}</span>
         <span class="divider"> · </span>
         <span>{{ notice.modifiedAt || notice.createdAt }}</span>
       </div>
@@ -25,6 +22,9 @@
 </template>
 
 <script>
+import { config } from "@/config/index.js";
+import defaultImg from "@/assets/images/default_notice.png";
+
 export default {
   name: "NoticeItem",
   props: {
@@ -37,12 +37,24 @@ export default {
       createdAt: String,
       modifiedAt: String,
     },
+    location: String,
+  },
+  data() {
+    return {
+      imageUrl: "",
+    };
+  },
+  created() {
+    const { saveFolder, saveFile } = this.notice.image;
+    this.imageUrl =
+      `${config.api.serverUrl}${saveFolder}/${saveFile}` || defaultImg;
   },
 };
 </script>
 
 <style scoped>
 .notice-item {
+  min-width: 12.5rem;
   position: relative;
   background-color: var(--color-white);
   border-radius: var(--size-micro);

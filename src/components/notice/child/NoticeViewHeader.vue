@@ -7,10 +7,12 @@
     </div>
     <div class="title">
       <h2>{{ notice.title }}</h2>
-      <span><i class="bi bi-eye-fill"></i> {{ notice.viewCnt }}</span>
+      <span> <b-icon icon="eye-fill" /> {{ notice.viewCnt }}</span>
     </div>
     <div class="author">
-      <p>{{ notice.authorName }}</p>
+      <a :href="`mailto:${notice.authorEmail}`" title="mail to author">{{
+        notice.authorName
+      }}</a>
 
       <!-- <div class="author-buttons" v-if="authorNo == loginUser.no">
         <button class="button-edit" type="button">
@@ -36,6 +38,7 @@ export default {
       title: String,
       image: String,
       content: String,
+      viewCnt: Number,
       createdAt: String,
       modifiedAt: String,
     },

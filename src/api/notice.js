@@ -18,6 +18,9 @@ const getNotice = async (no) => {
 
 const postNotice = async (data) => {
   return httpClient.axios("/notice", {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
     method: "POST",
     data,
   });
@@ -25,6 +28,9 @@ const postNotice = async (data) => {
 
 const updateNotice = async (data) => {
   return httpClient.axios("/notice", {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
     method: "PUT",
     data,
   });

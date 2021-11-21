@@ -34,6 +34,10 @@ export default {
   padding-bottom: var(--size-large);
 }
 
+.notice-container {
+  padding: var(--size-large) 0;
+}
+
 .notice-header {
   position: relative;
   padding-top: 2rem;

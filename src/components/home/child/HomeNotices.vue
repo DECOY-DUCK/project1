@@ -1,21 +1,23 @@
 <template>
   <ul class="home-notices">
-    <home-notice
+    <notice-item
       v-for="(notice, index) in noticeSummary"
       :key="index"
       :notice="notice"
+      location="home"
     />
   </ul>
 </template>
 
 <script>
-import HomeNotice from "@/components/home/child/HomeNotice.vue";
+// import HomeNotice from "@/components/home/child/HomeNotice.vue";
 import { mapState } from "vuex";
+import NoticeItem from "@/components/notice/child/NoticeItem.vue";
 
 const noticeStore = "noticeStore";
 
 export default {
-  components: { HomeNotice },
+  components: { NoticeItem },
   name: "HomeNotices",
   data() {
     return {

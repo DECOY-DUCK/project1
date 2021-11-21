@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import defaultImg from "@/assets/images/default_notice.png";
+
 export default {
   name: "HomeNotice",
   props: {
@@ -30,12 +32,12 @@ export default {
   },
   data() {
     return {
-      imageUrl: "@/assets/images/default_notice.png",
+      imageUrl: "",
     };
   },
 
   created() {
-    this.imageUrl = this.image || this.imageUrl;
+    this.imageUrl = this.image || defaultImg;
   },
 };
 </script>
