@@ -2,20 +2,19 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
-<<<<<<< HEAD
+
 import Accounts from "@/views/Accounts.vue";
 import AccountsLogin from "@/components/accounts/child/AccountsLogin.vue";
 import AccountsJoin from "@/components/accounts/child/AccountsJoin.vue";
 import AccountsMyPage from "@/components/accounts/child/AccountsMyPage.vue";
 import AccountsFindPwd from "@/components/accounts/child/AccountsFindPwd.vue";
 import AccountsModify from "@/components/accounts/child/AccountsModify.vue";
-=======
+
 import Notice from "@/views/Notice.vue";
 import HouseDeal from "@/views/HouseDeal.vue";
 
 import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
->>>>>>> 36d0d6bf17b59d89a2cc84f0882116c8a1354a44
 
 import store from "@/store/index.js";
 Vue.use(VueRouter);
@@ -109,18 +108,17 @@ const routes = [
         //관리자 페이지에 생성시 path 수정 필요
         path: "write",
         name: "NoticeWrite",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         component: NoticeWrite,
       },
       {
         path: "detail/:no",
         name: "NoticeView",
-<<<<<<< HEAD
+
         beforeEnter: onlyAuthUser,
         //component: NoticeView,
-=======
+
         component: NoticeView,
->>>>>>> 36d0d6bf17b59d89a2cc84f0882116c8a1354a44
       },
     ],
   },

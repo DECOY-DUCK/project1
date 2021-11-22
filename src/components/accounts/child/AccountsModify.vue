@@ -14,7 +14,6 @@
             name="email"
             class="form__item__input"
             :value="email"
-            @blur="check"
             readonly
           />
         </div>
@@ -27,7 +26,6 @@
             v-model="password"
             class="form__item__input"
             placeholder="Enter new password"
-            @blur="check"
             required
           />
         </div>
@@ -40,11 +38,10 @@
             v-model="password2"
             class="form__item__input"
             placeholder="Confirm your password"
-            @blur="check"
             required
           />
-          <div v-if="this.check">
-            <span>이메일과 비밀번호를 다시 확인해주세요</span>
+          <div v-if="this.show">
+            <span>비밀번호를 다시 확인해주세요</span>
           </div>
         </div>
         <div class="accounts__form__item">
@@ -84,7 +81,7 @@ export default {
       password: "",
       password2: "",
       name: "",
-      checkblank: false,
+
       show: false,
     };
   },
@@ -94,17 +91,6 @@ export default {
     this.name = userInfo.name;
   },
   methods: {
-    check: function () {
-      if (this.email == "") {
-        return (this.show = true);
-      } else if (this.password === "" || this.password2 === "")
-        return (this.show = true);
-      else if (this.password !== this.password2) {
-        this.show = true;
-      } else {
-        return (this.checkblank = true);
-      }
-    },
     ...mapActions(accountsStore, ["asyncUpdateUserInfo"]),
     async confirm() {
       //user 번호 불러오기
@@ -115,7 +101,10 @@ export default {
         password: this.password,
         name: this.name,
       };
-      if (this.checkblank) {
+      if (
+        this.password === this.password2 &&
+        (this.password !== "" || this.password2 !== "")
+      ) {
         await this.asyncUpdateUserInfo(user);
         this.$router.push({ name: "MyPage" });
       } else {

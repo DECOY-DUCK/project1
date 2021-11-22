@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="accounts__profile">1</div>
-    <div>
+    <div class="account_info">
       <ul class="accounts__info">
         <li class="accounts__info__item">
           <span class="info__item__title">Email</span>
@@ -12,7 +11,7 @@
           <p class="info__item__contents">{{ userInfo.name }}</p>
         </li>
       </ul>
-      <div class="accounts__info__btns">
+      <div class="accounts__info__btns" v-if="userInfo.authCode == 'U'">
         <router-link to="./modify" class="accounts__info__btn btn__edit"
           >Edit</router-link
         >
@@ -38,7 +37,7 @@ export default {
   name: "AccountInfo",
   data() {
     return {
-      userInfo: [],
+      userInfo: "",
     };
   },
   created() {
@@ -57,4 +56,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.account_info {
+  margin: 2rem;
+}
+</style>
