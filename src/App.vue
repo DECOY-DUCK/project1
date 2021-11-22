@@ -54,6 +54,10 @@ export default {
   padding-top: 4.375rem;
 }
 
+.body-container {
+  padding: var(--size-large) 0;
+}
+
 /* Media Query for below w640 */
 @media screen and (max-width: 640px) {
   .section-container {

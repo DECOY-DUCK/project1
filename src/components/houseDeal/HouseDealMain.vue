@@ -1,6 +1,6 @@
 <template>
   <div class="houseDeal-main">
-    <house-deal-header
+    <house-deal-main-header
       :onSearchHandler="displayHouseInfos"
       :onClickHandler="{
         clinicOnHandler,
@@ -9,7 +9,7 @@
         hospitalOffHandler,
       }"
     />
-    <house-deal-body :map="map" />
+    <house-deal-main-body />
   </div>
 </template>
 
@@ -17,23 +17,24 @@
 import { mapState } from "vuex";
 
 import { getSafeHospitals, getSelectedClinics } from "@/api/environment.js";
-import { config } from "@/config";
-import Map from "@/utils/map.js";
+
 import mImage1 from "@/assets/images/marker1.png";
 import mImage2 from "@/assets/images/safe_hospital.png";
 import mImage3 from "@/assets/images/selected_clinic.png";
 
-import HouseDealHeader from "@/components/houseDeal/child/HouseDealHeader.vue";
-import HouseDealBody from "@/components/houseDeal/child/HouseDealBody.vue";
+import HouseDealMainHeader from "@/components/houseDeal/child/HouseDealMainHeader.vue";
+import HouseDealMainBody from "@/components/houseDeal/child/HouseDealMainBody.vue";
 
 const houseDealStore = "houseDealStore";
 
 export default {
   name: "HouseDealMain",
-  components: { HouseDealHeader, HouseDealBody },
+  components: { HouseDealMainHeader, HouseDealMainBody },
+  props: {
+    map: Object,
+  },
   data() {
     return {
-      map: null,
       safeHospitals: [],
       selectedClinics: [],
       markers: [],
@@ -45,7 +46,10 @@ export default {
     };
   },
   mounted() {
-    this.setMap();
+    if (!this.map) return;
+    console.log(this.map);
+    this.setMarkersOpt();
+    this.displayHouseInfos();
   },
 
   computed: {
@@ -170,24 +174,6 @@ export default {
       this.setMarkerOpt("cMarkerOpt", mImage3, new kakao.maps.Size(22, 22), {
         offset: new kakao.maps.Point(22, 22),
       });
-    },
-
-    setMap() {
-      if (window.kakao && window.kakao.maps) {
-        this.map = new Map();
-        this.setMarkersOpt();
-        this.displayHouseInfos();
-      } else {
-        const script = document.createElement("script");
-        script.onload = () =>
-          kakao.maps.load(() => {
-            this.map = new Map();
-            this.setMarkersOpt();
-            this.displayHouseInfos();
-          });
-        script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${config.api.kakaoMapKey}&libraries=services`;
-        document.head.appendChild(script);
-      }
     },
   },
 };

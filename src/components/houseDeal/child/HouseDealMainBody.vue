@@ -2,7 +2,7 @@
   <main class="houseDeal-body">
     <section class="body-text">
       <p class="body-title">{{ dongName }} 아파트 정보</p>
-      <house-deal-items />
+      <house-deal-main-items />
     </section>
     <section class="body-map">
       <house-deal-map :map="map" />
@@ -13,12 +13,12 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import HouseDealMap from "@/components/houseDeal/child/HouseDealMap.vue";
-import HouseDealItems from "@/components/houseDeal/child/HouseDealItems.vue";
+import HouseDealMainItems from "@/components/houseDeal/child/HouseDealMainItems.vue";
 
 const houseDealStore = "houseDealStore";
 export default {
-  components: { HouseDealMap, HouseDealItems },
-  name: "HouseDealBody",
+  components: { HouseDealMap, HouseDealMainItems },
+  name: "HouseDealMainBody",
   props: {
     map: Object,
   },
@@ -80,7 +80,7 @@ export default {
 /* Media Query for below w640 */
 @media screen and (max-width: 640px) {
   .houseDeal-body {
-    padding: 0;
+    padding: var(--size-large) 0 0;
     flex-direction: column-reverse;
   }
   .body-text {

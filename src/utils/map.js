@@ -64,6 +64,35 @@ export default class Map {
   }
 
   /**
+   * 상세 화면에 보여줄 마커 1개 세팅
+   *
+   * @param {String} address   : 주소
+   * @param {Object} imageOpt : 마커 이미지 옵션
+   */
+  setMarker(address, imageOpt) {
+    let image;
+    if (imageOpt) {
+      image = new kakao.maps.MarkerImage(
+        imageOpt.imageSrc,
+        imageOpt.imageSize,
+        imageOpt.imageOption
+      );
+    }
+
+    let position;
+    this.geocoder.addressSearch(address, (result, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        position = new kakao.maps.LatLng(result[0].y, result[0].x);
+        new kakao.maps.Marker({
+          position,
+          map: this.map,
+          image,
+        });
+      }
+    });
+  }
+
+  /**
    * 기존에 있는 마커 제거
    *
    * @param {Array} markers : 마커 배열
@@ -149,6 +178,28 @@ export default class Map {
    */
   setLevel(level) {
     this.map.setLevel(level);
+  }
+
+  /**
+   * 주소를 받아와 로드뷰 생성
+   *
+   * @param {String} address : 주소
+   */
+  setRoadView(address) {
+    const roadviewContainer = document.querySelector("#roadview");
+    const roadview = new kakao.maps.Roadview(roadviewContainer);
+    const roadviewClient = new kakao.maps.RoadviewClient();
+
+    this.geocoder.addressSearch(address, (result, status) => {
+      let position;
+      if (status === kakao.maps.services.Status.OK) {
+        position = new kakao.maps.LatLng(result[0].y, result[0].x);
+      }
+
+      roadviewClient.getNearestPanoId(position, 50, function (panoId) {
+        roadview.setPanoId(panoId, position);
+      });
+    });
   }
 }
 

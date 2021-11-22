@@ -1,5 +1,5 @@
 <template>
-  <section class="body-container" id="notice-detail">
+  <section class="body-container">
     <notice-view-header :notice="notice" />
     <notice-view-body :image="notice.image" :content="notice.content" />
   </section>

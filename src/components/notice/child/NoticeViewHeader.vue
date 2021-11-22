@@ -1,5 +1,5 @@
 <template>
-  <header id="view-header">
+  <header class="view-header">
     <div class="info">
       <span>Notice</span>
       <span class="divider">·</span>
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style scoped>
-#view-header {
+.view-header {
   margin: 5rem auto 4rem;
   text-align: center;
   padding: 0 var(--size-large);

@@ -1,5 +1,5 @@
 <template>
-  <section class="notice-container" id="notice-modify">
+  <section class="body-container" id="notice-modify">
     <header class="notice-header">
       <h2>공지사항 수정</h2>
     </header>
