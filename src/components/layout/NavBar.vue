@@ -31,7 +31,7 @@
       <div class="divider"></div>
 
       <!-- 비로그인 유저  -->
-      <ul class="items" v-if="!loginUser">
+      <ul class="items" v-if="!userInfo">
         <li class="item" @click="closeMenu">
           <router-link
             :to="{ name: 'LogIn' }"
@@ -83,21 +83,32 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+import store from "@/store/index";
+
+const accountsStore = "accountsStore";
+
 export default {
   name: "NavBar",
   data() {
     return {
+      //왜 안바뀌는거야ㅠㅜㅜ
       loginUser: true, // store에서 loginUser 불러오기
       isMenuOpen: false,
     };
   },
   methods: {
+    ...mapMutations(accountsStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     logoutHandler() {
       // 로그아웃 처리
+      this.SET_IS_LOGIN(false);
+      this.SET_USER_INFO(null);
+      sessionStorage.removeItem("access-token");
       this.closeMenu();
       if (this.$route.path != "/") {
         this.$router.push({ name: "Home" });
       }
+      this.loginUser = false;
     },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
@@ -105,6 +116,20 @@ export default {
     closeMenu() {
       this.isMenuOpen = false;
     },
+    changeLoginUser() {
+      let userinfo = store.getters["accountsStore/checkUserInfo"];
+      if (userinfo == null) {
+        this.loginUser = false;
+      } else {
+        this.loginUser = true;
+      }
+    },
+  },
+  // created() {
+  //   this.changeLoginUser();
+  // },
+  computed: {
+    ...mapState(accountsStore, ["isLogin", "userInfo"]),
   },
 };
 </script>

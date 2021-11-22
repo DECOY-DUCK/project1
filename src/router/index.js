@@ -2,9 +2,49 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
+import Accounts from "@/views/Accounts.vue";
+import AccountsLogin from "@/components/accounts/child/AccountsLogin.vue";
+import AccountsJoin from "@/components/accounts/child/AccountsJoin.vue";
+import AccountsMyPage from "@/components/accounts/child/AccountsMyPage.vue";
+import AccountsFindPwd from "@/components/accounts/child/AccountsFindPwd.vue";
+import AccountsModify from "@/components/accounts/child/AccountsModify.vue";
 
+import store from "@/store/index.js";
 Vue.use(VueRouter);
 
+const onlyAuthUser = async (to, from, next) => {
+  console.log(store);
+  const checkUserInfo = store.getters["accountsStore/checkUserInfo"];
+  const getUserInfo = store._actions["accountsStore/getUserInfo"];
+  let token = sessionStorage.getItem("access-token");
+  console.log(getUserInfo);
+  if (checkUserInfo == null && token) {
+    await getUserInfo(token);
+  }
+  if (checkUserInfo === null) {
+    alert("로그인이 필요한 페이지입니다..");
+
+    router.push({ name: "LogIn" });
+  } else {
+    console.log("로그인 했다.");
+    next();
+  }
+};
+//로그인상태로 로그인 화면,회원가입 화면 접근할경우
+const test = async (to, from, next) => {
+  const checkUserInfo = store.getters["accountsStore/checkUserInfo"];
+  const getUserInfo = store._actions["accountsStore/getUserInfo"];
+  let token = sessionStorage.getItem("access-token");
+  console.log(getUserInfo);
+  if (checkUserInfo == null && token) {
+    await getUserInfo(token);
+  }
+  if (checkUserInfo === null) {
+    next();
+  } else {
+    router.push({ name: "Home" });
+  }
+};
 const routes = [
   {
     path: "/",
@@ -19,28 +59,35 @@ const routes = [
   {
     path: "/accounts",
     name: "Accounts",
-    // component: Accounts,
+    component: Accounts,
     children: [
       {
         path: "login",
         name: "LogIn",
-        // component: AccountsLogin,
+        beforeEnter: test,
+        component: AccountsLogin,
       },
       {
         path: "signup",
         name: "SignUp",
-        // component: AccountsJoin,
+        beforeEnter: test,
+        component: AccountsJoin,
       },
       {
         path: "mypage",
         name: "MyPage",
-        // beforeEnter: onlyAuthUser,
-        // component: AccountsMyPage,
+        beforeEnter: onlyAuthUser,
+        component: AccountsMyPage,
       },
       {
         path: "findPwd",
         name: "FindPwd",
-        // component: AccountsFindPwd,
+        component: AccountsFindPwd,
+      },
+      {
+        path: "modify",
+        name: "Modify",
+        component: AccountsModify,
       },
     ],
   },
@@ -58,7 +105,7 @@ const routes = [
       {
         path: "detail/:no",
         name: "NoticeView",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         //component: NoticeView,
       },
     ],
@@ -71,37 +118,37 @@ const routes = [
       {
         path: "qna",
         name: "QnA",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         //component: QnAWrite,
       },
       {
         path: "qna/write/:no",
         name: "QnAWrite",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         //component: QnAWrite,
       },
       {
         path: "qna/detail/:no",
         name: "QnAView",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         //component: QnAView,
       },
       {
         path: "qna/modify/:no",
         name: "QnAModify",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         //component: QnAModify,
       },
       {
         path: "faq",
         name: "FAQ",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         //component: FAQWrite,
       },
       {
         path: "faq/detail/:no",
         name: "FAQView",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         //component: FAQView,
       },
     ],

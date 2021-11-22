@@ -1,0 +1,141 @@
+.accounts {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: calc(2 * var(--size-large)) 0;
+  background-color: var(--color-back);
+}
+
+.accounts__container {
+  width: 36rem;
+  padding: calc(2 * var(--size-large));
+  border-radius: var(--size-small);
+  background-color: var(--color-white);
+  text-align: center;
+}
+
+.accounts__header {
+  margin-bottom: calc(2 * var(--size-large));
+}
+
+.accounts__form,
+.accounts__info {
+  margin: var(--size-large) 0;
+}
+
+.accounts__form__item,
+.accounts__info__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.accounts__info__item {
+  text-align: left;
+}
+
+.accounts .form__item__input {
+  border: 1px solid var(--color-light-grey);
+  border-radius: var(--size-micro);
+}
+
+.accounts .form__item__input,
+.accounts .info__item__contents {
+  width: 100%;
+  margin-top: var(--size-small);
+  margin-bottom: var(--size-medium);
+  padding: var(--size-small);
+}
+
+.accounts .info__item__contents {
+  padding-left: 0;
+  font-size: var(--font-regular);
+}
+
+.accounts__form__submit-btn,
+.accounts__complete__btn {
+  width: 100%;
+  margin-top: calc(2 * var(--size-large));
+  padding: var(--size-regular);
+  border-radius: var(--size-micro);
+  color: var(--color-white);
+  background-color: var(--color-dark-grey);
+}
+
+.accounts__complete__btn a {
+  color: var(--color-white);
+}
+
+.accounts__form__submit-btn:hover,
+.accounts__complete__btn:hover {
+  background-color: var(--color-black);
+}
+
+.accounts__link {
+  text-decoration: underline;
+}
+
+.accounts__info__btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accounts__info__btn {
+  width: 48.75%;
+  padding: var(--size-regular) var(--size-medium);
+  border-radius: var(--size-micro);
+}
+
+.accounts__info__btn.btn__edit {
+  border: 1px solid var(--color-grey);
+  background-color: var(--color-dark-grey);
+  color: var(--color-white);
+  line-height: var(--font-medium);
+}
+
+.accounts__info__btn.btn__edit:hover {
+  background-color: var(--color-black);
+}
+
+.accounts__info__btn.btn__delete {
+  border: 1px solid var(--color-red);
+  color: var(--color-red);
+}
+
+.accounts__info__btn.btn__delete:hover {
+  border-color: var(--color-red);
+  color: var(--color-white);
+  background-color: var(--color-red);
+}
+
+.accounts__info__btn.btn__delete a {
+  color: var(--color-red);
+}
+
+.accounts__login__result {
+  color: var(--color-red);
+  text-align: left;
+  padding-bottom: 1.5em;
+}
+.accounts__emailCheck__result.hide {
+  display: none;
+}
+
+.accounts__emailCheck__result {
+  text-align: left;
+  padding: 0 0 var(--size-small) var(--size-small);
+  transform: translateY(-0.5rem);
+}
+
+.accounts__emailCheck__result.fail {
+  color: var(--color-red);
+}
+
+.accounts__emailCheck__result.success {
+  color: var(--color-green);
+}
+
+.accounts__profile {
+  background-color: var(--color-green);
+  border-radius: calc(10 * var(--size-large));
+}
