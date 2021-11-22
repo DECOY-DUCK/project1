@@ -63,10 +63,6 @@ const updateNotice = async (data) => {
   });
 };
 
-<<<<<<< HEAD
-const deleteNotice = async (nos) => {
-  return httpClient.axios(`/notice/${nos}`, {
-=======
 /**
  * 공지사항 식별 번호에 해당하는 공지사항을 삭제한다.
  *
@@ -75,7 +71,6 @@ const deleteNotice = async (nos) => {
  */
 const deleteNotice = async (no) => {
   return httpClient.axios(`/notice/${no}`, {
->>>>>>> 1919a69e5c1a14c4f4013341b31b05547f532f80
     method: "DELETE",
   });
 };

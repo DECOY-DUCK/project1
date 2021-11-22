@@ -46,4 +46,7 @@ export default {
 #notice-register .notice-main {
   padding: 2rem var(--size-large);
 }
+h2 {
+  text-align: center;
+}
 </style>

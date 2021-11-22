@@ -71,4 +71,7 @@ export default {
 #notice-modify .notice-main {
   padding: 2rem var(--size-large);
 }
+h2 {
+  text-align: center;
+}
 </style>
