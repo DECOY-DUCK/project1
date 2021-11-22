@@ -31,7 +31,6 @@ export default {
     async confirm(no) {
       if (confirm("정말 삭제하시겠습니까?")) {
         await this.asyncdeleteUserbyAdmin(no);
-        //리스트 갱신?
       }
     },
   },

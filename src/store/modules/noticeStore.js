@@ -1,4 +1,4 @@
-import { getNotices } from "@/api/notice";
+import { getNotices, deleteNotice } from "@/api/notice";
 
 const noticeStore = {
   namespaced: true,
@@ -29,6 +29,28 @@ const noticeStore = {
         console.error(e);
       }
     },
+    asyncDeleteNotice: async ({ dispatch }, no) => {
+      try {
+        const result = await deleteNotice(no);
+        if (result === "sucess") {
+          console.log("삭제처리완료");
+          dispatch("asyncGetNotices");
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    // asyncUpdateNotice: async ({ dispatch }, data) => {
+    //   try {
+    //     const result = await updateNotice(data);
+    //     if (result === "sucess") {
+    //       console.log("변경완료");
+    //       dispatch("asyncGetNotices");
+    //     }
+    //   } catch (e) {
+    //     console.error(e);
+    //   }
+    // },
   },
 };
 

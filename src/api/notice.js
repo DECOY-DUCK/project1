@@ -74,5 +74,4 @@ const deleteNotice = async (no) => {
     method: "DELETE",
   });
 };
-
 export { getNotices, getNotice, postNotice, updateNotice, deleteNotice };
