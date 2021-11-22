@@ -16,6 +16,9 @@ const noticeStore = {
   actions: {
     asyncGetNotices: async ({ commit }, { pageNo, sizePerPage }) => {
       try {
+        !pageNo && (pageNo = 0);
+        !sizePerPage && (sizePerPage = 15);
+
         const result = await getNotices(pageNo, sizePerPage);
 
         commit("SET_NOTICE_LIST", {

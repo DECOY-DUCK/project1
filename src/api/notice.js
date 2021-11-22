@@ -1,6 +1,6 @@
 import { httpClient } from ".";
 
-const getNotices = async (pageNo = 0, sizePerPage = 15) => {
+const getNotices = async (pageNo, sizePerPage) => {
   return httpClient.axios("/notice", {
     method: "GET",
     params: {
@@ -27,7 +27,9 @@ const postNotice = async (data) => {
 };
 
 const updateNotice = async (data) => {
-  return httpClient.axios("/notice", {
+  const no = data.get("no");
+  data.delete("no");
+  return httpClient.axios(`/notice/${no}`, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

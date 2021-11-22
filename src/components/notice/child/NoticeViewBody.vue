@@ -4,7 +4,7 @@
       <img src="@/assets/images/default_notice.png" alt="notice image" />
     </div>
     <div class="view-content">
-      <p>{{ content }}</p>
+      <pre>{{ content }}</pre>
     </div>
   </main>
 </template>

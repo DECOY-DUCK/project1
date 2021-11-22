@@ -5,12 +5,13 @@
       :key="index"
       :notice="notice"
     />
+    <span v-if="!totalCnt">등록된 공지사항이 없습니다.</span>
   </ul>
 </template>
 
 <script>
 import NoticeItem from "@/components/notice/child/NoticeItem.vue";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 const noticeStore = "noticeStore";
 
@@ -18,7 +19,13 @@ export default {
   components: { NoticeItem },
   name: "NoticeItems",
   computed: {
-    ...mapState(noticeStore, ["notices"]),
+    ...mapState(noticeStore, ["notices", "totalCnt"]),
+  },
+  created() {
+    this.asyncGetNotices({ pageNo: 0, sizePerPage: 15 });
+  },
+  methods: {
+    ...mapActions(noticeStore, ["asyncGetNotices"]),
   },
 };
 </script>
@@ -32,6 +39,6 @@ export default {
 
 .notice-items > span {
   grid-column: 1 / 5;
-  padding: 22.5vh 0;
+  padding: 10rem 0;
 }
 </style>

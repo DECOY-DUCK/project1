@@ -1,5 +1,5 @@
 <template>
-  <li class="notice-item">
+  <li :class="[location == 'home' && 'home-notice', 'notice-item']">
     <router-link
       :to="{ name: 'NoticeView', params: { no: notice.no } }"
       class="link"
@@ -44,13 +44,25 @@ export default {
     };
   },
   created() {
-    const { saveFolder, saveFile } = this.notice.image;
-    this.imageUrl = `${saveFolder}/${saveFile}` || defaultImg;
+    if (this.notice.image) {
+      const { saveFolder, saveFile } = this.notice.image;
+      this.imageUrl = `${saveFolder}/${saveFile}`;
+    } else {
+      this.imageUrl = defaultImg;
+    }
   },
 };
 </script>
 
 <style scoped>
+.home-notice.notice-item {
+  flex-basis: 19.5%;
+  min-width: 12.5rem;
+  height: 17.5rem;
+  margin-top: var(--size-medium);
+  margin-right: var(--size-medium);
+  padding: var(--size-large) var(--size-small);
+}
 .notice-item {
   min-width: 12.5rem;
   position: relative;
