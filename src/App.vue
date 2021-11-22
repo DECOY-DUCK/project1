@@ -12,14 +12,24 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import NavBar from "@/components/layout/NavBar.vue";
 import Contacts from "@/components/layout/Contacts.vue";
+
+const noticeStore = "noticeStore";
 
 export default {
   name: "App",
   components: {
     NavBar,
     Contacts,
+  },
+  created() {
+    this.asyncGetNotices({ pageNo: 0, sizePerPage: 15 });
+  },
+  methods: {
+    ...mapActions(noticeStore, ["asyncGetNotices"]),
   },
 };
 </script>
@@ -33,8 +43,21 @@ export default {
 @import "./assets/css/reset.css";
 @import "./assets/css/common.css";
 
-.body-container {
-  height: 100%;
-  border-bottom: 1px solid var(--color-light-grey);
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.section-container {
+  flex: auto;
+  padding-top: 4.375rem;
+}
+
+/* Media Query for below w640 */
+@media screen and (max-width: 640px) {
+  .section-container {
+    padding-top: 3.5rem;
+  }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <li class="item">
+  <li class="home-notice">
     <div>
       <img
         class="image"
         src="@/assets/images/default_notice.png"
-        alt="item image"
+        alt="home notice image"
       />
     </div>
 
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import defaultImg from "@/assets/images/default_notice.png";
+
 export default {
   name: "HomeNotice",
   props: {
@@ -30,18 +32,18 @@ export default {
   },
   data() {
     return {
-      imageUrl: "@/assets/images/default_notice.png",
+      imageUrl: "",
     };
   },
 
   created() {
-    this.imageUrl = this.image || this.imageUrl;
+    this.imageUrl = this.image || defaultImg;
   },
 };
 </script>
 
 <style scoped>
-.item {
+.home-notice {
   flex-basis: 19.5%;
   min-width: 12.5rem;
   height: 17.5rem;

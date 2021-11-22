@@ -1,12 +1,12 @@
 <template>
-  <nav class="container">
+  <nav id="navbar" :class="{ open: isMenuOpen }">
     <div class="logo" @click="closeMenu">
       <router-link :to="{ name: 'Home' }" exact class="link">
         HappyHouse
       </router-link>
     </div>
 
-    <div class="menu-container" :class="{ open: isMenuOpen }">
+    <div class="menu-container">
       <ul class="items">
         <li class="item" @click="closeMenu">
           <router-link
@@ -135,7 +135,10 @@ export default {
 </script>
 
 <style scoped>
-.container {
+#navbar {
+  position: fixed;
+  left: 0;
+  right: 0;
   width: 100%;
   max-width: var(--display-maxWidth);
   margin: 0 auto;
@@ -145,7 +148,7 @@ export default {
   align-items: center;
   background-color: var(--color-white);
   color: var(--color-white);
-  z-index: 1;
+  z-index: 99;
   transition: all var(--animation-duration) ease-in;
 }
 
@@ -220,21 +223,25 @@ export default {
   cursor: pointer;
 }
 
-.body-container {
-  height: 100%;
-  border-bottom: 1px solid var(--color-light-grey);
-}
-
-/* Media Query for below w768 */
-@media screen and (max-width: 768px) {
+/* Media Query for below w640 */
+@media screen and (max-width: 640px) {
   .toggle-button,
   .toggle-button i {
     display: block;
     cursor: pointer;
   }
-  .container {
+
+  #navbar {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  #navbar.open {
+    background-color: var(--color-light-white);
+  }
+
+  #navbar.open .menu-container {
+    display: block;
   }
 
   .menu-container {
@@ -243,10 +250,6 @@ export default {
     flex-direction: column;
     text-align: center;
     display: none;
-  }
-
-  .menu-container.open {
-    display: block;
   }
 
   .divider {

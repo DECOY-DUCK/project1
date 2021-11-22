@@ -9,6 +9,10 @@ function required(key, defaultValue = undefined) {
 // 사용할 vue 파일에서 import config 한다음에 config.api.baseUrl 이런식으로 사용하면 됩니다@@@@
 export const config = {
   api: {
+    serverUrl: required(
+      "VUE_APP_SERVER_URL",
+      "C:UserscocovAppDataLocalTemp\tomcat-docbase.9999.7261701338266482158"
+    ),
     baseUrl: required("VUE_APP_BASE_URL", "http://localhost:9999"),
     houseDealUrl:
       "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev",

@@ -1,39 +1,40 @@
 <template>
-  <ul class="items">
-    <home-notice
-      v-for="(notice, index) in notices"
+  <ul class="home-notices">
+    <notice-item
+      v-for="(notice, index) in noticeSummary"
       :key="index"
       :notice="notice"
+      location="home"
     />
   </ul>
 </template>
 
 <script>
-import HomeNotice from "@/components/home/child/HomeNotice.vue";
+// import HomeNotice from "@/components/home/child/HomeNotice.vue";
+import { mapState } from "vuex";
+import NoticeItem from "@/components/notice/child/NoticeItem.vue";
+
+const noticeStore = "noticeStore";
+
 export default {
-  components: { HomeNotice },
+  components: { NoticeItem },
   name: "HomeNotices",
   data() {
     return {
-      notices: [
-        {
-          no: 1,
-          title: "2월 공지",
-          image: "@/assets/images/marker.png",
-        },
-        {
-          no: 2,
-          title: "1월 공지",
-          image: "",
-        },
-      ],
+      noticeSummary: [],
     };
+  },
+  computed: {
+    ...mapState(noticeStore, ["notices", "totalCnt"]),
+  },
+  created() {
+    this.noticeSummary = this.notices.slice(0, 5);
   },
 };
 </script>
 
 <style scoped>
-.items {
+.home-notices {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
