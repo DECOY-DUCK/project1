@@ -5,7 +5,7 @@
         <h2>Login</h2>
         <p>Welcome back!</p>
       </header>
-      <form class="accounts__form">
+      <form class="accounts__form" @submit="onSubmit">
         <input type="hidden" name="act" value="login" />
         <div class="accounts__form__item">
           <label for="email">Email</label>
@@ -38,17 +38,13 @@
           Forgot your password?
         </router-link>
 
-        <button
-          class="accounts__form__submit-btn"
-          type="button"
-          @click="confirm"
-        >
-          Login
-        </button>
+        <button class="accounts__form__submit-btn">Login</button>
       </form>
 
       Don't have an account?
-      <router-link class="accounts__link" to="./signup"> Sign up </router-link>
+      <router-link class="accounts__link" :to="{ name: 'SignUp' }">
+        Sign up
+      </router-link>
     </div>
   </section>
 </template>
@@ -73,14 +69,16 @@ export default {
     ...mapState(accountsStore, ["isLogin", "isLoginError"]),
   },
   methods: {
-    ...mapActions(accountsStore, ["asyncGetLogin", "getUserInfo"]),
-    async confirm() {
+    ...mapActions(accountsStore, ["asyncGetLogin", "asyncGetUserInfo"]),
+    async onSubmit(e) {
+      e.preventDefault();
+
       if (this.checkblank) {
         console.log(this.user);
         await this.asyncGetLogin(this.user);
         let token = sessionStorage.getItem("access-token");
         if (this.isLogin) {
-          await this.getUserInfo(token);
+          await this.asyncGetUserInfo(token);
           this.$router.push({ name: "Home" });
         } else {
           console.log("로그인 실패 동작확인");

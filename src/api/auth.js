@@ -1,40 +1,29 @@
 import { httpClient } from ".";
 
-const login = async (user, success, fail) => {
-  return httpClient
-    .axios("/auth/login", {
-      method: "POST",
-      params: {
-        email: user.email,
-        password: user.password,
-      },
-    })
-    .then(success)
-    .catch(fail);
-};
-
-const signup = async (user, success, fail) => {
-  return httpClient
-    .axios("/auth/signup", {
-      method: "POST",
-      params: {
-        email: user.email,
-        password: user.password,
-        name: user.name,
-      },
-    })
-    .then(success)
-    .catch(fail);
-};
-
-const idcheck = async (email, success, fail) => {
-  return httpClient
-    .axios("/auth/signup/idcheck", {
-      method: "POST",
+const login = async ({ email, password }) => {
+  return httpClient.axios("/auth/login", {
+    method: "POST",
+    data: {
       email,
-    })
-    .then(success)
-    .catch(fail);
+      password,
+    },
+  });
+};
+
+const signup = async (user) => {
+  return httpClient.axios("/auth/signup", {
+    method: "POST",
+    data: {
+      ...user,
+    },
+  });
+};
+
+const idcheck = async (email) => {
+  return httpClient.axios("/auth/signup/idcheck", {
+    method: "POST",
+    data: { email },
+  });
 };
 
 // const logout = async () => {
@@ -43,53 +32,47 @@ const idcheck = async (email, success, fail) => {
 //   });
 // };
 
-const findpwd = async (user, success, fail) => {
-  return httpClient
-    .axios("/auth/findpwd", {
-      method: "POST",
-      params: {
-        email: user.email,
-        name: user.name,
-      },
-    })
-    .then(success)
-    .catch(fail);
-};
-const getUserInfo = async (user) => {
-  return httpClient.axios(`/auth/mypage/${user.no}`, {
+const findpwd = async ({ email, name }) => {
+  return httpClient.axios("/auth/findpwd", {
     method: "POST",
-    params: user.password,
+    data: {
+      email,
+      name,
+    },
   });
 };
-const updateUserInfo = async (user, success, fail) => {
-  return httpClient
-    .axios(`/auth/mypage/${user.no}`, {
-      method: "PUT",
-      params: {
-        email: user.email,
-        password: user.password,
-        name: user.name,
-      },
-    })
-    .then(success)
-    .catch(fail);
+const getUserInfo = async (user) => {
+  const { no, password } = user;
+  return httpClient.axios(`/auth/mypage/${no}`, {
+    method: "POST",
+    data: { password },
+  });
 };
-const withdrawal = async (no, success, fail) => {
-  return httpClient
-    .axios(`/auth/mypage/${no}`, {
-      method: "DELETE",
-    })
-    .them(success)
-    .catch(fail);
+
+const updateUserInfo = async (user) => {
+  const { no, email, password, name } = user;
+  console.log(user);
+  return httpClient.axios(`/auth/mypage/${no}`, {
+    method: "PUT",
+    data: {
+      email,
+      password,
+      name,
+    },
+  });
 };
-const me = async (email, success, fail) => {
-  return httpClient
-    .axios(`/auth/me/${email}`, {
-      headers: sessionStorage.getItem("access-token"),
-      method: "GET",
-    })
-    .then(success)
-    .catch(fail);
+const withdrawal = async (no) => {
+  return httpClient.axios(`/auth/mypage/${no}`, {
+    method: "DELETE",
+  });
+};
+const me = async (email) => {
+  return httpClient.axios(`/auth/me/${email}`, {
+    headers: {
+      "access-token": sessionStorage.getItem("access-token"),
+    },
+    method: "GET",
+  });
 };
 
 export {
