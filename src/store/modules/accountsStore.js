@@ -9,7 +9,7 @@ import {
   withdrawal,
   me,
 } from "@/api/auth";
-import { getUserInfolist } from "../../api/auth";
+import { deleteUser, getUserInfolist } from "../../api/auth";
 
 const accountsStore = {
   namespaced: true,
@@ -123,6 +123,19 @@ const accountsStore = {
         const result = await getUserInfolist();
         console.log(result);
         commit("SET_ALL_USER", result);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    //회원 삭제
+    asyncdeleteUserbyAdmin: async ({ commit, dispatch }, no) => {
+      try {
+        const result = await deleteUser(no);
+        console.log(result);
+        if (result == "success") {
+          dispatch("asyncGetUserInfoLIst");
+        }
+        commit("SET_RES_SERVER", result);
       } catch (e) {
         console.error(e);
       }

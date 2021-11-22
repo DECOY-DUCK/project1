@@ -1,6 +1,10 @@
 <template>
   <div class="userinfo-items">
-    <ul v-for="(list, index) in alluserlist" :key="index">
+    <ul
+      v-for="(list, index) in alluserlist"
+      :key="index"
+      @click="confirm(list.no)"
+    >
       <li class="userinfo-item">
         <div><i class="fas fa-user-circle fa-5x"></i></div>
         <span>no.{{ list.no }}</span>
@@ -14,13 +18,22 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 const accountsStore = "accountsStore";
 
 export default {
   computed: {
     ...mapState(accountsStore, ["alluserlist"]),
+  },
+  methods: {
+    ...mapActions(accountsStore, ["asyncdeleteUserbyAdmin"]),
+    async confirm(no) {
+      if (confirm("정말 삭제하시겠습니까?")) {
+        await this.asyncdeleteUserbyAdmin(no);
+        //리스트 갱신?
+      }
+    },
   },
 };
 </script>
