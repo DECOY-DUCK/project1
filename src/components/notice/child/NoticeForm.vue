@@ -22,7 +22,7 @@
         type="text"
         name="authorName"
         id="authorName"
-        v-model="notice.authorName"
+        v-model="userInfo.name"
         readonly
         maxlength="50"
       />
@@ -45,13 +45,23 @@
       <input
         class="input"
         type="file"
-        name="attach"
         id="attach"
         ref="attach"
         accept="image/*"
         @change="onUploadAttach"
+        v-if="!previewImg"
       />
-      <span class="error" id="attach-error">{{ error.attach }}</span>
+      <div class="attach-error__container">
+        <span class="error" id="attach-error">{{ error.attach }}</span>
+        <button
+          type="button"
+          v-if="error.attach"
+          @click="() => onDeleteError('attach')"
+        >
+          업로드 취소
+        </button>
+      </div>
+
       <div id="image-preview" v-if="previewImg">
         <img :src="previewImg" />
         <button
@@ -72,6 +82,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+const accountsStore = "accountsStore";
+
 export default {
   name: "NoticeForm",
   props: {
@@ -82,10 +96,11 @@ export default {
       authorNo: Number,
       title: String,
       content: String,
-      image: String,
+      image: Object,
     },
     onSubmitHandler: Function,
   },
+
   data() {
     return {
       notice: {
@@ -94,7 +109,7 @@ export default {
         authorNo: "",
         title: "",
         content: "",
-        image: "",
+        image: {},
       },
       error: {
         title: "",
@@ -104,10 +119,29 @@ export default {
       previewImg: "",
     };
   },
-  created() {},
+  computed: {
+    ...mapState(accountsStore, ["userInfo"]),
+  },
+  watch: {
+    original() {
+      if (this.type == "modify" && this.original) {
+        this.notice = { ...this.original };
+        this.notice.image &&
+          (this.previewImg = `${this.notice.image.saveFolder}/${this.notice.image.saveFile}`);
+      }
+    },
+  },
   methods: {
     async onSubmit(e) {
       e.preventDefault();
+      if (this.error.title || this.error.content) {
+        alert("필수 입력 사항을 작성해 주세요");
+        return;
+      } else if (this.error.attach) {
+        alert("첨부 파일을 확인해 주세요");
+        return;
+      }
+
       if (!this.notice.title) {
         this.error.title = "제목을 입력해 주세요.";
         this.scrollToError(document.querySelector("#title"));
@@ -120,14 +154,16 @@ export default {
       }
       const fd = new FormData(e.target);
       fd.append("attach", this.notice.image);
-
-      // 로그인 유저 처리방식에 따라 변경
-      fd.append("authorNo", 0);
+      fd.append("authorNo", this.userInfo.no);
+      if (this.type == "modify") {
+        fd.append("no", this.notice.no);
+      }
 
       try {
         const result = await this.onSubmitHandler(fd);
-        console.log(result);
+
         let msg = "처리시 문제가 발생했습니다.";
+
         if (result === "success") {
           msg = "등록이 완료되었습니다.";
         }
@@ -153,23 +189,26 @@ export default {
         return;
       }
 
-      console.log(attach.size);
       if (attach.size > MAX_BYTES) {
         this.error.attach = "업로드 가능한 최대 크기는 5mb입니다.";
         e.target.value = null;
         return;
       }
       this.notice.image = attach;
+      this.setPreviewImage();
+    },
+    setPreviewImage() {
       const reader = new FileReader();
       reader.addEventListener("load", (e) => {
         this.previewImg = e.target.result;
       });
+
       reader.readAsDataURL(this.notice.image);
     },
     onDeleteAttach() {
-      this.$refs.attach.value = null;
       this.notice.image = "";
       this.previewImg = "";
+      this.$refs.attach && (this.$refs.attach.value = null);
     },
     onDeleteError(type) {
       this.error[type] && (this.error[type] = "");
@@ -243,6 +282,14 @@ export default {
   border: 1px solid var(--color-grey);
 }
 
+.attach-error__container {
+  transform: translateY(calc(-1 * var(--size-regular)));
+}
+
+.attach-error__container button:hover {
+  color: var(--color-black);
+}
+
 .submit-button {
   color: var(--color-white);
   background-color: var(--color-dark-grey);
@@ -266,12 +313,12 @@ export default {
 #image-preview {
   align-self: baseline;
   position: relative;
-  margin-bottom: var(--size-medium);
-  transform: translateY(calc(-1 * var(--size-small)));
+  margin: var(--size-medium) 0;
 }
 
 #image-preview img {
   height: 7rem;
+  min-width: 200px;
 }
 
 .delete-button {

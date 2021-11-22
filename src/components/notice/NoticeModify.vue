@@ -6,15 +6,23 @@
 
     <main class="notice-main">
       <!-- 폼 -->
-      <notice-form :original="original" :onSubmitHandler="onSubmitHandler" />
+      <notice-form
+        :original="original"
+        :onSubmitHandler="onSubmitHandler"
+        type="modify"
+      />
     </main>
   </section>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { getNotice, updateNotice } from "@/api/notice.js";
+import NoticeForm from "@/components/notice/child/NoticeForm.vue";
 
+const accountsStore = "accountsStore";
 export default {
+  components: { NoticeForm },
   name: "NoticeModify",
   data() {
     return {
@@ -28,28 +36,32 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(accountsStore, ["userInfo"]),
+  },
   async created() {
-    if (this.type === "modify") {
-      try {
-        this.notice = await getNotice(this.$route.params.no);
-        // 로그인 유저 처리보고 수정해야할 부분
-        if (this.loginUser.no !== this.notice.authorNo) {
-          alert("잘못된 접근입니다!");
-          this.moveList();
-        }
-      } catch (e) {
-        console.error(e);
+    try {
+      this.original = await getNotice(this.$route.params.no);
+
+      if (this.userInfo.no !== this.original.authorNo) {
+        alert("잘못된 접근입니다!");
+        this.moveList();
       }
+    } catch (e) {
+      console.error(e);
     }
   },
 
   methods: {
     async onSubmitHandler(data) {
       try {
-        await updateNotice(data);
+        return updateNotice(data);
       } catch (e) {
         console.error(e);
       }
+    },
+    moveList() {
+      this.$router.push({ name: "Notice" });
     },
   },
 };

@@ -7,8 +7,7 @@
         <p>Happy House의 뉴스 및 공지사항</p>
       </header>
       <main class="notice-main">
-        <notice-items v-if="totalCnt > 0" />
-        <p v-else>등록된 공지사항이 없습니다.</p>
+        <notice-items />
       </main>
     </div>
   </section>
@@ -16,16 +15,10 @@
 
 <script>
 import NoticeItems from "@/components/notice/child/NoticeItems.vue";
-import { mapState } from "vuex";
-
-const noticeStore = "noticeStore";
 
 export default {
   components: { NoticeItems },
   name: "Notice",
-  computed: {
-    ...mapState(noticeStore, ["totalCnt"]),
-  },
 };
 </script>
 

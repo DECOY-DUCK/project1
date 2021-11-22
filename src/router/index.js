@@ -14,6 +14,7 @@ import AccountsModify from "@/components/accounts/child/AccountsModify.vue";
 import Notice from "@/views/Notice.vue";
 import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
+import NoticeModify from "@/components/notice/NoticeModify.vue";
 
 import Admin from "@/views/Admin.vue";
 
@@ -116,6 +117,11 @@ const routes = [
         path: "detail/:no",
         name: "NoticeView",
         component: NoticeView,
+      },
+      {
+        path: "modify/:no",
+        name: "NoticeModify",
+        component: NoticeModify,
       },
     ],
   },
