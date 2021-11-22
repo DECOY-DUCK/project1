@@ -15,6 +15,8 @@ import Notice from "@/views/Notice.vue";
 import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
 
+import Admin from "@/views/Admin.vue";
+
 import store from "@/store/index.js";
 Vue.use(VueRouter);
 
@@ -163,7 +165,7 @@ const routes = [
   {
     path: "/admin",
     name: "Admin",
-    //component: Admin,
+    component: Admin,
     children: [],
   },
   {
