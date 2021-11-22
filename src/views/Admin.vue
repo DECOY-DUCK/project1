@@ -5,23 +5,31 @@
       <p>회원 정보 관리</p>
     </header>
     <main class="notice-main">
-      <info-list v-if="userinlist !== null" />
+      <info-list v-if="alluserlist !== null" />
       <p v-else>등록된 회원이 없습니다.</p>
     </main>
   </section>
 </template>
 <script>
 import InfoList from "@/components/admin/userinfo";
+import { mapState, mapActions } from "vuex";
+
+const accountsStore = "accountsStore";
 
 export default {
   name: "Admin",
   components: {
     InfoList,
   },
-  data() {
-    return {
-      userinlist: null,
-    };
+
+  created() {
+    this.asyncGetUserInfoLIst();
+  },
+  methods: {
+    ...mapActions(accountsStore, ["asyncGetUserInfoLIst"]),
+  },
+  computed: {
+    ...mapState(accountsStore, ["alluserlist"]),
   },
 };
 </script>

@@ -74,6 +74,11 @@ const me = async (email) => {
     method: "GET",
   });
 };
+const getUserInfolist = async () => {
+  return httpClient.axios("/auth/userinfo", {
+    method: "GET",
+  });
+};
 
 export {
   login,
@@ -85,4 +90,5 @@ export {
   updateUserInfo,
   withdrawal,
   me,
+  getUserInfolist,
 };

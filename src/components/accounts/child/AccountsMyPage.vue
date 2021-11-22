@@ -6,7 +6,7 @@
         <div class="accounts__profile"></div>
         <account-info />
       </div>
-      <div class="grid__up_right" v-if="userInfo.authCode == ''">
+      <div class="grid__up_right" v-if="userInfo.authCode == 'U'">
         <interest-area />
       </div>
       <div class="grid__up_right" v-else><admin-page /></div>
