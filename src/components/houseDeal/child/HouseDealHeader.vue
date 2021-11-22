@@ -64,6 +64,11 @@ export default {
     };
   },
   async created() {
+    if (!this.isLogin) {
+      this.isSaved = false;
+      return;
+    }
+
     try {
       if (this.isLogin) {
         const result = await getInterestArea(this.userInfo.no, this.dongCode);

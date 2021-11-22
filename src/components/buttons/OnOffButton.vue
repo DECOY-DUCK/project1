@@ -38,6 +38,7 @@ export default {
   },
 
   created() {
+    console.log(this.isLogin);
     if (this.button.title !== "관심지역") return;
     this.isOn = this.isSaved;
   },
