@@ -107,7 +107,7 @@ const routes = [
         //관리자 페이지에 생성시 path 수정 필요
         path: "write",
         name: "NoticeWrite",
-        //beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         component: NoticeWrite,
       },
       {

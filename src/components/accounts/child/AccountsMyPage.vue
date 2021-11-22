@@ -2,8 +2,14 @@
   <div class="my__page">
     <div class="grid__area">
       <header class="grid__header"></header>
-      <div class="grid__up_left"><account-info /></div>
-      <div class="grid__up_right">3</div>
+      <div class="grid__up_left">
+        <div class="accounts__profile"></div>
+        <account-info />
+      </div>
+      <div class="grid__up_right" v-if="userInfo.authCode == ''">
+        <interest-area />
+      </div>
+      <div class="grid__up_right" v-else><admin-page /></div>
       <div class="grid__down_left">4</div>
       <div class="grid__down_center">5</div>
       <div class="grid__down_right">6</div>
@@ -13,20 +19,35 @@
 
 <script>
 import AccountInfo from "./mypage/AccountInfo";
-// import InterestArea from "./mypage/InterestArea";
+import InterestArea from "./mypage/InterestArea";
+import AdminPage from "./mypage/AdminPage.vue";
 
 // import Something1 from "./mypage/Something1";
 
 // import Something2 from "./mypage/Something2";
 // import Something3 from "./mypage/Something3";
-
+import store from "@/store/index";
 export default {
   components: {
     AccountInfo,
-    // InterestArea,
+    InterestArea,
+    AdminPage,
     // Something1,
     // Something2,
     // Something3,
+    // data() {
+    //   return {
+    //     userInfo: {},
+    //   };
+    // },
+  },
+  data() {
+    return {
+      userInfo: "",
+    };
+  },
+  created() {
+    this.userInfo = store.getters["accountsStore/checkUserInfo"];
   },
 };
 </script>
@@ -42,15 +63,16 @@ export default {
   height: 100%;
   display: grid;
   grid-template-areas:
+    ". . . . . . ."
     "h h h h h h h"
-    "a a a b b b b"
-    "a a a b b b b"
-    "a a a b b b b"
-    "a a a b b b b"
-    "c c d d d e e"
-    "c c d d d e e"
-    "c c d d d e e"
-    "c c d d d e e";
+    "a a b b b b b"
+    "a a b b b b b"
+    "a a b b b b b"
+    "a a b b b b b"
+    "c d d d d d e"
+    "c d d d d d e"
+    "c d d d d d e"
+    "c d d d d d e";
 
   column-gap: 1rem;
   row-gap: 2rem;
@@ -59,6 +81,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 5rem;
+
   grid-area: a;
   width: 100%;
   height: 100%;
@@ -66,6 +91,10 @@ export default {
   border-radius: var(--size-small);
 }
 .grid__up_right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   grid-area: b;
   width: 100%;
   height: 100%;

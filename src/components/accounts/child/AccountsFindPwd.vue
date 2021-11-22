@@ -15,7 +15,6 @@
             v-model="user.email"
             class="form__item__input"
             placeholder="Enter your email"
-            @blur="check"
             required
           />
         </div>
@@ -28,7 +27,6 @@
             v-model="user.name"
             class="form__item__input"
             placeholder="Enter your name"
-            @blur="check"
             required
           />
         </div>
@@ -66,17 +64,12 @@ export default {
   methods: {
     ...mapActions(accountsStore, ["asyncFindpwd"]),
     async confirm() {
-      if (this.checkbalank) {
+      if (this.user.email !== null && this.user.name !== null) {
         //실패 조건문 추가하는게 좋을듯
         await this.asyncFindpwd(this.user);
         this.$router.push({ name: "Home" });
       } else {
         this.show = true;
-      }
-    },
-    check: function () {
-      if (this.user.email !== null && this.email.user.name !== null) {
-        return (this.checkblank = true);
       }
     },
   },

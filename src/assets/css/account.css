@@ -136,6 +136,8 @@
 }
 
 .accounts__profile {
+  width: 15rem;
+  height: 15rem;
   background-color: var(--color-green);
-  border-radius: calc(10 * var(--size-large));
+  border-radius: calc(30 * var(--size-large));
 }
