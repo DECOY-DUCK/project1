@@ -2,20 +2,18 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
-<<<<<<< HEAD
+import HouseDeal from "@/views/HouseDeal.vue";
+
 import Accounts from "@/views/Accounts.vue";
 import AccountsLogin from "@/components/accounts/child/AccountsLogin.vue";
 import AccountsJoin from "@/components/accounts/child/AccountsJoin.vue";
 import AccountsMyPage from "@/components/accounts/child/AccountsMyPage.vue";
 import AccountsFindPwd from "@/components/accounts/child/AccountsFindPwd.vue";
 import AccountsModify from "@/components/accounts/child/AccountsModify.vue";
-=======
-import Notice from "@/views/Notice.vue";
-import HouseDeal from "@/views/HouseDeal.vue";
 
+import Notice from "@/views/Notice.vue";
 import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
->>>>>>> 36d0d6bf17b59d89a2cc84f0882116c8a1354a44
 
 import store from "@/store/index.js";
 Vue.use(VueRouter);
@@ -23,11 +21,11 @@ Vue.use(VueRouter);
 const onlyAuthUser = async (to, from, next) => {
   console.log(store);
   const checkUserInfo = store.getters["accountsStore/checkUserInfo"];
-  const getUserInfo = store._actions["accountsStore/getUserInfo"];
+  const asyncGetUserInfo = store._actions["accountsStore/asyncGetUserInfo"];
   let token = sessionStorage.getItem("access-token");
-  console.log(getUserInfo);
+  console.log(asyncGetUserInfo);
   if (checkUserInfo == null && token) {
-    await getUserInfo(token);
+    await asyncGetUserInfo(token);
   }
   if (checkUserInfo === null) {
     alert("로그인이 필요한 페이지입니다..");
@@ -41,11 +39,11 @@ const onlyAuthUser = async (to, from, next) => {
 //로그인상태로 로그인 화면,회원가입 화면 접근할경우
 const test = async (to, from, next) => {
   const checkUserInfo = store.getters["accountsStore/checkUserInfo"];
-  const getUserInfo = store._actions["accountsStore/getUserInfo"];
+  const asyncGetUserInfo = store._actions["accountsStore/asyncGetUserInfo"];
   let token = sessionStorage.getItem("access-token");
-  console.log(getUserInfo);
+  console.log(asyncGetUserInfo);
   if (checkUserInfo == null && token) {
-    await getUserInfo(token);
+    await asyncGetUserInfo(token);
   }
   if (checkUserInfo === null) {
     next();
@@ -115,12 +113,7 @@ const routes = [
       {
         path: "detail/:no",
         name: "NoticeView",
-<<<<<<< HEAD
-        beforeEnter: onlyAuthUser,
-        //component: NoticeView,
-=======
         component: NoticeView,
->>>>>>> 36d0d6bf17b59d89a2cc84f0882116c8a1354a44
       },
     ],
   },

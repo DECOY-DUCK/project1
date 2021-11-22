@@ -1,11 +1,11 @@
 <template>
-  <section class="accounts" id="signup">
+  <section class="accounts" id="signup" @submit="onSubmit">
     <div class="accounts__container">
       <header class="accounts__header">
         <h2>Sign up</h2>
         <p>Welcome!</p>
       </header>
-      <form class="" method="post" id="userform">
+      <form method="post" id="userform">
         <input type="hidden" name="act" value="join" />
         <div class="accounts__form__item">
           <label for="email">Email</label>
@@ -59,13 +59,7 @@
             required
           />
         </div>
-        <button
-          class="accounts__form__submit-btn"
-          type="button"
-          @click="confirm"
-        >
-          Register
-        </button>
+        <button class="accounts__form__submit-btn">Register</button>
       </form>
     </div>
   </section>
@@ -98,16 +92,23 @@ export default {
       return this.check;
     },
 
-    ...mapActions(accountsStore, ["asyncSignup", "getUserInfo"]),
-    async confirm() {
-      let user = {
+    ...mapActions(accountsStore, ["asyncSignup", "asyncGetUserInfo"]),
+    async onSubmit(e) {
+      e.preventDefault();
+
+      const user = {
         email: this.email,
         password: this.password,
         name: this.name,
       };
-      await this.asyncSignup(user);
-      alert("환영합니다");
-      this.$router.push({ name: "Home" });
+      try {
+        await this.asyncSignup(user);
+
+        alert("회원가입 성공! 로그인 해주세요.");
+        this.$router.push({ name: "LogIn" });
+      } catch (e) {
+        console.error(e);
+      }
     },
     async checkid(email) {
       await this.asyncGetLogin(email);

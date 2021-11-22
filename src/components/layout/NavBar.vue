@@ -31,7 +31,7 @@
       <div class="divider"></div>
 
       <!-- 비로그인 유저  -->
-      <ul class="items" v-if="!userInfo">
+      <ul class="items" v-if="!loginUser">
         <li class="item" @click="closeMenu">
           <router-link
             :to="{ name: 'LogIn' }"
@@ -92,10 +92,17 @@ export default {
   name: "NavBar",
   data() {
     return {
-      //왜 안바뀌는거야ㅠㅜㅜ
-      loginUser: true, // store에서 loginUser 불러오기
+      loginUser: false,
       isMenuOpen: false,
     };
+  },
+  created() {
+    this.loginUser = this.isLogin;
+  },
+  watch: {
+    isLogin() {
+      this.loginUser = this.isLogin;
+    },
   },
   methods: {
     ...mapMutations(accountsStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
@@ -129,7 +136,7 @@ export default {
   //   this.changeLoginUser();
   // },
   computed: {
-    ...mapState(accountsStore, ["isLogin", "userInfo"]),
+    ...mapState(accountsStore, ["isLogin"]),
   },
 };
 </script>

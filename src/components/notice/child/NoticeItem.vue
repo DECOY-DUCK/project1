@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { config } from "@/config/index.js";
 import defaultImg from "@/assets/images/default_notice.png";
 
 export default {
@@ -46,8 +45,7 @@ export default {
   },
   created() {
     const { saveFolder, saveFile } = this.notice.image;
-    this.imageUrl =
-      `${config.api.serverUrl}${saveFolder}/${saveFile}` || defaultImg;
+    this.imageUrl = `${saveFolder}/${saveFile}` || defaultImg;
   },
 };
 </script>

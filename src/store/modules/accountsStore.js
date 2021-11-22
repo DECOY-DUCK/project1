@@ -42,12 +42,12 @@ const accountsStore = {
     //로그인
     asyncGetLogin: async ({ commit }, user) => {
       try {
-        await login(user, (res) => {
-          commit("SET_USER_INFO", res);
-          sessionStorage.setItem("access-token", res.token);
-        });
+        const result = await login(user);
+        commit("SET_USER_INFO", result);
+        sessionStorage.setItem("access-token", result.token);
       } catch (e) {
         console.log("로그인 실패");
+        console.error(e);
         commit("SET_IS_LOGIN_ERROR", false);
         commit("SET_IS_LOGIN", false);
       }
@@ -55,74 +55,61 @@ const accountsStore = {
     //회원 정보변경
     asyncUpdateUserInfo: async ({ commit }, user) => {
       try {
-        await updateUserInfo(user, (res) => {
-          //userinfo 갱신
-          console.log("updateUseInfo " + res);
-          commit("SET_USER_INFO", res);
-        });
+        const result = await updateUserInfo(user);
+        console.log("updateUseInfo " + result);
+        commit("SET_USER_INFO", result);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     },
     //회원 탈퇴
     asyncdeleteUserInfo: async ({ commit, state }) => {
       try {
         console.log(state.userInfo.no);
-        await withdrawal(state.userInfo.no, (res) => {
-          console.log("회원 탈퇴" + res);
-          if (res === "success") {
-            commit("SET_USER_INFO", null);
-            commit("SET_IS_LOGIN", false);
-          }
-        });
+
+        const result = await withdrawal(state.userInfo.no);
+        console.log("회원 탈퇴" + result);
+        if (result === "success") {
+          commit("SET_USER_INFO", null);
+          commit("SET_IS_LOGIN", false);
+        }
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     },
     //비밀번호 찾기
     asyncFindpwd: async ({ commit }, user) => {
       try {
-        await findpwd(
-          user,
-          (res) => {
-            console.log("성공");
-            commit("SET_RES_SERVER", res);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+        const result = await findpwd(user);
+        console.log("성공");
+        commit("SET_RES_SERVER", result);
       } catch (e) {
         console.log("뭔가 잘못됨");
-        console.log(e);
+        console.error(e);
       }
     },
-    getUserInfo({ commit }, token) {
+    asyncGetUserInfo: async ({ commit }, token) => {
       let decode_token = jwt_decode(token);
-      me(
-        decode_token.email,
-        (res) => {
-          if (res.data.message === "success") {
-            commit("SET_USER_INFO", res.data.userInfo);
-          } else {
-            console.log("유저 정보 없음!!");
-          }
-        },
-        (error) => {
-          console.log(error);
+      try {
+        const result = await me(decode_token.email);
+        if (result.message === "success") {
+          commit("SET_USER_INFO", result.userInfo);
+        } else {
+          console.log("유저 정보 없음!!");
         }
-      );
+      } catch (e) {
+        console.error(e);
+      }
     },
     //회원가입
     asyncSignup: async ({ commit }, user) => {
       try {
         console.log(user);
-        await signup(user, (res) => {
-          console.log(res);
-          commit("SET_RES_SERVER", res);
-        });
+        const result = await signup(user);
+        console.log(result);
+        commit("SET_RES_SERVER", result);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     },
   },
