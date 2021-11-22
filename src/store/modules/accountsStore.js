@@ -9,6 +9,7 @@ import {
   withdrawal,
   me,
 } from "@/api/auth";
+import { deleteUser, getUserInfolist } from "../../api/auth";
 
 const accountsStore = {
   namespaced: true,
@@ -17,6 +18,7 @@ const accountsStore = {
     isLoginError: false,
     userInfo: null,
     responseServer: "",
+    alluserlist: [],
   },
   getters: {
     checkUserInfo: function (state) {
@@ -36,6 +38,9 @@ const accountsStore = {
     },
     SET_RES_SERVER: (state, msg) => {
       state.responseServer = msg;
+    },
+    SET_ALL_USER: (state, res) => {
+      state.alluserlist = res.filter((user) => user.authCode == "U");
     },
   },
   actions: {
@@ -107,6 +112,29 @@ const accountsStore = {
         console.log(user);
         const result = await signup(user);
         console.log(result);
+        commit("SET_RES_SERVER", result);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    //회원정보 불러오기
+    asyncGetUserInfoLIst: async ({ commit }) => {
+      try {
+        const result = await getUserInfolist();
+        console.log(result);
+        commit("SET_ALL_USER", result);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    //회원 삭제
+    asyncdeleteUserbyAdmin: async ({ commit, dispatch }, no) => {
+      try {
+        const result = await deleteUser(no);
+        console.log(result);
+        if (result == "success") {
+          dispatch("asyncGetUserInfoLIst");
+        }
         commit("SET_RES_SERVER", result);
       } catch (e) {
         console.error(e);

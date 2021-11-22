@@ -63,7 +63,7 @@ const updateUserInfo = async (user) => {
 };
 const withdrawal = async (no) => {
   return httpClient.axios(`/auth/mypage/${no}`, {
-    method: "DELETE",
+    method: "UPDATE",
   });
 };
 const me = async (email) => {
@@ -72,6 +72,16 @@ const me = async (email) => {
       "access-token": sessionStorage.getItem("access-token"),
     },
     method: "GET",
+  });
+};
+const getUserInfolist = async () => {
+  return httpClient.axios("/auth/userinfo", {
+    method: "GET",
+  });
+};
+const deleteUser = async (no) => {
+  return httpClient.axios(`/auth/admin/${no}`, {
+    method: "DELETE",
   });
 };
 
@@ -85,4 +95,6 @@ export {
   updateUserInfo,
   withdrawal,
   me,
+  getUserInfolist,
+  deleteUser,
 };
