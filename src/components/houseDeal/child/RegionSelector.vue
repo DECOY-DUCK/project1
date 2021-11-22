@@ -166,8 +166,8 @@ export default {
         gugunCode: this.gugunCode,
         dongName: this.dongName,
       }).then(() => {
-        if (this.$route.path !== "/housedeal") {
-          this.$router.push({ name: "HouseDeal" });
+        if (this.$route.path !== "/housedeal/main") {
+          this.$router.push({ name: "HouseDealMain" });
           return;
         }
         this.onSearch();
