@@ -1,5 +1,12 @@
 import { httpClient } from ".";
 
+/**
+ * 현재 페이지의 공지사항 목록을 받아온다.
+ *
+ * @param {Number} pageNo      : 현재 페이지 번호
+ * @param {Number} sizePerPage : 페이지당 개수
+ * @returns 해당 페이지의 공지사항 목록을 담은 Promise
+ */
 const getNotices = async (pageNo, sizePerPage) => {
   return httpClient.axios("/notice", {
     method: "GET",
@@ -10,12 +17,24 @@ const getNotices = async (pageNo, sizePerPage) => {
   });
 };
 
+/**
+ * 식별 번호에 해당하는 공지사항을 받아온다.
+ *
+ * @param {Number} no : 공지사항 식별 번호
+ * @returns 해당 공지사항 정보를 담은 Promise
+ */
 const getNotice = async (no) => {
   return httpClient.axios(`/notice/${no}`, {
     method: "GET",
   });
 };
 
+/**
+ * 등록할 공지사항 정보를 전달하여 등록한다.
+ *
+ * @param {Object} data : 공지사항 내용 (title, authorNo, content, image)
+ * @returns 성공 여부 문자열(success, fail)을 담은 Promise
+ */
 const postNotice = async (data) => {
   return httpClient.axios("/notice", {
     headers: {
@@ -26,6 +45,12 @@ const postNotice = async (data) => {
   });
 };
 
+/**
+ * 공지사항 식별 번호와 수정할 내용을 전달하여 해당 공지사항을 수정한다.
+ *
+ * @param {Object} data : 공지사항 내용 (no, title, authorNo, content, image)
+ * @returns 성공 여부 문자열(success, fail)을 담은 Promise
+ */
 const updateNotice = async (data) => {
   const no = data.get("no");
   data.delete("no");
@@ -38,8 +63,19 @@ const updateNotice = async (data) => {
   });
 };
 
+<<<<<<< HEAD
 const deleteNotice = async (nos) => {
   return httpClient.axios(`/notice/${nos}`, {
+=======
+/**
+ * 공지사항 식별 번호에 해당하는 공지사항을 삭제한다.
+ *
+ * @param {Number} no : 공지사항 식별 번호
+ * @returns 성공 여부 문자열(success, fail)을 담은 Promise
+ */
+const deleteNotice = async (no) => {
+  return httpClient.axios(`/notice/${no}`, {
+>>>>>>> 1919a69e5c1a14c4f4013341b31b05547f532f80
     method: "DELETE",
   });
 };

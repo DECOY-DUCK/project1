@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
 import HouseDeal from "@/views/HouseDeal.vue";
+import HouseDealMain from "@/components/houseDeal/HouseDealMain.vue";
+import HouseDealView from "@/components/houseDeal/HouseDealView.vue";
 
 import Accounts from "@/views/Accounts.vue";
 import AccountsLogin from "@/components/accounts/child/AccountsLogin.vue";
@@ -12,6 +14,7 @@ import AccountsFindPwd from "@/components/accounts/child/AccountsFindPwd.vue";
 import AccountsModify from "@/components/accounts/child/AccountsModify.vue";
 
 import Notice from "@/views/Notice.vue";
+import NoticeMain from "@/components/notice/NoticeMain.vue";
 import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
 import NoticeModify from "@/components/notice/NoticeModify.vue";
@@ -64,6 +67,19 @@ const routes = [
     path: "/housedeal",
     name: "HouseDeal",
     component: HouseDeal,
+    redirect: HouseDealMain,
+    children: [
+      {
+        path: "main",
+        name: "HouseDealMain",
+        component: HouseDealMain,
+      },
+      {
+        path: ":aptName",
+        name: "HouseDealView",
+        component: HouseDealView,
+      },
+    ],
   },
   {
     path: "/accounts",
@@ -104,8 +120,13 @@ const routes = [
     path: "/notice",
     name: "Notice",
     component: Notice,
-
+    redirect: NoticeMain,
     children: [
+      {
+        path: "main",
+        name: "NoticeMain",
+        component: NoticeMain,
+      },
       {
         //관리자 페이지에 생성시 path 수정 필요
         path: "write",

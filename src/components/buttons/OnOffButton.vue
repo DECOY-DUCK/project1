@@ -3,6 +3,7 @@
     :class="[isOn ? onClass : offClass, button.onColor, 'on-off-button']"
     :title="button.title"
     @click="onClickHandler"
+    v-if="button.title == '관심지역' ? isLogin : true"
   >
     <span v-html="button.icon"></span>
     <span class="button__text">{{
@@ -12,6 +13,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+const accountsStore = "accountsStore";
+
 export default {
   name: "OnOffButton",
   props: {
@@ -22,6 +27,7 @@ export default {
       onHandler: Function,
       offHandler: Function,
     },
+    isSaved: Boolean,
   },
   data() {
     return {
@@ -30,16 +36,23 @@ export default {
       offClass: "button__off",
     };
   },
+
+  created() {
+    if (this.button.title !== "관심지역") return;
+    this.isOn = this.isSaved;
+  },
+  computed: {
+    ...mapState(accountsStore, ["isLogin", "userInfo"]),
+  },
   methods: {
-    onClickHandler() {
+    async onClickHandler() {
       if (this.isOn) {
         this.button.offHandler();
         this.isOn = !this.isOn;
       } else {
-        this.button.onHandler().then((result) => {
-          if (!result) return;
-          this.isOn = !this.isOn;
-        });
+        const result = await this.button.onHandler();
+        if (!result) return;
+        this.isOn = !this.isOn;
       }
     },
   },
@@ -60,12 +73,9 @@ export default {
 .on-off-button:hover span {
   font-weight: var(--weight-semi-bold);
 }
+
 .on-off-button:hover * {
   cursor: pointer;
-}
-
-.button__on {
-  font-weight: var(--weight-bold);
 }
 
 .button__on.button__blue * {
@@ -74,10 +84,6 @@ export default {
 
 .button__on.button__red * {
   color: var(--color-red);
-}
-
-.button__off i {
-  opacity: 0.75;
 }
 
 /* Media Query for below w640 */
@@ -90,5 +96,14 @@ export default {
     display: flex;
     align-items: center;
   }
+}
+</style>
+<style>
+.button__on * {
+  font-weight: var(--weight-bold);
+}
+
+.button__off i {
+  opacity: 0.75;
 }
 </style>

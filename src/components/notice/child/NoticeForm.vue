@@ -9,8 +9,8 @@
         name="title"
         id="title"
         v-model="notice.title"
-        placeholder="Enter a title (50 characters or less)"
-        maxlength="50"
+        placeholder="Enter a title (30 characters or less)"
+        maxlength="30"
         @change="() => onDeleteError('title')"
       />
       <span class="error" id="title-error">{{ error.title }}</span>

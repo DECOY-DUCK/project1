@@ -110,12 +110,14 @@ export default {
       // 로그아웃 처리
       this.SET_IS_LOGIN(false);
       this.SET_USER_INFO(null);
+      this.loginUser = this.isLogin;
+
       sessionStorage.removeItem("access-token");
       this.closeMenu();
+
       if (this.$route.path != "/") {
         this.$router.push({ name: "Home" });
       }
-      this.loginUser = false;
     },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;

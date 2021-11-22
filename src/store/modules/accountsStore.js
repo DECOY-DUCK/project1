@@ -33,7 +33,6 @@ const accountsStore = {
       state.isLoginError = isLoginError;
     },
     SET_USER_INFO: (state, userInfo) => {
-      state.isLogin = true;
       state.userInfo = userInfo;
     },
     SET_RES_SERVER: (state, msg) => {
@@ -49,6 +48,7 @@ const accountsStore = {
       try {
         const result = await login(user);
         commit("SET_USER_INFO", result);
+        commit("SET_IS_LOGIN", true);
         sessionStorage.setItem("access-token", result.token);
       } catch (e) {
         console.log("로그인 실패");

@@ -1,5 +1,5 @@
 <template>
-  <section class="notice-container" id="notice-detail">
+  <section class="body-container" id="notice-detail">
     <notice-view-header :notice="notice" />
     <notice-view-body :image="notice.image" :content="notice.content" />
   </section>
@@ -20,7 +20,7 @@ export default {
   },
   async created() {
     this.notice = await getNotice(this.$route.params.no);
-    console.log(this.notice);
+
     if (!this.notice) {
       alert("잘못된 접근입니다!");
       this.$router.push({ name: "Notice" });

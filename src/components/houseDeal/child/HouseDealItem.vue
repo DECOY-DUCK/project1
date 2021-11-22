@@ -1,7 +1,7 @@
 <template>
   <li class="houseDeal-item">
     <router-link
-      :to="{ name: 'HouseDealView', params: { no: item.no } }"
+      :to="{ name: 'HouseDealView', params: { aptName: item.aptName } }"
       class="link"
     />
     <p>{{ item.aptName }}</p>
