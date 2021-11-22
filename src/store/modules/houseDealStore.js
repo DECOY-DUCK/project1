@@ -129,7 +129,6 @@ const houseDealStore = {
           pageNo,
           sizePerPage,
         });
-
         commit("SET_HOUSEINFO_LIST", addAddress(result));
       } catch (e) {
         console.error(e);

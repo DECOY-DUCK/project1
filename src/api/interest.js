@@ -2,25 +2,25 @@ import { httpClient } from ".";
 
 const getInterestAreas = async (userNo) => {
   return httpClient.axios(`/interest/${userNo}`, {
-    type: "GET",
+    method: "GET",
   });
 };
 
 const getInterestArea = async (userNo, dongCode) => {
   return httpClient.axios(`/interest/${userNo}/${dongCode}`, {
-    type: "GET",
+    method: "GET",
   });
 };
 
 const saveInterestArea = async (userNo, dongCode) => {
   return httpClient.axios(`/interest/${userNo}/${dongCode}`, {
-    type: "POST",
+    method: "POST",
   });
 };
 
 const deleteInterestArea = async (userNo, dongCode) => {
   return httpClient.axios(`/interest/${userNo}/${dongCode}`, {
-    type: "DELETE",
+    method: "DELETE",
   });
 };
 

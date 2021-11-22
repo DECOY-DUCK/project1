@@ -24,13 +24,6 @@ import mImage1 from "@/assets/images/marker1.png";
 import mImage2 from "@/assets/images/safe_hospital.png";
 import mImage3 from "@/assets/images/selected_clinic.png";
 
-/**
- * MAP에 전해줘야 하는것
- *    // HEADER에서 바로 작업해도 될듯?
- *    - 관심지역 : 1. 관심지역인지 여부 확인
- *                2. 관심지역인 경우 삭제 작업 후 , vuex STORE 내 관심지역 리스트 업데이트
- *                3. 관심지역 아닌 경우 등록 작업 후 vuex STORE 업데이트
- */
 const houseDealStore = "houseDealStore";
 export default {
   name: "HouseDeal",
@@ -89,6 +82,7 @@ export default {
           this.sidoName.slice(0, 2),
           this.gugunName
         );
+        return true;
       } catch (e) {
         console.error(e);
       }
@@ -108,7 +102,7 @@ export default {
           this.setMapLevel(this.selectedClinics);
         }
 
-        return result ? true : false;
+        return result;
       } catch (e) {
         console.error(e);
         return false;
@@ -128,7 +122,7 @@ export default {
           );
           this.setMapLevel(this.safeHospitals);
         }
-        return result ? true : false;
+        return result;
       } catch (e) {
         console.error(e);
         return false;
