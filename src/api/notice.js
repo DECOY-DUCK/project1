@@ -38,10 +38,9 @@ const updateNotice = async (data) => {
   });
 };
 
-const deleteNotice = async (no) => {
-  return httpClient.axios(`/notice/${no}`, {
+const deleteNotice = async (nos) => {
+  return httpClient.axios(`/notice/${nos}`, {
     method: "DELETE",
   });
 };
-
 export { getNotices, getNotice, postNotice, updateNotice, deleteNotice };

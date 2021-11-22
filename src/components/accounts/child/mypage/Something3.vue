@@ -1,35 +1,17 @@
 <template>
-  <div class="accounts__container">
-    <header class="accounts__header">
-      <h2>{{ userInfo.email }}</h2>
-    </header>
-    <ul class="accounts__info">
-      <li class="accounts__info__item">
-        <span class="info__item__title">Email</span>
-        <p class="info__item__contents"></p>
-      </li>
-      <li class="accounts__info__item">
-        <span class="info__item__title">Name</span>
-        <p class="info__item__contents">{{ userInfo.name }}</p>
-      </li>
-    </ul>
-    <div class="accounts__info__btns">
-      <router-link to="./modify" class="accounts__info__btn btn__edit"
-        >Edit</router-link
-      >
-      <button
-        class="accounts__info__btn btn__delete"
-        type="button"
-        @click="confirm"
-      >
-        Delete
-      </button>
-    </div>
-  </div>
+  <img
+    src="https://cdn.pixabay.com/photo/2021/05/22/10/21/dinosaur-6273164_960_720.png"
+    alt="??"
+  />
 </template>
 
 <script>
 export default {};
 </script>
 
-<style></style>
+<style scoped>
+img {
+  width: 60%;
+  height: 60%;
+}
+</style>

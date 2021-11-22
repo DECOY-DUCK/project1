@@ -76,7 +76,9 @@
       <button type="submit" class="button submit-button">
         {{ type === "modify" ? "Modify" : "Register" }}
       </button>
-      <button type="reset" class="button cancel-button">Cancel</button>
+      <button type="reset" class="button cancel-button" @click="moveList">
+        Cancel
+      </button>
     </div>
   </form>
 </template>

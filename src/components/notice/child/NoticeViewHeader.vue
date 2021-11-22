@@ -9,6 +9,11 @@
       <h2>{{ notice.title }}</h2>
       <span> <b-icon icon="eye-fill" /> {{ notice.viewCnt }}</span>
     </div>
+    <div class="adminBtn" v-if="userInfo.authCode == 'S'">
+      <router-link :to="{ name: 'NoticeModify' }"><h3>수정</h3></router-link>
+      <h3>|</h3>
+      <h3 @click="confirm(notice.no)">삭제</h3>
+    </div>
     <div class="author">
       <a :href="`mailto:${notice.authorEmail}`" title="mail to author">{{
         notice.authorName
@@ -28,8 +33,19 @@
 </template>
 
 <script>
+import store from "@/store/index";
+
+import { mapActions } from "vuex";
+
+const noticeStore = "noticeStore";
+
 export default {
   name: "NoticeViewHeader",
+  data() {
+    return {
+      userInfo: "",
+    };
+  },
   props: {
     notice: {
       no: Number,
@@ -41,6 +57,18 @@ export default {
       viewCnt: Number,
       createdAt: String,
       modifiedAt: String,
+    },
+  },
+  created() {
+    this.userInfo = store.getters["accountsStore/checkUserInfo"];
+  },
+  methods: {
+    ...mapActions(noticeStore, ["asyncDeleteNotice"]),
+    async confirm(no) {
+      if (confirm("정말 삭제하시겠습니까?")) {
+        await this.asyncDeleteNotice(no);
+        this.$router.push({ name: "Notice" });
+      }
     },
   },
 };
@@ -79,5 +107,15 @@ export default {
 
 .author-buttons {
   margin-top: var(--size-small);
+}
+.adminBtn {
+  margin: 1rem;
+}
+h3 {
+  display: inline;
+}
+.adminBtn h3:nth-child(odd) {
+  cursor: pointer;
+  margin: 1rem;
 }
 </style>

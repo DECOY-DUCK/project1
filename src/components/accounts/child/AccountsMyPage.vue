@@ -10,9 +10,9 @@
         <interest-area />
       </div>
       <div class="grid__up_right" v-else><admin-page /></div>
-      <div class="grid__down_left">4</div>
-      <div class="grid__down_center">5</div>
-      <div class="grid__down_right">6</div>
+      <div class="grid__down_left"></div>
+      <div class="grid__down_center"></div>
+      <div class="grid__down_right"><something-3 /></div>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ import AdminPage from "./mypage/AdminPage.vue";
 // import Something1 from "./mypage/Something1";
 
 // import Something2 from "./mypage/Something2";
-// import Something3 from "./mypage/Something3";
+import Something3 from "./mypage/Something3";
 import store from "@/store/index";
 export default {
   components: {
@@ -34,7 +34,7 @@ export default {
     AdminPage,
     // Something1,
     // Something2,
-    // Something3,
+    Something3,
     // data() {
     //   return {
     //     userInfo: {},
@@ -119,6 +119,9 @@ export default {
 }
 .grid__down_right {
   grid-area: e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background-color: var(--color-white);
