@@ -27,7 +27,7 @@
         </li>
         <li>
           <div>
-            <router-link :to="{ name: 'CS' }"
+            <router-link :to="{ name: 'CustomerService' }"
               ><span class="cs__"
                 >고객센터 <i class="fas fa-chevron-right"></i></span
             ></router-link>

@@ -39,7 +39,12 @@ export default {
     FaqPreview,
     QnaPreview,
   },
+<<<<<<< HEAD:src/views/ccss.vue
   created() {
+=======
+  name: "CustomerService",
+  mounted() {
+>>>>>>> 4e86fa1d017b4f2dadccc0b602b7f907e811ad72:src/views/CustomerService.vue
     window.scrollTo(0, 0);
   },
   name: "CS",

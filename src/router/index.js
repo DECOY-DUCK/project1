@@ -19,7 +19,7 @@ import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
 import NoticeModify from "@/components/notice/NoticeModify.vue";
 
-import CS from "@/views/ccss.vue";
+import CustomerService from "@/views/CustomerService.vue";
 
 import Admin from "@/views/Admin.vue";
 
@@ -151,8 +151,8 @@ const routes = [
   },
   {
     path: "/cs",
-    name: "CS",
-    component: CS,
+    name: "CustomerService",
+    component: CustomerService,
     children: [
       {
         path: "qna",
