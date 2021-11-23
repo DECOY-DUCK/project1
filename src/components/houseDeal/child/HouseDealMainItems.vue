@@ -1,6 +1,6 @@
 <template>
   <ul class="houseDeal-list">
-    <house-deal-item
+    <house-deal-main-item
       v-for="(item, index) in houseInfos"
       :key="index"
       :item="item"
@@ -11,12 +11,12 @@
 
 <script>
 import { mapState } from "vuex";
-import HouseDealItem from "@/components/houseDeal/child/HouseDealItem.vue";
+import HouseDealMainItem from "@/components/houseDeal/child/HouseDealMainItem.vue";
 
 const houseDealStore = "houseDealStore";
 
 export default {
-  components: { HouseDealItem },
+  components: { HouseDealMainItem },
   name: "HouseDealItems",
   computed: {
     ...mapState(houseDealStore, ["houseInfos"]),

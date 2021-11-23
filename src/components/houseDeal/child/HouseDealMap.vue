@@ -4,6 +4,8 @@
 
 <script>
 import { mapState } from "vuex";
+// import { config } from "@/config";
+// import Map from "@/utils/map.js";
 
 const houseDealStore = "houseDealStore";
 

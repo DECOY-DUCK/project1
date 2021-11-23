@@ -1,5 +1,5 @@
 <template>
-  <section class="notice-container" id="notice-register">
+  <section class="body-container" id="notice-register">
     <header class="notice-header">
       <h2>공지사항 등록</h2>
     </header>
