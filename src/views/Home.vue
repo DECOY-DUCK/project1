@@ -11,6 +11,9 @@ import HomeMain from "@/components/home/HomeMain.vue";
 export default {
   components: { HomeHeader, HomeMain },
   name: "Home",
+  created() {
+    window.scrollTo(0, 0);
+  },
 };
 </script>
 

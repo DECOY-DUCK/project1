@@ -39,10 +39,10 @@ export default {
     FaqPreview,
     QnaPreview,
   },
-  name: "CS",
-  mounted() {
+  created() {
     window.scrollTo(0, 0);
   },
+  name: "CS",
 };
 </script>
 

@@ -31,6 +31,9 @@ export default {
   methods: {
     ...mapActions(noticeStore, ["asyncGetNotices"]),
   },
+  mounted() {
+    window.scrollTo(0, 0);
+  },
 };
 </script>
 
