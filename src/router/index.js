@@ -19,7 +19,7 @@ import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
 import NoticeModify from "@/components/notice/NoticeModify.vue";
 
-import CS from "@/views/CS.vue";
+import CS from "@/views/ccss.vue";
 
 import Admin from "@/views/Admin.vue";
 

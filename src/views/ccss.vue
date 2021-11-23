@@ -40,6 +40,9 @@ export default {
     QnaPreview,
   },
   name: "CS",
+  mounted() {
+    window.scrollTo(0, 0);
+  },
 };
 </script>
 
