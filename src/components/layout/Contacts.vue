@@ -25,6 +25,18 @@
             ><a href="mailto:" target="__blank">admin@happyhouse.com</a></span
           >
         </li>
+        <li>
+          <div>
+            <router-link :to="{ name: 'CS' }"
+              ><span class="cs__"
+                >고객센터 <i class="fas fa-chevron-right"></i></span
+            ></router-link>
+
+            <span class="cs__"
+              >1:1 문의 <i class="fas fa-chevron-right"></i
+            ></span>
+          </div>
+        </li>
       </ul>
       <span class="description"> 2021 dohmoon - All rights reserved </span>
     </div>
@@ -67,5 +79,15 @@ export default {
 
 .icon {
   margin-right: var(--size-medium);
+}
+.cs__ {
+  margin: 0.2rem;
+  padding: 0.2rem;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-radius: 0.2rem;
+}
+.cs__:hover {
+  cursor: pointer;
 }
 </style>

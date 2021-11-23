@@ -8,7 +8,7 @@
         >
       </div>
       <div>
-        <router-link :to="{ name: qna }"
+        <router-link :to="{ name: Qna }"
           ><i class="fas fa-headset fa-10x"></i><br />
           고객센터 바로가기</router-link
         >

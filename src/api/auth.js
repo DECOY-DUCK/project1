@@ -63,7 +63,7 @@ const updateUserInfo = async (user) => {
 };
 const withdrawal = async (no) => {
   return httpClient.axios(`/auth/mypage/${no}`, {
-    method: "UPDATE",
+    method: "DELETE",
   });
 };
 const me = async (email) => {
