@@ -137,6 +137,7 @@ export default {
           건축연도: item.buildYear,
         };
         marker.content = this.map.infoToHtml(marker.title, content);
+        marker.type = infos;
         return marker;
       });
     },

@@ -1,5 +1,10 @@
 <template>
   <section class="view-chart">
+    <div class="chart-container">
+      <line-chart :options="lineChart" :data="lineChartData" />
+      <bar-chart :options="barChart" :data="barChartData" />
+    </div>
+
     <div class="view-recentDeals">
       <div class="filter-buttons">
         <filter-button
@@ -11,17 +16,19 @@
           :filterHandler="filterHandler"
         />
       </div>
-      <house-deal-table :items="houseDealsByPy.slice(0, 8)" />
+      <common-table :items="houseDealsByPy.slice(0, 8)" />
     </div>
   </section>
 </template>
 
 <script>
 import FilterButton from "@/components/buttons/FilterButton.vue";
-import HouseDealTable from "@/components/houseDeal/child/HouseDealTable.vue";
+import CommonTable from "@/components/chart/CommonTable.vue";
+import LineChart from "@/components/chart/LineChart.vue";
+import BarChart from "@/components/chart/BarChart.vue";
 
 export default {
-  components: { FilterButton, HouseDealTable },
+  components: { FilterButton, CommonTable, LineChart, BarChart },
   name: "HouseDealViewChart",
   props: {
     houseDeals: Array,
@@ -31,6 +38,31 @@ export default {
       pySet: [],
       allHouseDealsByPy: {},
       filterPy: "",
+      lineChart: {
+        label: "월 평균 거래금액",
+        labels: [],
+        opts: {
+          scales: {
+            y: {
+              ticks: {
+                callback: function (value) {
+                  return `${Math.floor(value / 10000)}억원`;
+                },
+                autoSkip: true,
+              },
+            },
+            x: {
+              display: false,
+            },
+          },
+        },
+      },
+      lineChartData: [],
+      barChart: {
+        label: "거래량",
+        labels: [],
+      },
+      barChartData: [],
     };
   },
   computed: {
@@ -56,13 +88,21 @@ export default {
     }, {});
 
     this.filterPy = this.pySet[0];
+
+    for (let i = 1; i <= 12; i++) {
+      this.lineChart.labels[i - 1] = `2019.${this.parseDate(i)}`;
+    }
+    this.barChart.labels = this.lineChart.labels;
+    this.setChartData();
   },
+
   methods: {
     areaToPy(area) {
       return Math.round(area * 0.3025);
     },
     filterHandler(py) {
       this.filterPy = py;
+      this.setChartData();
     },
     dealDate(dealYear, dealMonth, dealDay) {
       return `${dealYear}.${this.parseDate(dealMonth)}.${this.parseDate(
@@ -75,6 +115,31 @@ export default {
     parseDate(date) {
       return date < 10 ? `0${date}` : date;
     },
+    calcAverage(list) {
+      const len = list.length;
+      return len
+        ? Math.floor(
+            list.reduce(
+              (sum, curr) => (sum += +curr["가격"].replace(/\D/g, "")),
+              0
+            ) /
+              len /
+              1000
+          ) * 1000
+        : null;
+    },
+    filterHouseDealsByMonth(month) {
+      return this.houseDealsByPy.filter(
+        (item) => +item["계약일"].split(".")[1] === +month
+      );
+    },
+    setChartData() {
+      for (let i = 1; i <= 12; i++) {
+        const filtered = this.filterHouseDealsByMonth(i);
+        this.$set(this.lineChartData, i - 1, this.calcAverage(filtered, i + 1));
+        this.$set(this.barChartData, i - 1, filtered.length);
+      }
+    },
   },
 };
 </script>
@@ -82,5 +147,9 @@ export default {
 <style scoped>
 .filter-buttons {
   text-align: right;
+}
+
+.view-recentDeals {
+  margin-top: var(--size-medium);
 }
 </style>

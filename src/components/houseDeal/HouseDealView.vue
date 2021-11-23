@@ -65,7 +65,6 @@ export default {
 </script>
 
 <style scoped>
-/* 수정 필요~!! */
 #housedeal-detail {
   width: 100%;
   max-width: var(--display-maxWidth);
