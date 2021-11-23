@@ -47,7 +47,7 @@ export default {
   },
   mounted() {
     if (!this.map) return;
-    console.log(this.map);
+
     this.setMarkersOpt();
     this.displayHouseInfos();
   },

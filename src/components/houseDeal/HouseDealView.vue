@@ -1,20 +1,23 @@
 <template>
   <section class="body-container" id="housedeal-detail">
     <header class="view-header">
-      <h2>{{ this.aptName }}</h2>
-      <p>건축연도: {{ this.houseDeals && this.houseDeals[0].buildYear }}</p>
+      <h3>{{ this.aptName }}</h3>
+      <span>건축 연도: {{ this.houseInfo.buildYear }}</span>
     </header>
     <main class="view-body">
+      <div class="view-contents">
+        <house-deal-view-chart
+          :houseDeals="houseDeals"
+          v-if="houseDeals !== null"
+        />
+        <house-deal-view-community />
+      </div>
       <house-deal-view-info
-        :houseDeals="houseDeals"
         :map="map"
-        v-if="houseDeals !== null"
-      />
-      <house-deal-view-chart
+        :address="address"
         :houseDeals="houseDeals"
         v-if="houseDeals !== null"
       />
-      <house-deal-view-community />
     </main>
   </section>
 </template>
@@ -36,21 +39,27 @@ export default {
   },
   data() {
     return {
+      houseInfo: {},
       houseDeals: null,
       aptName: "",
+      address: "",
     };
   },
   computed: {
-    ...mapState(houseDealStore, ["gugunCode", "dongName"]),
+    ...mapState(houseDealStore, ["gugunCode", "dongName", "houseInfos"]),
   },
   async created() {
     this.aptName = this.$route.params.aptName;
+    this.houseInfo = this.houseInfos.find((h) => h.aptName === this.aptName);
+    this.address = `${this.houseInfo.dong} ${this.houseInfo.jibun}`;
+
     const result = await getHouseDeals(this.aptName, {
       gugunCode: this.gugunCode,
       dongName: this.dongName,
+      pageNo: 0,
+      sizePerPage: 5,
     });
     this.houseDeals = result;
-    console.log(this.houseDeals);
   },
 };
 </script>
@@ -63,8 +72,21 @@ export default {
   margin: 0 auto;
   padding: 0 var(--size-large);
   padding-top: 2.5rem;
+}
+
+.view-header {
+  margin-bottom: var(--size-large);
+}
+
+.view-header h3 {
+  text-align: left;
+}
+.view-body {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+
+.view-contents {
+  flex-basis: 70%;
+  margin-right: var(--size-large);
 }
 </style>

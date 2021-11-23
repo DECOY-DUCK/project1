@@ -60,7 +60,9 @@ export default {
 }
 .grid__area {
   width: 100%;
+  max-width: var(--display-maxWidth);
   height: 100%;
+  margin: 0 auto;
   display: grid;
   grid-template-areas:
     ". . . . . . ."

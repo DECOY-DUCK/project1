@@ -138,3 +138,22 @@ button:hover i {
     font-size: 14px;
   }
 }
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+  z-index: 99;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+  background-color: var(--color-light-grey);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+  margin: var(--size-regular);
+  border-radius: 0.25rem;
+  background-color: var(--color-white);
+  box-shadow: inset 0px 0px 5px var(--color-light-grey);
+}
