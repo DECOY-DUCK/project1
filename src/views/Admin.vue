@@ -21,7 +21,9 @@ export default {
   components: {
     InfoList,
   },
-
+  mounted() {
+    window.scrollTo(0, 0);
+  },
   created() {
     this.asyncGetUserInfoLIst();
   },

@@ -81,6 +81,9 @@ export default {
     };
   },
   methods: {
+    created() {
+      window.scrollTo(0, 0);
+    },
     checkpwd: function () {
       if (this.password === "" || this.password2 === "")
         return (this.check = false);

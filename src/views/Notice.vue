@@ -7,6 +7,9 @@
 <script>
 export default {
   name: "Notice",
+  created() {
+    window.scrollTo(0, 0);
+  },
 };
 </script>
 
