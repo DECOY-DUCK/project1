@@ -19,6 +19,8 @@ import NoticeView from "@/components/notice/NoticeView.vue";
 import NoticeWrite from "@/components/notice/NoticeWrite.vue";
 import NoticeModify from "@/components/notice/NoticeModify.vue";
 
+import CS from "@/views/CS.vue";
+
 import Admin from "@/views/Admin.vue";
 
 import store from "@/store/index.js";
@@ -38,7 +40,7 @@ const onlyAuthUser = async (to, from, next) => {
 
     router.push({ name: "LogIn" });
   } else {
-    console.log("로그인 했다.");
+    // console.log("로그인 했다.");
     next();
   }
 };
@@ -55,6 +57,7 @@ const test = async (to, from, next) => {
     next();
   } else {
     router.push({ name: "Home" });
+    alert("잘못된 접근 입니다.");
   }
 };
 const routes = [
@@ -149,7 +152,7 @@ const routes = [
   {
     path: "/cs",
     name: "CS",
-    //component: CS,
+    component: CS,
     children: [
       {
         path: "qna",
