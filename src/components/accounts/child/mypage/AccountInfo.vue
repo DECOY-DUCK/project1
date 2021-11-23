@@ -12,7 +12,9 @@
         </li>
       </ul>
       <div class="accounts__info__btns" v-if="userInfo.authCode == 'U'">
-        <router-link to="./modify" class="accounts__info__btn btn__edit"
+        <router-link
+          :to="{ name: 'Modify' }"
+          class="accounts__info__btn btn__edit"
           >Edit</router-link
         >
         <button
@@ -47,10 +49,17 @@ export default {
     ...mapActions(accountsStore, ["asyncdeleteUserInfo"]),
     async confirm() {
       // let userInfo = store.getters["accountsStore/checkUserInfo"];
-      await this.asyncdeleteUserInfo();
-      //실패 조건문 추가하는게 좋을듯
-      sessionStorage.removeItem("access-token");
-      this.$router.push({ name: "Home" });
+      if (
+        confirm(
+          "동일한 계정으로 회원가입이 불가능할수 있습니다. 탈퇴하시겠습니까?"
+        )
+      ) {
+        await this.asyncdeleteUserInfo();
+        //실패 조건문 추가하는게 좋을듯
+
+        sessionStorage.removeItem("access-token");
+        this.$router.push({ name: "Home" });
+      }
     },
   },
 };
