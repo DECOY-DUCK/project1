@@ -39,7 +39,7 @@ export default {
     FaqPreview,
     QnaPreview,
   },
-  name: "CS",
+  name: "CustomerService",
   mounted() {
     window.scrollTo(0, 0);
   },
