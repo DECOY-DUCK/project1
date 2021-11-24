@@ -14,7 +14,7 @@ div {
   height: 20rem;
   text-align: center;
   line-height: 20rem;
-  margin: var(--size-large) 0;
+  margin-top: var(--size-large);
   background-color: var(--color-back);
 }
 </style>

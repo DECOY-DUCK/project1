@@ -40,11 +40,6 @@ export default {
 </script>
 
 <style scoped>
-#houseDeal {
-  display: flex;
-  flex-direction: column;
-}
-
 .houseDeal-main {
   flex: auto;
   display: flex;

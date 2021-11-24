@@ -43,7 +43,7 @@ export default {
   flex: auto;
   width: 100%;
   max-width: var(--display-maxWidth);
-  max-height: 75vh;
+  height: 75vh;
   margin: 0 auto;
   padding: 0 var(--size-large);
   padding-top: 2.5rem;
@@ -97,6 +97,7 @@ export default {
   }
   .body-map {
     height: 300px;
+    flex: none;
   }
 }
 </style>

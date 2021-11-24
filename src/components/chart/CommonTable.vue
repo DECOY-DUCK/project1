@@ -6,7 +6,7 @@
       </tr>
     </thead>
     <tbody>
-      <house-deal-table-row
+      <common-table-row
         v-for="(item, index) in items"
         :key="index"
         :item="item"
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import HouseDealTableRow from "@/components/houseDeal/child/HouseDealTableRow.vue";
+import CommonTableRow from "@/components/chart/CommonTableRow.vue";
 
 export default {
-  components: { HouseDealTableRow },
-  name: "HouseDealTable",
+  components: { CommonTableRow },
+  name: "CommonTable",
   props: {
     items: Array,
   },
@@ -30,7 +30,6 @@ export default {
 <style>
 table {
   width: 100%;
-
   border-collapse: separate;
   border-spacing: 0px;
   border-bottom: 1px solid var(--color-light-grey);
@@ -50,19 +49,20 @@ td {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  border-top: 1px solid var(--color-light-white);
 }
 
-thead th {
+th {
   border-top: 1px solid var(--color-light-grey);
   background-color: var(--color-back);
   color: var(--color-dark-grey);
 }
 
-tbody tr {
+tr {
   transition: all 200ms ease-out;
 }
 
-tbody tr:hover {
+tr:hover {
   background-color: var(--color-back);
 }
 </style>

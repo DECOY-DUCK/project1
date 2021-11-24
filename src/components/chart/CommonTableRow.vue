@@ -6,11 +6,9 @@
 
 <script>
 export default {
-  name: "HouseDealTableRow",
+  name: "CommonTableRow",
   props: {
     item: Object,
   },
 };
 </script>
-
-<style scoped></style>

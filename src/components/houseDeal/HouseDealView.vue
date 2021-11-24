@@ -2,6 +2,8 @@
   <section class="body-container" id="housedeal-detail">
     <header class="view-header">
       <h3>{{ this.aptName }}</h3>
+
+      <span> {{ this.address }}</span>
       <span>건축 연도: {{ this.houseInfo.buildYear }}</span>
     </header>
     <main class="view-body">
@@ -42,16 +44,23 @@ export default {
       houseInfo: {},
       houseDeals: null,
       aptName: "",
-      address: "",
     };
   },
   computed: {
-    ...mapState(houseDealStore, ["gugunCode", "dongName", "houseInfos"]),
+    ...mapState(houseDealStore, [
+      "sidoName",
+      "gugunName",
+      "gugunCode",
+      "dongName",
+      "houseInfos",
+    ]),
+    address() {
+      return `${this.sidoName} ${this.gugunName} ${this.houseInfo.dong} ${this.houseInfo.jibun}`;
+    },
   },
   async created() {
     this.aptName = this.$route.params.aptName;
     this.houseInfo = this.houseInfos.find((h) => h.aptName === this.aptName);
-    this.address = `${this.houseInfo.dong} ${this.houseInfo.jibun}`;
 
     const result = await getHouseDeals(this.aptName, {
       gugunCode: this.gugunCode,
@@ -65,7 +74,6 @@ export default {
 </script>
 
 <style scoped>
-/* 수정 필요~!! */
 #housedeal-detail {
   width: 100%;
   max-width: var(--display-maxWidth);
@@ -75,18 +83,36 @@ export default {
 }
 
 .view-header {
-  margin-bottom: var(--size-large);
+  margin-bottom: calc(var(--size-large) * 2);
 }
 
 .view-header h3 {
+  position: relative;
+  padding-bottom: var(--size-large);
   text-align: left;
+}
+
+.view-header h3::after {
+  position: absolute;
+  left: 0;
+  top: 85%;
+  content: "";
+  width: 7.5%;
+  min-width: 5rem;
+  height: 2px;
+  background-color: var(--color-light-grey);
+}
+
+.view-header span {
+  display: block;
 }
 .view-body {
   display: flex;
+  margin: var(--size-large) 0;
 }
 
 .view-contents {
-  flex-basis: 70%;
-  margin-right: var(--size-large);
+  flex-basis: 72.5%;
+  margin-right: calc(var(--size-large) * 2);
 }
 </style>

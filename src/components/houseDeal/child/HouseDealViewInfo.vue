@@ -1,12 +1,15 @@
 <template>
   <section class="view-info">
     <div class="info-map">
+      <h4>위치 정보</h4>
       <div id="map"></div>
       <div id="roadview"></div>
     </div>
     <div class="info-text">
-      <house-deal-table :items="safeHospitalList" />
-      <house-deal-table :items="selectedClinicList" />
+      <h4>인근 선별진료소</h4>
+      <common-table :items="selectedClinicList" />
+      <h4>인근 국민안심병원</h4>
+      <common-table :items="safeHospitalList" />
     </div>
   </section>
 </template>
@@ -15,12 +18,12 @@
 import { mapState } from "vuex";
 import mImage1 from "@/assets/images/marker1.png";
 import { getSafeHospitals, getSelectedClinics } from "@/api/environment.js";
-import HouseDealTable from "@/components/houseDeal/child/HouseDealTable.vue";
+import CommonTable from "@/components/chart/CommonTable.vue";
 
 const houseDealStore = "houseDealStore";
 
 export default {
-  components: { HouseDealTable },
+  components: { CommonTable },
   name: "HouseDealViewInfo",
   props: {
     map: Object,
@@ -99,7 +102,6 @@ export default {
     async asyncGetSelectedClinics() {
       try {
         await this.asyncGetNearByInfos(getSelectedClinics, "selectedClinics");
-        console.log(this.selectedClinics);
       } catch (e) {
         console.error(e);
       }
@@ -107,7 +109,6 @@ export default {
     async asyncGetSafeHospitals() {
       try {
         await this.asyncGetNearByInfos(getSafeHospitals, "safeHospitals");
-        console.log(this.safeHospitals);
       } catch (e) {
         console.error(e);
       }
@@ -118,27 +119,37 @@ export default {
 
 <style scoped>
 .view-info {
-  flex-basis: 30%;
+  flex-basis: 27.5%;
 }
 .info-map {
   width: 100%;
   height: 20rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
+
 #map {
   width: 100%;
   height: 100%;
+  margin-top: var(--size-regular);
 }
 #roadview {
   width: 100%;
   height: 100%;
 }
 
+.info-text {
+  margin: var(--size-large) 0;
+}
+
+.info-text h4 {
+  transform: translateY(var(--size-small));
+}
+
 .info-text table {
-  display: none;
   width: 100%;
+  margin-top: var(--size-large);
   overflow: hidden;
 }
 </style>
