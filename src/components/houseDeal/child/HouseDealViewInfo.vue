@@ -85,10 +85,6 @@ export default {
 
   methods: {
     async asyncGetNearByInfos(asyncFunc, infos) {
-      if (!this.sidoName || !this.gugunName) {
-        alert("지역을 선택해 주세요.");
-        return false;
-      }
       try {
         this[infos] = await asyncFunc(
           this.sidoName.slice(0, 2),

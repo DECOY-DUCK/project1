@@ -4,7 +4,7 @@
       <h3>{{ this.aptName }}</h3>
 
       <span> {{ this.address }}</span>
-      <span>건축 연도: {{ this.houseInfo.buildYear }}</span>
+      <span>건축 연도: {{ this.houseInfo && this.houseInfo.buildYear }}</span>
     </header>
     <main class="view-body">
       <div class="view-contents">
@@ -55,12 +55,21 @@ export default {
       "houseInfos",
     ]),
     address() {
+      if (!this.sidoName || !this.gugunName || !this.houseInfo) return;
       return `${this.sidoName} ${this.gugunName} ${this.houseInfo.dong} ${this.houseInfo.jibun}`;
     },
   },
   async created() {
+    if (!this.sidoName || !this.gugunName || !this.dongName) {
+      this.$router.push({ name: "HouseDeal" });
+    }
+
     this.aptName = this.$route.params.aptName;
     this.houseInfo = this.houseInfos.find((h) => h.aptName === this.aptName);
+
+    if (!this.houseInfo) {
+      this.$router.push({ name: "HouseDeal" });
+    }
 
     const result = await getHouseDeals(this.aptName, {
       gugunCode: this.gugunCode,
