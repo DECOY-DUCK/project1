@@ -2,7 +2,6 @@
   <section class="body-container" id="housedeal-detail">
     <header class="view-header">
       <h3>{{ this.aptName }}</h3>
-
       <span> {{ this.address }}</span>
       <span>건축 연도: {{ this.houseInfo && this.houseInfo.buildYear }}</span>
     </header>
