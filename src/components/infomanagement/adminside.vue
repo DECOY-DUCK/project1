@@ -30,7 +30,7 @@ ul {
 }
 li {
   margin: 1rem;
-  font-size: var(--font-large);
+  font-size: var(--font-medium);
   color: var(--color-grey);
 }
 li:hover {

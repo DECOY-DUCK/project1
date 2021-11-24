@@ -3,7 +3,9 @@
     <ul>
       <li>계정 설정</li>
       <li><router-link :to="{ name: 'Modify' }">회원 수정</router-link></li>
-      <li>회원 탈퇴</li>
+      <li>
+        <router-link :to="{ name: 'AccountsDelete' }">회원 탈퇴</router-link>
+      </li>
     </ul>
     <ul>
       <li>관심지역</li>
@@ -43,7 +45,7 @@ ul {
 }
 li:nth-child(1) {
   margin: 1rem;
-  font-size: var(--font-large);
+  font-size: var(--font-medium);
 }
 li:nth-child(n + 2) {
   color: var(--color-grey);

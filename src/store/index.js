@@ -7,12 +7,14 @@ Vue.use(Vuex);
 import accountsStore from "@/store/modules/accountsStore.js";
 import noticeStore from "@/store/modules/noticeStore.js";
 import houseDealStore from "@/store/modules/houseDealStore.js";
+import interestStore from "@/store/modules/interestStore.js";
 
 const store = new Vuex.Store({
   modules: {
     accountsStore,
     noticeStore,
     houseDealStore,
+    interestStore,
   },
   plugins: [
     createPersistedState({

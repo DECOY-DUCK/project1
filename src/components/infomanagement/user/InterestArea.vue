@@ -15,17 +15,17 @@
           </tr>
         </tHead>
         <tBody>
-          <tr v-if="this.interestlist === null">
+          <tr v-if="InterestAreaList.length == 0">
             <td Colspan="5">
               <div class="interest__empty">등록된 관심지역이 없습니다.</div>
             </td>
           </tr>
-          <tr v-else>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td><button>삭제</button></td>
+          <tr v-else v-for="(list, index) in InterestAreaList" :key="index">
+            <td>{{ list.city }}</td>
+            <td>{{ list.gugun }}</td>
+            <td>{{ list.dong }}</td>
+            <td>{{ list.createdAt }}</td>
+            <td><button @click="confirm(index)">삭제</button></td>
           </tr>
         </tBody>
       </table>
@@ -34,11 +34,32 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
+const interestStore = "interestStore";
+const accountsStore = "accountsStore";
+
 export default {
-  data() {
-    return {
-      interestlist: null,
-    };
+  components: {},
+  computed: {
+    ...mapGetters(interestStore, ["InterestAreaList"]),
+    ...mapGetters(accountsStore, ["checkUserInfo"]),
+  },
+  methods: {
+    ...mapActions(interestStore, ["asyncGetInterestAreas"]),
+    ...mapActions(interestStore, ["asyncDeleteInterestArea"]),
+    async confirm(num) {
+      if (confirm(`${this.InterestAreaList[num].dong}을 삭제하시겠습니까?`)) {
+        const no = this.checkUserInfo.no;
+        const code = this.InterestAreaList[num].code;
+        await this.asyncDeleteInterestArea({ no, code });
+        this.asyncGetInterestAreas(no);
+      }
+    },
+  },
+  created() {
+    const user = this.checkUserInfo.no;
+    this.asyncGetInterestAreas(user);
   },
 };
 </script>
