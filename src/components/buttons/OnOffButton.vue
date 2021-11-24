@@ -41,6 +41,13 @@ export default {
     if (this.button.title !== "관심지역") return;
     this.isOn = this.isSaved;
   },
+
+  watch: {
+    isSaved() {
+      if (this.button.title !== "관심지역") return;
+      this.isOn = this.isSaved;
+    },
+  },
   computed: {
     ...mapState(accountsStore, ["isLogin", "userInfo"]),
   },

@@ -21,7 +21,7 @@ export default class Map {
 
     if (address) {
       try {
-        const result = await this.addressSearh(address);
+        const result = await this.addressSearch(address);
         options.center = new kakao.maps.LatLng(result[0].y, result[0].x);
         this.map = new kakao.maps.Map(mapContainer, options);
       } catch (e) {
@@ -39,7 +39,7 @@ export default class Map {
    */
   async setCenter(address) {
     try {
-      const result = await this.addressSearh(address);
+      const result = await this.addressSearch(address);
       const moveLatLng = new kakao.maps.LatLng(result[0].y, result[0].x);
 
       this.map.panTo(moveLatLng);
@@ -58,12 +58,24 @@ export default class Map {
   async setMarkers(list, imageOpt, markers) {
     for (let item of list) {
       try {
-        const result = await this.addressSearh(item.address);
+        const result = await this.addressSearch(item.address);
         const position = new kakao.maps.LatLng(result[0].y, result[0].x);
 
         this._displayMarker(item, imageOpt, position, markers);
       } catch (e) {
-        return;
+        try {
+          const addressArr = item.address.split(" ");
+          const result = await this.addressSearch(
+            addressArr[0] + addressArr[1]
+          );
+          const position = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+          this._displayMarker(item, imageOpt, position, markers);
+        } catch (e) {
+          console.error(e);
+          continue;
+        }
+        continue;
       }
     }
   }
@@ -84,7 +96,7 @@ export default class Map {
       );
     }
     try {
-      const result = await this.addressSearh(address);
+      const result = await this.addressSearch(address);
       const position = new kakao.maps.LatLng(result[0].y, result[0].x);
 
       return new kakao.maps.Marker({
@@ -170,7 +182,6 @@ export default class Map {
    */
   infoToHtml(title, infos) {
     let content = `
-    <div id="roadview"></div>
     <h4>${title}</h4>
     <div class = "infowindow-infos">
 	`;
@@ -203,14 +214,14 @@ export default class Map {
     const roadview = new kakao.maps.Roadview(roadviewContainer);
     const roadviewClient = new kakao.maps.RoadviewClient();
     try {
-      const result = await this.addressSearh(address);
+      const result = await this.addressSearch(address);
       const position = new kakao.maps.LatLng(result[0].y, result[0].x);
 
       roadviewClient.getNearestPanoId(position, 50, function (panoId) {
         roadview.setPanoId(panoId, position);
       });
     } catch (e) {
-      console.error(e);
+      return;
     }
   }
 
@@ -222,8 +233,8 @@ export default class Map {
    */
   async getDistanceFromMarker(address1, address2) {
     try {
-      const r1 = await this.addressSearh(address1);
-      const r2 = await this.addressSearh(address2);
+      const r1 = await this.addressSearch(address1);
+      const r2 = await this.addressSearch(address2);
       const p1 = new kakao.maps.LatLng(r1[0].y, r1[0].x);
       const p2 = new kakao.maps.LatLng(r2[0].y, r2[0].x);
       const poly = new kakao.maps.Polyline({
@@ -242,7 +253,7 @@ export default class Map {
    * @param {String} address : 주소
    * @returns 위도, 경도를 담은프로미스 객체
    */
-  addressSearh(address) {
+  addressSearch(address) {
     return new Promise((resolve, reject) => {
       this.geocoder.addressSearch(address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {

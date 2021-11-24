@@ -127,6 +127,7 @@ export default {
     }
     this.barChart.labels = this.lineChart.labels;
     this.setChartData();
+    this.setLineChartOpts();
   },
 
   methods: {
@@ -136,6 +137,7 @@ export default {
     filterHandler(py) {
       this.filterPy = py;
       this.setChartData();
+      this.setLineChartOpts();
     },
     dealDate(dealYear, dealMonth, dealDay) {
       return `${dealYear}.${this.parseDate(dealMonth)}.${this.parseDate(
@@ -172,13 +174,16 @@ export default {
         this.$set(this.lineChartData, i - 1, this.calcAverage(filtered, i + 1));
         this.$set(this.barChartData, i - 1, filtered.length);
       }
+    },
+    setLineChartOpts() {
       const temp = this.houseDealsByPy.map(
         (h) => +h["가격"].replace(/\D/g, "")
       );
 
       lineChartOpts.scales.y.min =
-        Math.floor(Math.min(...temp) / 10000) * 10000;
-      lineChartOpts.scales.y.max = Math.ceil(Math.max(...temp) / 10000) * 10000;
+        Math.floor(Math.min(...temp) / 10000) * 10000 - 5000;
+      lineChartOpts.scales.y.max =
+        Math.ceil(Math.max(...temp) / 10000) * 10000 + 5000;
     },
   },
 };

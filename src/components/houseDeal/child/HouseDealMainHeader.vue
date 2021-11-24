@@ -63,39 +63,30 @@ export default {
       isSaved: null,
     };
   },
-  async created() {
-    if (!this.isLogin) {
-      this.isSaved = false;
-      return;
-    }
-
-    try {
-      if (this.isLogin) {
-        const result = await getInterestArea(this.userInfo.no, this.dongCode);
-        this.isSaved = result ? true : false;
-      }
-    } catch (e) {
-      console.error(e);
-    }
+  watch: {
+    dongCode() {
+      this.checkIsSaved();
+    },
+  },
+  created() {
+    this.checkIsSaved();
   },
   computed: {
     ...mapState(houseDealStore, ["dongCode", "dongName", "houseInfos"]),
     ...mapState(accountsStore, ["isLogin", "userInfo"]),
   },
 
-  /**
-   * MAP에 전해줘야 하는것
-   *    // HEADER에서 바로 작업해도 될듯?
-   *    - 관심지역 : 1. 관심지역인지 여부 확인
-   *                2. 관심지역인 경우 삭제 작업 후 , vuex STORE 내 관심지역 리스트 업데이트
-   *                3. 관심지역 아닌 경우 등록 작업 후 vuex STORE 업데이트
-   */
   methods: {
     async interestOnHandler() {
+      if (!this.dongCode) {
+        alert("지역을 선택해 주세요.");
+        return false;
+      }
       try {
         const result = await saveInterestArea(this.userInfo.no, this.dongCode);
         if (result == "success") {
           alert(`${this.dongName}: 관심지역으로 등록되었습니다.`);
+          this.isSaved = true;
           return true;
         }
         alert("처리 중 문제가 발생했습니다.");
@@ -107,6 +98,10 @@ export default {
       }
     },
     async interestOffHandler() {
+      if (!this.dongCode) {
+        alert("지역을 선택해 주세요.");
+        return false;
+      }
       try {
         const result = await deleteInterestArea(
           this.userInfo.no,
@@ -122,6 +117,21 @@ export default {
         alert("처리 중 문제가 발생했습니다.");
         console.error(e);
         return false;
+      }
+    },
+    async checkIsSaved() {
+      if (!this.isLogin) {
+        this.isSaved = false;
+        return;
+      }
+
+      try {
+        if (this.isLogin) {
+          const result = await getInterestArea(this.userInfo.no, this.dongCode);
+          this.isSaved = result == 1;
+        }
+      } catch (e) {
+        console.error(e);
       }
     },
   },

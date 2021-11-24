@@ -1,84 +1,86 @@
 <template>
   <nav id="navbar" :class="{ open: isMenuOpen }">
-    <div class="logo" @click="closeMenu">
-      <router-link :to="{ name: 'Home' }" exact class="link">
-        HappyHouse
-      </router-link>
+    <div class="navbar-container">
+      <div class="logo" @click="closeMenu">
+        <router-link :to="{ name: 'Home' }" exact class="link">
+          HappyHouse
+        </router-link>
+      </div>
+
+      <div class="menu-container">
+        <ul class="items">
+          <li class="item" @click="closeMenu">
+            <router-link
+              :to="{ name: 'HouseDeal' }"
+              class="link"
+              active-class="active"
+            >
+              아파트 실거래가
+            </router-link>
+          </li>
+          <li class="item" @click="closeMenu">
+            <router-link
+              :to="{ name: 'Notice' }"
+              class="link"
+              active-class="active"
+            >
+              공지사항
+            </router-link>
+          </li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <!-- 비로그인 유저  -->
+        <ul class="items" v-if="!loginUser">
+          <li class="item" @click="closeMenu">
+            <router-link
+              :to="{ name: 'LogIn' }"
+              class="link"
+              active-class="active"
+            >
+              Login
+            </router-link>
+          </li>
+          <li class="item" id="signup-button" @click="closeMenu">
+            <router-link
+              :to="{ name: 'SignUp' }"
+              class="link"
+              active-class="active"
+            >
+              Sign up
+            </router-link>
+          </li>
+        </ul>
+        <!-- 로그인 유저  -->
+        <ul class="items" v-else>
+          <li class="item" @click="closeMenu">
+            <router-link
+              :to="{ name: 'Check' }"
+              class="link"
+              active-class="active"
+            >
+              My page
+            </router-link>
+          </li>
+          <li class="item">
+            <button
+              id="logout"
+              type="button"
+              active-class="active"
+              @click="logoutHandler"
+            >
+              Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Toggle button -->
+      <button class="toggle-button" @click="toggleMenu">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
-
-    <div class="menu-container">
-      <ul class="items">
-        <li class="item" @click="closeMenu">
-          <router-link
-            :to="{ name: 'HouseDeal' }"
-            class="link"
-            active-class="active"
-          >
-            아파트 실거래가
-          </router-link>
-        </li>
-        <li class="item" @click="closeMenu">
-          <router-link
-            :to="{ name: 'Notice' }"
-            class="link"
-            active-class="active"
-          >
-            공지사항
-          </router-link>
-        </li>
-      </ul>
-
-      <div class="divider"></div>
-
-      <!-- 비로그인 유저  -->
-      <ul class="items" v-if="!loginUser">
-        <li class="item" @click="closeMenu">
-          <router-link
-            :to="{ name: 'LogIn' }"
-            class="link"
-            active-class="active"
-          >
-            Login
-          </router-link>
-        </li>
-        <li class="item" id="signup-button" @click="closeMenu">
-          <router-link
-            :to="{ name: 'SignUp' }"
-            class="link"
-            active-class="active"
-          >
-            Sign up
-          </router-link>
-        </li>
-      </ul>
-      <!-- 로그인 유저  -->
-      <ul class="items" v-else>
-        <li class="item" @click="closeMenu">
-          <router-link
-            :to="{ name: 'Check' }"
-            class="link"
-            active-class="active"
-          >
-            My page
-          </router-link>
-        </li>
-        <li class="item">
-          <button
-            id="logout"
-            type="button"
-            active-class="active"
-            @click="logoutHandler"
-          >
-            Logout
-          </button>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Toggle button -->
-    <button class="toggle-button" @click="toggleMenu">
-      <i class="fas fa-bars"></i>
-    </button>
   </nav>
 </template>
 
@@ -149,16 +151,18 @@ export default {
   left: 0;
   right: 0;
   width: 100%;
+  padding: var(--size-large);
+  background-color: var(--color-white);
+  z-index: 99;
+  transition: all var(--animation-duration) ease-in;
+}
+
+.navbar-container {
   max-width: var(--display-maxWidth);
   margin: 0 auto;
-  padding: var(--size-large);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--color-white);
-  color: var(--color-white);
-  z-index: 99;
-  transition: all var(--animation-duration) ease-in;
 }
 
 .logo a {
