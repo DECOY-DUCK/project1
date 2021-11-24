@@ -119,7 +119,7 @@ export default {
 
 <style scoped>
 .view-info {
-  flex-basis: 30%;
+  flex-basis: 27.5%;
 }
 .info-map {
   width: 100%;

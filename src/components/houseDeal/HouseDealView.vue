@@ -108,10 +108,11 @@ export default {
 }
 .view-body {
   display: flex;
+  margin: var(--size-large) 0;
 }
 
 .view-contents {
-  flex-basis: 70%;
-  margin-right: var(--size-large);
+  flex-basis: 72.5%;
+  margin-right: calc(var(--size-large) * 2);
 }
 </style>
