@@ -61,7 +61,7 @@ export default {
 }
 .title {
   width: 100%;
-  font-size: var(--size-large);
+  font-size: var(--font-medium);
   grid-area: h;
 }
 .side__nav {
@@ -88,7 +88,7 @@ export default {
 }
 
 em {
-  font-size: var(--font-big);
+  font-size: var(--font-large);
   margin-top: 1rem;
   margin-left: 7rem;
   margin-right: 1rem;

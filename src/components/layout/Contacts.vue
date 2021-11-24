@@ -26,18 +26,6 @@
           </span>
         </li>
       </ul>
-
-      <div class="cs-links">
-        <router-link :to="{ name: 'CustomerService' }" class="cs-link">
-          <span>고객센터 </span>
-          <span><i class="fas fa-chevron-right"></i></span>
-        </router-link>
-        <router-link :to="{ name: 'CustomerService' }" class="cs-link">
-          <span>1:1 문의</span>
-          <span><i class="fas fa-chevron-right"></i></span>
-        </router-link>
-      </div>
-
       <span class="description"> 2021 dohmoon - All rights reserved </span>
     </div>
   </footer>
