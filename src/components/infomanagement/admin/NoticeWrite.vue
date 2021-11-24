@@ -15,6 +15,7 @@
 import { mapState } from "vuex";
 import { postNotice } from "@/api/notice.js";
 import NoticeForm from "@/components/notice/child/NoticeForm.vue";
+import store from "@/store/index";
 
 const accountsStore = "accountsStore";
 
@@ -37,6 +38,12 @@ export default {
     if (!this.userInfo || this.userInfo.authCode === "U") {
       alert("잘못된 접근입니다!");
       this.moveList();
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (store.getters["accountsStore/getResponse"] === "check") next();
+    else {
+      next(false);
     }
   },
 };

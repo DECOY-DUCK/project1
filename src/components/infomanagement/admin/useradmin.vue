@@ -12,6 +12,7 @@
 <script>
 import InfoList from "@/components/admin/userinfo";
 import { mapState, mapActions } from "vuex";
+import store from "@/store/index";
 
 const accountsStore = "accountsStore";
 
@@ -31,6 +32,12 @@ export default {
   },
   computed: {
     ...mapState(accountsStore, ["alluserlist"]),
+  },
+  beforeRouteEnter(to, from, next) {
+    if (store.getters["accountsStore/getResponse"] === "check") next();
+    else {
+      next(false);
+    }
   },
 };
 </script>

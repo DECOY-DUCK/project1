@@ -4,12 +4,13 @@ import {
   signup,
   // idcheck,
   findpwd,
-  // getUserInfo,
+  getUserInfo,
   updateUserInfo,
   withdrawal,
   me,
+  deleteUser,
+  getUserInfolist,
 } from "@/api/auth";
-import { deleteUser, getUserInfolist } from "../../api/auth";
 
 const accountsStore = {
   namespaced: true,
@@ -23,6 +24,9 @@ const accountsStore = {
   getters: {
     checkUserInfo: function (state) {
       return state.userInfo;
+    },
+    getResponse: function (state) {
+      return state.responseServer;
     },
   },
   mutations: {
@@ -49,12 +53,14 @@ const accountsStore = {
         const result = await login(user);
         commit("SET_USER_INFO", result);
         commit("SET_IS_LOGIN", true);
+        commit("SET_RES_SERVER", "success");
         sessionStorage.setItem("access-token", result.token);
       } catch (e) {
         console.log("로그인 실패");
         console.error(e);
         commit("SET_IS_LOGIN_ERROR", false);
         commit("SET_IS_LOGIN", false);
+        commit("SET_RES_SERVER", "");
       }
     },
     //회원 정보변경
@@ -77,6 +83,7 @@ const accountsStore = {
         if (result === "success") {
           commit("SET_USER_INFO", null);
           commit("SET_IS_LOGIN", false);
+          commit("SET_RES_SERVER", "");
         }
       } catch (e) {
         console.error(e);
@@ -93,6 +100,7 @@ const accountsStore = {
         console.error(e);
       }
     },
+    //토큰정보
     asyncGetUserInfo: async ({ commit }, token) => {
       let decode_token = jwt_decode(token);
       try {
@@ -138,6 +146,17 @@ const accountsStore = {
         commit("SET_RES_SERVER", result);
       } catch (e) {
         console.error(e);
+      }
+    },
+    //유저정보 재확인
+    asyncCheckUserInfo: async ({ commit }, user) => {
+      try {
+        const result = await getUserInfo(user);
+        if (result != null) {
+          commit("SET_RES_SERVER", "check");
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
   },

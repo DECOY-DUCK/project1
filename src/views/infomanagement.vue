@@ -54,7 +54,7 @@ export default {
   display: grid;
 
   grid-template-areas:
-    ". h h h h "
+    "s h h h h "
     "s b b b b "
     "s b b b b "
     "s b b b b ";

@@ -16,7 +16,6 @@ import AccountsModify from "@/components/accounts/child/AccountsModify.vue";
 import Notice from "@/views/Notice.vue";
 import NoticeMain from "@/components/notice/NoticeMain.vue";
 import NoticeView from "@/components/notice/NoticeView.vue";
-
 import NoticeModify from "@/components/notice/NoticeModify.vue";
 
 //정보관리-관리자
@@ -24,6 +23,7 @@ import Managemnet from "@/views/infomanagement";
 import Check from "@/components/infomanagement/check.vue";
 import Admin from "@/components/infomanagement/admin/useradmin.vue";
 import NoticeWrite from "@/components/infomanagement/admin//NoticeWrite.vue";
+
 //정보관리-유저
 import QnAWrite from "@/components/infomanagement/user/qnawrite";
 import InterestArea from "@/components/infomanagement/user/InterestArea.vue";
@@ -50,6 +50,7 @@ const onlyAuthUser = async (to, from, next) => {
     next();
   }
 };
+
 //로그인상태로 로그인 화면,회원가입 화면 접근할경우
 const test = async (to, from, next) => {
   const checkUserInfo = store.getters["accountsStore/checkUserInfo"];
@@ -64,6 +65,20 @@ const test = async (to, from, next) => {
   } else {
     router.push({ name: "Home" });
     alert("잘못된 접근 입니다.");
+  }
+};
+// 마이페이지 재확인
+const checkUserInfoBefore = async (to, from, next) => {
+  const serverres = store.getters["accountsStore/getResponse"];
+  const userInfo = store.getters["accountsStore/checkUserInfo"];
+  if (userInfo !== null && serverres == "check") {
+    if (userInfo.authCode == "U") {
+      router.push({ name: "InterestArea" });
+    } else {
+      router.push({ name: "Admin" });
+    }
+  } else {
+    next();
   }
 };
 const routes = [
@@ -144,7 +159,7 @@ const routes = [
   },
   {
     path: "/cs",
-    name: "CustomerService",
+    // name: "CustomerService",
     // component: CustomerService,
     children: [
       {
@@ -189,23 +204,26 @@ const routes = [
     path: "/management",
     name: "Management",
     component: Managemnet,
+    beforeEnter: onlyAuthUser,
     children: [
       {
+        //accountsStore에서 responseServer가 check면 통과
         path: "check",
         name: "Check",
+        beforeEnter: checkUserInfoBefore,
         component: Check,
       },
       {
         path: "qna/write",
         name: "QnAWrite",
-        // beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         component: QnAWrite,
       },
       {
         //일반회원 못들어오게 막기
         path: "admin",
         name: "Admin",
-        // beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         component: Admin,
       },
       {
@@ -218,11 +236,13 @@ const routes = [
       {
         path: "interestarea",
         name: "InterestArea",
+        beforeEnter: onlyAuthUser,
         component: InterestArea,
       },
       {
         path: "accountsdelete",
         name: "AccountsDelete",
+        beforeEnter: onlyAuthUser,
         component: AccountsDelete,
       },
     ],
