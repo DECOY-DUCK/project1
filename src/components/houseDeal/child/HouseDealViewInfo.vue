@@ -1,13 +1,14 @@
 <template>
   <section class="view-info">
     <div class="info-map">
+      <h4>위치 정보</h4>
       <div id="map"></div>
       <div id="roadview"></div>
     </div>
     <div class="info-text">
-      <h5>인근 선별진료소</h5>
+      <h4>인근 선별진료소</h4>
       <common-table :items="selectedClinicList" />
-      <h5>인근 국민안심병원</h5>
+      <h4>인근 국민안심병원</h4>
       <common-table :items="safeHospitalList" />
     </div>
   </section>
@@ -125,11 +126,13 @@ export default {
   height: 20rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
+
 #map {
   width: 100%;
   height: 100%;
+  margin-top: var(--size-regular);
 }
 #roadview {
   width: 100%;
@@ -140,13 +143,13 @@ export default {
   margin: var(--size-large) 0;
 }
 
-.info-text h5 {
+.info-text h4 {
   transform: translateY(var(--size-small));
 }
 
 .info-text table {
   width: 100%;
-  margin-top: var(--size-medium);
+  margin-top: var(--size-large);
   overflow: hidden;
 }
 </style>

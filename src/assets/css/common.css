@@ -75,6 +75,13 @@ h3 {
   margin: 0.5rem 0;
 }
 
+h4 {
+  font-size: var(--font-small);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-black);
+  margin: 0.25rem 0;
+}
+
 p {
   font-size: var(--font-regular);
   font-weight: var(--weight-regular);
@@ -140,12 +147,13 @@ button:hover i {
 }
 
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 8px;
+  height: 8px;
   z-index: 99;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 0.25rem;
+  border-radius: 4px;
   background-color: var(--color-light-grey);
   background-clip: padding-box;
   border: 2px solid transparent;
@@ -153,7 +161,7 @@ button:hover i {
 
 ::-webkit-scrollbar-track {
   margin: var(--size-regular);
-  border-radius: 0.25rem;
+  border-radius: 4px;
   background-color: var(--color-white);
   box-shadow: inset 0px 0px 5px var(--color-light-grey);
 }

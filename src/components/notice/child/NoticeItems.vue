@@ -34,7 +34,7 @@ export default {
 .notice-items {
   display: grid;
   gap: var(--size-regular);
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
 }
 
 .notice-items > span {

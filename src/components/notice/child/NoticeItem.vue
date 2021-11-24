@@ -57,14 +57,12 @@ export default {
 <style scoped>
 .home-notice.notice-item {
   flex-basis: 19.5%;
-  min-width: 12.5rem;
   height: 17.5rem;
   margin-top: var(--size-medium);
   margin-right: var(--size-medium);
   padding: var(--size-large) var(--size-small);
 }
 .notice-item {
-  min-width: 12.5rem;
   position: relative;
   background-color: var(--color-white);
   border-radius: var(--size-micro);

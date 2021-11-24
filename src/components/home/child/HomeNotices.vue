@@ -10,7 +10,6 @@
 </template>
 
 <script>
-// import HomeNotice from "@/components/home/child/HomeNotice.vue";
 import { mapState } from "vuex";
 import NoticeItem from "@/components/notice/child/NoticeItem.vue";
 
@@ -35,8 +34,9 @@ export default {
 
 <style scoped>
 .home-notices {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(12.5rem, 1fr));
+  overflow: auto;
 }
 </style>

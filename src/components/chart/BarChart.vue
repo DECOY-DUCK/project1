@@ -38,6 +38,7 @@ export default {
       const ctx = document.querySelector("#bar-chart").getContext("2d");
       this.chart = new Chart(ctx, {
         type: "bar",
+
         data: {
           labels: this.options.labels,
           datasets: [
@@ -54,6 +55,12 @@ export default {
             legend: {
               display: false,
             },
+            title: {
+              display: true,
+              align: "start",
+              text: this.options.label,
+              color: "#000",
+            },
           },
           ...this.options.opts,
         },
@@ -68,6 +75,7 @@ export default {
   position: relative;
   margin: auto;
   width: 100%;
+  max-width: 36rem;
   height: 7.5rem;
 }
 </style>

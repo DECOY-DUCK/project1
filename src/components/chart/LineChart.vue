@@ -70,5 +70,6 @@ export default {
   position: relative;
   margin: auto;
   width: 100%;
+  max-width: 36rem;
 }
 </style>

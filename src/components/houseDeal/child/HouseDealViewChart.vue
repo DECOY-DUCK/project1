@@ -1,6 +1,7 @@
 <template>
   <section class="view-chart">
     <div class="chart-container">
+      <h4>최근 1년 실거래가</h4>
       <line-chart :options="lineChart" :data="lineChartData" />
       <bar-chart :options="barChart" :data="barChartData" />
     </div>
@@ -42,9 +43,11 @@ export default {
         label: "월 평균 거래금액",
         labels: [],
         opts: {
+          responsive: true,
           scales: {
             y: {
               ticks: {
+                stepSize: 10000,
                 callback: function (value) {
                   return `${Math.floor(value / 10000)}억원`;
                 },
@@ -52,7 +55,9 @@ export default {
               },
             },
             x: {
-              display: false,
+              ticks: {
+                display: false,
+              },
             },
           },
         },
@@ -61,6 +66,31 @@ export default {
       barChart: {
         label: "거래량",
         labels: [],
+        opts: {
+          responsive: true,
+          scales: {
+            x: {
+              offset: false,
+              grid: {
+                offset: false,
+              },
+              ticks: {
+                callback: function (val, index) {
+                  return index % 2 ? "" : this.getLabelForValue(val);
+                },
+              },
+            },
+            y: {
+              ticks: {
+                padding: 19,
+                stepSize: 1,
+                callback: function (val, index) {
+                  return index % 2 ? "" : Math.floor(val);
+                },
+              },
+            },
+          },
+        },
       },
       barChartData: [],
     };
