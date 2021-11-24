@@ -27,6 +27,51 @@ import FilterButton from "@/components/buttons/FilterButton.vue";
 import CommonTable from "@/components/chart/CommonTable.vue";
 import LineChart from "@/components/chart/LineChart.vue";
 import BarChart from "@/components/chart/BarChart.vue";
+const lineChartOpts = {
+  responsive: true,
+  scales: {
+    y: {
+      ticks: {
+        padding: 2.5,
+        callback: function (value, index) {
+          return index % 2 ? "" : `${Math.floor(value / 1000) / 10}억`;
+        },
+        stepSize: 5000,
+        autoSkip: true,
+      },
+    },
+    x: {
+      ticks: {
+        display: false,
+      },
+    },
+  },
+};
+const barChartOpts = {
+  responsive: true,
+  scales: {
+    x: {
+      offset: false,
+      grid: {
+        offset: false,
+      },
+      ticks: {
+        callback: function (val, index) {
+          return index % 2 ? "" : this.getLabelForValue(val);
+        },
+      },
+    },
+    y: {
+      ticks: {
+        padding: 15,
+        stepSize: 1,
+        callback: function (val) {
+          return Math.floor(val);
+        },
+      },
+    },
+  },
+};
 
 export default {
   components: { FilterButton, CommonTable, LineChart, BarChart },
@@ -42,55 +87,13 @@ export default {
       lineChart: {
         label: "월 평균 거래금액",
         labels: [],
-        opts: {
-          responsive: true,
-          scales: {
-            y: {
-              ticks: {
-                stepSize: 10000,
-                callback: function (value) {
-                  return `${Math.floor(value / 10000)}억원`;
-                },
-                autoSkip: true,
-              },
-            },
-            x: {
-              ticks: {
-                display: false,
-              },
-            },
-          },
-        },
+        opts: lineChartOpts,
       },
       lineChartData: [],
       barChart: {
         label: "거래량",
         labels: [],
-        opts: {
-          responsive: true,
-          scales: {
-            x: {
-              offset: false,
-              grid: {
-                offset: false,
-              },
-              ticks: {
-                callback: function (val, index) {
-                  return index % 2 ? "" : this.getLabelForValue(val);
-                },
-              },
-            },
-            y: {
-              ticks: {
-                padding: 19,
-                stepSize: 1,
-                callback: function (val, index) {
-                  return index % 2 ? "" : Math.floor(val);
-                },
-              },
-            },
-          },
-        },
+        opts: barChartOpts,
       },
       barChartData: [],
     };
@@ -169,6 +172,13 @@ export default {
         this.$set(this.lineChartData, i - 1, this.calcAverage(filtered, i + 1));
         this.$set(this.barChartData, i - 1, filtered.length);
       }
+      const temp = this.houseDealsByPy.map(
+        (h) => +h["가격"].replace(/\D/g, "")
+      );
+
+      lineChartOpts.scales.y.min =
+        Math.floor(Math.min(...temp) / 10000) * 10000;
+      lineChartOpts.scales.y.max = Math.ceil(Math.max(...temp) / 10000) * 10000;
     },
   },
 };
