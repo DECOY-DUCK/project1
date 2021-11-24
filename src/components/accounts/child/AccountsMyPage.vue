@@ -19,7 +19,7 @@
 
 <script>
 import AccountInfo from "./mypage/AccountInfo";
-import InterestArea from "./mypage/InterestArea";
+// import InterestArea from "./mypage/InterestArea";
 import AdminPage from "./mypage/AdminPage.vue";
 
 // import Something1 from "./mypage/Something1";
@@ -30,7 +30,7 @@ import store from "@/store/index";
 export default {
   components: {
     AccountInfo,
-    InterestArea,
+    // InterestArea,
     AdminPage,
     // Something1,
     // Something2,

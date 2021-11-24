@@ -1,7 +1,6 @@
 <template>
   <section id="admin" class="admin-container">
     <header class="admin-header">
-      <h2>관리자 페이지</h2>
       <p>회원 정보 관리</p>
     </header>
     <main class="notice-main">

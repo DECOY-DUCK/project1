@@ -1,27 +1,33 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
+//홈페이지
 import Home from "@/views/Home.vue";
 import HouseDeal from "@/views/HouseDeal.vue";
 import HouseDealMain from "@/components/houseDeal/HouseDealMain.vue";
 import HouseDealView from "@/components/houseDeal/HouseDealView.vue";
-
+//회원 관련
 import Accounts from "@/views/Accounts.vue";
 import AccountsLogin from "@/components/accounts/child/AccountsLogin.vue";
 import AccountsJoin from "@/components/accounts/child/AccountsJoin.vue";
-import AccountsMyPage from "@/components/accounts/child/AccountsMyPage.vue";
 import AccountsFindPwd from "@/components/accounts/child/AccountsFindPwd.vue";
 import AccountsModify from "@/components/accounts/child/AccountsModify.vue";
 
+//공지 관련
 import Notice from "@/views/Notice.vue";
 import NoticeMain from "@/components/notice/NoticeMain.vue";
 import NoticeView from "@/components/notice/NoticeView.vue";
-import NoticeWrite from "@/components/notice/NoticeWrite.vue";
+
 import NoticeModify from "@/components/notice/NoticeModify.vue";
 
-import CustomerService from "@/views/CustomerService.vue";
-
-import Admin from "@/views/Admin.vue";
+//정보관리-관리자
+import Managemnet from "@/views/infomanagement";
+import Check from "@/components/infomanagement/check.vue";
+import Admin from "@/components/infomanagement/admin/useradmin.vue";
+import NoticeWrite from "@/components/infomanagement/admin//NoticeWrite.vue";
+//정보관리-유저
+import QnAWrite from "@/components/infomanagement/user/qnawrite";
+import InterestArea from "@/components/infomanagement/user/InterestArea.vue";
+import AccountsDelete from "@/components/infomanagement/user/AccountsDelete.vue";
 
 import store from "@/store/index.js";
 Vue.use(VueRouter);
@@ -102,18 +108,12 @@ const routes = [
         component: AccountsJoin,
       },
       {
-        path: "mypage",
-        name: "MyPage",
-        beforeEnter: onlyAuthUser,
-        component: AccountsMyPage,
-      },
-      {
         path: "findPwd",
         name: "FindPwd",
         component: AccountsFindPwd,
       },
       {
-        path: "modify",
+        path: "accountmodify",
         name: "Modify",
         component: AccountsModify,
       },
@@ -131,13 +131,6 @@ const routes = [
         component: NoticeMain,
       },
       {
-        //관리자 페이지에 생성시 path 수정 필요
-        path: "write",
-        name: "NoticeWrite",
-        beforeEnter: onlyAuthUser,
-        component: NoticeWrite,
-      },
-      {
         path: "detail/:no",
         name: "NoticeView",
         component: NoticeView,
@@ -152,7 +145,7 @@ const routes = [
   {
     path: "/cs",
     name: "CustomerService",
-    component: CustomerService,
+    // component: CustomerService,
     children: [
       {
         path: "qna",
@@ -160,12 +153,12 @@ const routes = [
         beforeEnter: onlyAuthUser,
         //component: QnAWrite,
       },
-      {
-        path: "qna/write",
-        name: "QnAWrite",
-        beforeEnter: onlyAuthUser,
-        //component: QnAWrite,
-      },
+      // {
+      //   path: "qna/write",
+      //   name: "QnAWrite",
+      //   beforeEnter: onlyAuthUser,
+      //   //component: QnAWrite,
+      // },
       {
         path: "qna/detail/:no",
         name: "QnAView",
@@ -193,11 +186,48 @@ const routes = [
     ],
   },
   {
-    path: "/admin",
-    name: "Admin",
-    component: Admin,
-    children: [],
+    path: "/management",
+    name: "Management",
+    component: Managemnet,
+    children: [
+      {
+        path: "check",
+        name: "Check",
+        component: Check,
+      },
+      {
+        path: "qna/write",
+        name: "QnAWrite",
+        // beforeEnter: onlyAuthUser,
+        component: QnAWrite,
+      },
+      {
+        //일반회원 못들어오게 막기
+        path: "admin",
+        name: "Admin",
+        // beforeEnter: onlyAuthUser,
+        component: Admin,
+      },
+      {
+        //일반회원 못들어오게 막기
+        path: "write",
+        name: "NoticeWrite",
+        beforeEnter: onlyAuthUser,
+        component: NoticeWrite,
+      },
+      {
+        path: "interestarea",
+        name: "InterestArea",
+        component: InterestArea,
+      },
+      {
+        path: "accountsdelete",
+        name: "AccountsDelete",
+        component: AccountsDelete,
+      },
+    ],
   },
+
   {
     path: "*",
     redirect: "/",

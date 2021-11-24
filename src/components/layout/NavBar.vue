@@ -55,7 +55,7 @@
       <ul class="items" v-else>
         <li class="item" @click="closeMenu">
           <router-link
-            :to="{ name: 'MyPage' }"
+            :to="{ name: 'Check' }"
             class="link"
             active-class="active"
           >
