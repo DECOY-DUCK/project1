@@ -148,4 +148,11 @@ export default {
   margin-top: var(--size-large);
   overflow: hidden;
 }
+
+/* Media Query for below w640 */
+@media screen and (max-width: 640px) {
+  .info-map {
+    height: 30rem;
+  }
+}
 </style>

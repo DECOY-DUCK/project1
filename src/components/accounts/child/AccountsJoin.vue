@@ -59,7 +59,7 @@
             required
           />
         </div>
-        <button class="accounts__form__submit-btn">Register</button>
+        <form-button type="submit" title="Register" />
       </form>
     </div>
   </section>
@@ -67,10 +67,12 @@
 
 <script>
 import { mapActions } from "vuex";
+import FormButton from "@/components/buttons/FormButton.vue";
 
 const accountsStore = "accountsStore";
 
 export default {
+  components: { FormButton },
   data() {
     return {
       email: "",

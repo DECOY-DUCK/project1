@@ -52,25 +52,6 @@
   font-size: var(--font-regular);
 }
 
-.accounts__form__submit-btn,
-.accounts__complete__btn {
-  width: 100%;
-  margin-top: calc(2 * var(--size-large));
-  padding: var(--size-regular);
-  border-radius: var(--size-micro);
-  color: var(--color-white);
-  background-color: var(--color-dark-grey);
-}
-
-.accounts__complete__btn a {
-  color: var(--color-white);
-}
-
-.accounts__form__submit-btn:hover,
-.accounts__complete__btn:hover {
-  background-color: var(--color-black);
-}
-
 .accounts__link {
   text-decoration: underline;
 }

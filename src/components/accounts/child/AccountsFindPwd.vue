@@ -4,7 +4,7 @@
       <header class="accounts__header">
         <h2>Find password</h2>
       </header>
-      <form class="accounts__form" method="post" action="">
+      <form class="accounts__form" @submit="confirm">
         <input type="hidden" name="act" value="findPwd" />
         <div class="accounts__form__item">
           <label for="email">Email</label>
@@ -33,13 +33,7 @@
         <div v-if="show">
           <span>이메일 과 비밀번호를 다시 확인해주세요 </span>
         </div>
-        <button
-          class="accounts__form__submit-btn"
-          @click="confirm()"
-          type="button"
-        >
-          Confirm
-        </button>
+        <form-button type="submit" title="Confirm" />
       </form>
     </div>
   </section>
@@ -47,10 +41,11 @@
 
 <script>
 import { mapActions } from "vuex";
-
+import FormButton from "@/components/buttons/FormButton.vue";
 const accountsStore = "accountsStore";
 
 export default {
+  components: { FormButton },
   data() {
     return {
       user: {
@@ -63,7 +58,9 @@ export default {
   },
   methods: {
     ...mapActions(accountsStore, ["asyncFindpwd"]),
-    async confirm() {
+    async confirm(e) {
+      e.preventDefault();
+
       if (this.user.email !== null && this.user.name !== null) {
         //실패 조건문 추가하는게 좋을듯
         await this.asyncFindpwd(this.user);
