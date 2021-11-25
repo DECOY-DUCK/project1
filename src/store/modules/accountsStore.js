@@ -143,7 +143,7 @@ const accountsStore = {
         if (result == "success") {
           dispatch("asyncGetUserInfoLIst");
         }
-        commit("SET_RES_SERVER", result);
+        commit("SET_RES_SERVER", "check");
       } catch (e) {
         console.error(e);
       }

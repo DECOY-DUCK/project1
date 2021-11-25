@@ -1,14 +1,27 @@
 <template>
   <form class="notice-form" @submit="onSubmit">
     <span class="info">(*)은 필수입력 항목입니다.</span>
+    <label for="selected" class="required">카테고리</label>
     <div class="item">
+      <select
+        name="selected"
+        id="selected"
+        @change="() => onDeleteError('selected')"
+        v-model="qnaform.category"
+      >
+        <option disabled value="">선택하기</option>
+        <option value="서비스">서비스</option>
+        <option value="계정">계정</option>
+        <option value="이용방법">이용방법</option>
+      </select>
+      <span class="error" id="content-error">{{ error.selected }}</span>
       <label for="title" class="required">Title</label>
       <input
         class="input"
         type="text"
         name="title"
         id="title"
-        v-model="notice.title"
+        v-model="qnaform.title"
         placeholder="Enter a title (30 characters or less)"
         maxlength="30"
         @change="() => onDeleteError('title')"
@@ -22,7 +35,7 @@
         type="text"
         name="authorName"
         id="authorName"
-        v-model="userInfo.name"
+        v-model="qnaform.authorName"
         readonly
         maxlength="50"
       />
@@ -33,46 +46,20 @@
         class="input"
         name="content"
         id="content"
-        v-model="notice.content"
+        v-model="qnaform.content"
         placeholder="Enter your content (4000 characters or less)"
         maxlength="4000"
         @change="() => onDeleteError('content')"
       ></textarea>
       <span class="error" id="content-error">{{ error.content }}</span>
     </div>
-    <div class="item">
-      <label for="attach">Attached photo (up to 1 photo, 5mb)</label>
-      <input
-        class="input"
-        type="file"
-        id="attach"
-        ref="attach"
-        accept="image/*"
-        @change="onUploadAttach"
-        v-if="!previewImg"
-      />
-      <div class="attach-error__container">
-        <span class="error" id="attach-error">{{ error.attach }}</span>
-        <button
-          type="button"
-          v-if="error.attach"
-          @click="() => onDeleteError('attach')"
-        >
-          업로드 취소
-        </button>
-      </div>
-
-      <div id="image-preview" v-if="previewImg">
-        <img :src="previewImg" />
-        <button
-          type="button"
-          class="delete-button"
-          @click="onDeleteAttach"
-        ></button>
-      </div>
-    </div>
 
     <div class="buttons">
+      <button type="submit" class="button submit-button">등록</button>
+      <button type="reset" class="button cancel-button" @click="moveList">
+        Cancel
+      </button>
+
       <form-button
         type="submit"
         :title="type === 'modify' ? 'Modify' : 'Register'"
@@ -83,87 +70,64 @@
 </template>
 
 <script>
+import store from "@/store/index";
 import { mapState } from "vuex";
-import FormButton from "@/components/buttons/FormButton.vue";
+
+import { createQans } from "@/api/qna";
 
 const accountsStore = "accountsStore";
 
 export default {
-  components: { FormButton },
-  name: "NoticeForm",
-  props: {
-    type: String,
-    original: {
-      no: Number,
-      authorName: String,
-      authorNo: Number,
-      title: String,
-      content: String,
-      image: Object,
-    },
-    onSubmitHandler: Function,
-  },
-
+  name: "qnawrite",
   data() {
     return {
-      notice: {
-        no: 0,
+      qnaform: {
+        category: "",
+        no: "",
         authorName: "",
         authorNo: "",
         title: "",
         content: "",
-        image: {},
       },
       error: {
         title: "",
         content: "",
-        attach: "",
+        category: "",
       },
-      previewImg: "",
     };
+  },
+  created() {
+    this.qnaform.authorNo = this.userInfo.no;
+    this.qnaform.authorName = this.userInfo.name;
   },
   computed: {
     ...mapState(accountsStore, ["userInfo"]),
   },
-  watch: {
-    original() {
-      if (this.type == "modify" && this.original) {
-        this.notice = { ...this.original };
-        this.notice.image &&
-          (this.previewImg = `${this.notice.image.saveFolder}/${this.notice.image.saveFile}`);
-      }
-    },
-  },
   methods: {
     async onSubmit(e) {
       e.preventDefault();
-      if (this.error.title || this.error.content) {
+      if (this.error.title || this.error.content || this.error.category) {
         alert("필수 입력 사항을 작성해 주세요");
         return;
-      } else if (this.error.attach) {
-        alert("첨부 파일을 확인해 주세요");
+      }
+      if (!this.qnaform.category) {
+        this.error.content = "카테고리를 설정 주세요.";
+        this.scrollToError(document.querySelector("#selected"));
         return;
       }
 
-      if (!this.notice.title) {
+      if (!this.qnaform.title) {
         this.error.title = "제목을 입력해 주세요.";
         this.scrollToError(document.querySelector("#title"));
         return;
       }
-      if (!this.notice.content) {
+      if (!this.qnaform.content) {
         this.error.content = "내용을 입력해 주세요.";
         this.scrollToError(document.querySelector("#content"));
         return;
       }
-      const fd = new FormData(e.target);
-      fd.append("attach", this.notice.image);
-      fd.append("authorNo", this.userInfo.no);
-      if (this.type == "modify") {
-        fd.append("no", this.notice.no);
-      }
-
       try {
-        const result = await this.onSubmitHandler(fd);
+        const result = await createQans(this.qnaform);
 
         let msg = "처리시 문제가 발생했습니다.";
 
@@ -176,48 +140,6 @@ export default {
         console.error(e);
       }
     },
-    onUploadAttach(e) {
-      this.onDeleteError("attach");
-
-      if (!e.target.files[0]) {
-        this.onDeleteAttach();
-        return;
-      }
-
-      const attach = e.target.files[0];
-      const MAX_BYTES = 1024 * 1024 * 5;
-      if (!attach.type.includes("image")) {
-        this.error.attach = "이미지 파일만 첨부 가능합니다.";
-        e.target.value = null;
-        return;
-      }
-
-      if (attach.size > MAX_BYTES) {
-        this.error.attach = "업로드 가능한 최대 크기는 5mb입니다.";
-        e.target.value = null;
-        return;
-      }
-      this.notice.image = attach;
-      this.setPreviewImage();
-    },
-    setPreviewImage() {
-      const reader = new FileReader();
-      reader.addEventListener("load", (e) => {
-        this.previewImg = e.target.result;
-      });
-
-      reader.readAsDataURL(this.notice.image);
-    },
-    onCancel() {
-      if (confirm("작성을 취소하시겠습니까?")) {
-        this.$router.push({ name: "Admin" });
-      }
-    },
-    onDeleteAttach() {
-      this.notice.image = "";
-      this.previewImg = "";
-      this.$refs.attach && (this.$refs.attach.value = null);
-    },
     onDeleteError(type) {
       this.error[type] && (this.error[type] = "");
     },
@@ -225,8 +147,14 @@ export default {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     },
     moveList() {
-      this.$router.push({ name: "Notice" });
+      this.$router.go(-1);
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    if (store.getters["accountsStore/getResponse"] === "check") next();
+    else {
+      next(false);
+    }
   },
 };
 </script>
@@ -253,7 +181,7 @@ export default {
 
 .item #content {
   resize: none;
-  height: 50vh;
+  height: 20vh;
 }
 
 .required::after {
@@ -296,15 +224,24 @@ export default {
   color: var(--color-black);
 }
 
-#image-preview {
-  align-self: baseline;
-  position: relative;
-  margin: var(--size-medium) 0;
+.submit-button {
+  color: var(--color-white);
+  background-color: var(--color-dark-grey);
 }
 
-#image-preview img {
-  height: 7rem;
-  min-width: 200px;
+.cancel-button {
+  color: var(--color-red);
+  background-color: var(--color-white);
+  border-color: var(--color-red);
+}
+
+.submit-button:hover {
+  background-color: var(--color-black);
+}
+
+.cancel-button:hover {
+  color: var(--color-white);
+  background-color: var(--color-red);
 }
 
 .delete-button {
