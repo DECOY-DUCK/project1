@@ -16,8 +16,10 @@
             v-model="email"
             class="form__item__input"
             placeholder="Enter your email"
+            @blur="idpass"
           />
         </div>
+        <span v-show="idrecheck">중복 아이디 입니다.</span>
         <div id="emailCheck" class="accounts__emailCheck__result hide"></div>
         <div class="accounts__form__item">
           <label for="password">Password</label>
@@ -66,6 +68,7 @@
 </template>
 
 <script>
+import { signup, idcheck } from "@/api/auth";
 import { mapActions } from "vuex";
 import FormButton from "@/components/buttons/FormButton.vue";
 
@@ -80,11 +83,23 @@ export default {
       password2: "",
       name: "",
       check: false,
+      idrecheck: false,
     };
   },
+  created() {
+    window.scrollTo(0, 0);
+  },
   methods: {
-    created() {
-      window.scrollTo(0, 0);
+    async idpass() {
+      console.log(this.email);
+      const result = await idcheck(this.email);
+      console.log(result);
+      if (result === 1) {
+        //중복아이디
+        this.idrecheck = true;
+      } else {
+        this.idrecheck = false;
+      }
     },
     checkpwd: function () {
       if (this.password === "" || this.password2 === "")
@@ -107,10 +122,13 @@ export default {
         name: this.name,
       };
       try {
-        await this.asyncSignup(user);
-
-        alert("회원가입 성공! 로그인 해주세요.");
-        this.$router.push({ name: "LogIn" });
+        const result = signup(user);
+        if (result == "success") {
+          alert("회원가입 성공! 로그인 해주세요.");
+          this.$router.push({ name: "LogIn" });
+        } else {
+          alert("회원가입 실패.");
+        }
       } catch (e) {
         console.error(e);
       }

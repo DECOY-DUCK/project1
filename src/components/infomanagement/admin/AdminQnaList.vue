@@ -1,7 +1,7 @@
 <template>
   <div class="interestarea">
     <header class="admin-header">
-      <p>QnA 내역</p>
+      <p>QnA</p>
     </header>
     <div class="interest__main">
       <table>
@@ -16,18 +16,19 @@
           </tr>
         </tHead>
         <tBody>
-          <tr v-if="userQnaList.length == 0">
+          <tr v-if="AllQnaList.length == 0">
             <td Colspan="6">
               <div class="interest__empty">등록된 QnA가 없습니다.</div>
             </td>
           </tr>
-          <tr v-else v-for="(list, index) in userQnaList" :key="index">
+          <tr v-else v-for="(list, index) in AllQnaList" :key="index">
             <td>{{ list.no }}</td>
             <td>{{ list.category }}</td>
             <td>
-              <router-link :to="{ name: 'QnAView', params: { no: index } }">{{
-                list.title
-              }}</router-link>
+              <router-link
+                :to="{ name: 'AdminQnaView', params: { no: index } }"
+                >{{ list.title }}</router-link
+              >
             </td>
             <td>{{ list.createdAt }}</td>
             <td>{{ list.replies.length }}</td>
@@ -47,14 +48,16 @@ import { deleteQnA } from "@/api/qna";
 const qnaStore = "qnaStore";
 const accountsStore = "accountsStore";
 export default {
-  name: "UserQnAList",
-  components: {},
+  name: "AllQnaList",
+  data() {
+    return {};
+  },
   computed: {
-    ...mapState(qnaStore, ["userQnaList"]),
+    ...mapState(qnaStore, ["AllQnaList"]),
     ...mapGetters(accountsStore, ["checkUserInfo"]),
   },
   methods: {
-    ...mapActions(qnaStore, ["asyncQnaUserList"]),
+    ...mapActions(qnaStore, ["asyncQnaAllList"]),
     async confirm(no) {
       const result = await deleteQnA(no);
       if (result == "success") {
@@ -66,8 +69,7 @@ export default {
     },
   },
   created() {
-    const no = this.checkUserInfo.no;
-    this.asyncQnaUserList(no);
+    this.asyncQnaAllList();
   },
   beforeRouteEnter(to, from, next) {
     if (store.getters["accountsStore/getResponse"] === "check") next();

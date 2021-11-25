@@ -2,13 +2,15 @@
   <div class="check">
     <h1>회원 탈퇴</h1>
     <span>탈퇴시 3개월간 동일한 이메일로 회원가입이 불가능 합니다.</span>
-    <form @submit="onSubmit">
-      <div>{{ userInfo.name }}님, 저희 서비스를 이용해주셔서 감사합니다.</div>
+    <form>
+      <div>
+        {{ checkUserInfo.name }}님, 저희 서비스를 이용해주셔서 감사합니다.
+      </div>
       <div>회원을 탈퇴하는 이유에 대해서 알려주세요</div>
       <div class="btn__area">
         <div>
-          <select name="reason" id="reson">
-            <option value="none">선택하기</option>
+          <select v-model="selected">
+            <option disabled value="" selected>선택하기</option>
             <option value="1">정보부족</option>
             <option value="2">운영정책 불만족</option>
             <option value="3">사이트 불편</option>
@@ -25,24 +27,27 @@
 
 <script>
 import store from "@/store/index";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 const accountsStore = "accountsStore";
 
 export default {
   data() {
     return {
-      userInfo: "",
-      password: "",
+      selected: "",
     };
   },
-  created() {
-    this.userInfo = store.getters["accountsStore/checkUserInfo"];
+  computed: {
+    ...mapGetters(accountsStore, ["checkUserInfo"]),
   },
 
   methods: {
     ...mapActions(accountsStore, ["asyncdeleteUserInfo"]),
     async confirm() {
+      if (this.selected === "") {
+        alert("탈퇴 사유를 선택해 주세요");
+        return;
+      }
       // let userInfo = store.getters["accountsStore/checkUserInfo"];
       if (
         confirm(
@@ -92,5 +97,8 @@ form input {
 }
 .btn__area {
   text-align: center;
+}
+select {
+  width: 100px;
 }
 </style>

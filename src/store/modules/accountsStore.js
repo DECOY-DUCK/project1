@@ -148,6 +148,7 @@ const accountsStore = {
         console.error(e);
       }
     },
+
     //유저정보 재확인
     asyncCheckUserInfo: async ({ commit }, user) => {
       try {

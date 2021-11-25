@@ -1,7 +1,7 @@
 <template>
   <form class="notice-form" @submit="onSubmit">
     <span class="info">(*)은 필수입력 항목입니다.</span>
-    <label for="selected" class="required">카테고리</label>
+    <label for="selected" class="required">category</label>
     <div class="item">
       <select
         name="selected"
@@ -60,10 +60,6 @@
         Cancel
       </button>
 
-      <form-button
-        type="submit"
-        :title="type === 'modify' ? 'Modify' : 'Register'"
-      />
       <form-button type="reset" title="Cancel" :onClick="onCancel" />
     </div>
   </form>
@@ -135,7 +131,7 @@ export default {
           msg = "등록이 완료되었습니다.";
         }
         alert(msg);
-        this.moveList();
+        this.$router.push({ name: "UserQnaList" });
       } catch (e) {
         console.error(e);
       }

@@ -21,7 +21,6 @@
       <li>
         <router-link :to="{ name: 'UserQnaList' }">QnA 내역</router-link>
       </li>
-      <li>FAQ</li>
     </ul>
   </section>
 </template>
