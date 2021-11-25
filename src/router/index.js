@@ -23,10 +23,13 @@ import Managemnet from "@/views/infomanagement";
 import Check from "@/components/infomanagement/check.vue";
 import Admin from "@/components/infomanagement/admin/useradmin.vue";
 import NoticeWrite from "@/components/infomanagement/admin//NoticeWrite.vue";
+import AdminQnaList from "@/components/infomanagement/admin/AdminQnaList.vue";
+import AdminQnaView from "@/components/infomanagement/admin/AdminQnaView.vue";
 
 //정보관리-유저
 import QnAWrite from "@/components/infomanagement/user/QnAWrite";
 import UserQnaList from "@/components/infomanagement/user/UserQnaList";
+import UserQnaView from "@/components/infomanagement/user/UserQnaView";
 import InterestArea from "@/components/infomanagement/user/InterestArea.vue";
 import AccountsDelete from "@/components/infomanagement/user/AccountsDelete.vue";
 
@@ -175,29 +178,18 @@ const routes = [
       //   beforeEnter: onlyAuthUser,
       //   //component: QnAWrite,
       // },
-      {
-        path: "qna/detail/:no",
-        name: "QnAView",
-        beforeEnter: onlyAuthUser,
-        //component: QnAView,
-      },
-      {
-        path: "qna/modify/:no",
-        name: "QnAModify",
-        beforeEnter: onlyAuthUser,
-        //component: QnAModify,
-      },
+      // {
+      //   path: "qna/detail/:no",
+      //   name: "QnAView",
+      //   beforeEnter: onlyAuthUser,
+      //   //component: QnAView,
+      // },
+
       {
         path: "faq",
         name: "FAQ",
         beforeEnter: onlyAuthUser,
         //component: FAQWrite,
-      },
-      {
-        path: "faq/detail/:no",
-        name: "FAQView",
-        beforeEnter: onlyAuthUser,
-        //component: FAQView,
       },
     ],
   },
@@ -208,7 +200,6 @@ const routes = [
     beforeEnter: onlyAuthUser,
     children: [
       {
-        //accountsStore에서 responseServer가 check면 통과
         path: "check",
         name: "Check",
         beforeEnter: checkUserInfoBefore,
@@ -221,10 +212,30 @@ const routes = [
         component: QnAWrite,
       },
       {
+        path: "qna/detail/:no",
+        name: "QnAView",
+        beforeEnter: onlyAuthUser,
+        component: UserQnaView,
+      },
+      {
         path: "qna/userlist",
         name: "UserQnaList",
         beforeEnter: onlyAuthUser,
         component: UserQnaList,
+      },
+      {
+        //일반회원 못들어오게 막기
+        path: "qna/adminlist",
+        name: "AdminQnaList",
+        beforeEnter: onlyAuthUser,
+        component: AdminQnaList,
+      },
+      {
+        //회원 못들어오게 막기
+        path: "qna/reply/:no",
+        name: "AdminQnaView",
+        beforeEnter: onlyAuthUser,
+        component: AdminQnaView,
       },
       {
         //일반회원 못들어오게 막기

@@ -88,7 +88,7 @@ export default {
         this.show = true;
       }
     },
-    check: function () {
+    idcheck: function () {
       if (this.user.email !== null && this.user.password !== null) {
         return (this.checkblank = true);
       }
