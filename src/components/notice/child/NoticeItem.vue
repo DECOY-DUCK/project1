@@ -23,6 +23,7 @@
 
 <script>
 import defaultImg from "@/assets/images/default_notice.png";
+import { setSaveImageUrl } from "@/utils/image.js";
 
 export default {
   name: "NoticeItem",
@@ -32,7 +33,7 @@ export default {
       authorName: String,
       authorEmail: String,
       title: String,
-      image: String,
+      image: Object,
       createdAt: String,
       modifiedAt: String,
     },
@@ -44,12 +45,9 @@ export default {
     };
   },
   created() {
-    if (this.notice.image) {
-      const { saveFolder, saveFile } = this.notice.image;
-      this.imageUrl = `${saveFolder}/${saveFile}`;
-    } else {
-      this.imageUrl = defaultImg;
-    }
+    this.imageUrl = this.notice.image
+      ? setSaveImageUrl(this.notice.image)
+      : defaultImg;
   },
 };
 </script>
@@ -60,7 +58,6 @@ export default {
   height: 17.5rem;
   margin-top: var(--size-medium);
   margin-right: var(--size-medium);
-  padding: var(--size-large) var(--size-small);
 }
 .notice-item {
   position: relative;
@@ -97,7 +94,7 @@ export default {
 }
 
 .img-container {
-  padding-top: 56%;
+  padding-top: 64%;
   position: relative;
   border-bottom: 1px solid var(--color-light-grey);
   border-radius: var(--size-micro) var(--size-micro) 0 0;

@@ -1,7 +1,7 @@
 <template>
   <main class="view-body">
     <div class="img-container">
-      <img src="@/assets/images/default_notice.png" alt="notice image" />
+      <img :src="imageUrl" alt="notice image" />
     </div>
     <div class="view-content">
       <pre>{{ content }}</pre>
@@ -10,11 +10,22 @@
 </template>
 
 <script>
+import defaultImg from "@/assets/images/default_notice.png";
+import { setSaveImageUrl } from "@/utils/image.js";
+
 export default {
   name: "NoticeViewBody",
   props: {
-    image: String,
+    image: Object,
     content: String,
+  },
+  data() {
+    return {
+      imageUrl: "",
+    };
+  },
+  created() {
+    this.imageUrl = this.image ? setSaveImageUrl(this.image) : defaultImg;
   },
 };
 </script>
