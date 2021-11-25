@@ -70,15 +70,15 @@
 </template>
 
 <script>
-import store from "@/store/index";
 import { mapState } from "vuex";
 
+import store from "@/store/index";
 import { createQans } from "@/api/qna";
 
 const accountsStore = "accountsStore";
 
 export default {
-  name: "qnawrite",
+  name: "QnAWrite",
   data() {
     return {
       qnaform: {
