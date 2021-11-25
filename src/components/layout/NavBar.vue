@@ -163,7 +163,7 @@ export default {
   width: 100%;
   padding: var(--size-large);
   background-color: var(--color-white);
-  z-index: 99;
+  z-index: 101;
   transition: all var(--animation-duration) ease-in;
 }
 
