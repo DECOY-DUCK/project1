@@ -26,6 +26,7 @@ import NoticeWrite from "@/components/infomanagement/admin//NoticeWrite.vue";
 
 //정보관리-유저
 import QnAWrite from "@/components/infomanagement/user/QnaWrite";
+import UserQnaList from "@/components/infomanagement/user/UserQnaList";
 import InterestArea from "@/components/infomanagement/user/InterestArea.vue";
 import AccountsDelete from "@/components/infomanagement/user/AccountsDelete.vue";
 
@@ -218,6 +219,12 @@ const routes = [
         name: "QnAWrite",
         beforeEnter: onlyAuthUser,
         component: QnAWrite,
+      },
+      {
+        path: "qna/userlist",
+        name: "UserQnaList",
+        beforeEnter: onlyAuthUser,
+        component: UserQnaList,
       },
       {
         //일반회원 못들어오게 막기

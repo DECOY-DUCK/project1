@@ -112,6 +112,12 @@ export default {
       }
     },
   },
+  beforeRouteEnter(to, from, next) {
+    if (store.getters["accountsStore/getResponse"] === "check") next();
+    else {
+      next(false);
+    }
+  },
 };
 </script>
 

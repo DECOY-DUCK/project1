@@ -44,6 +44,7 @@ export default {
   },
   created() {
     this.userInfo = store.getters["accountsStore/checkUserInfo"];
+    window.scrollTo(0, 0);
   },
 };
 </script>

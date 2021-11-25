@@ -35,12 +35,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
+import store from "@/store/index";
 const interestStore = "interestStore";
 const accountsStore = "accountsStore";
 
 export default {
-  components: {},
   computed: {
     ...mapGetters(interestStore, ["InterestAreaList"]),
     ...mapGetters(accountsStore, ["checkUserInfo"]),
@@ -60,6 +59,12 @@ export default {
   created() {
     const user = this.checkUserInfo.no;
     this.asyncGetInterestAreas(user);
+  },
+  beforeRouteEnter(to, from, next) {
+    if (store.getters["accountsStore/getResponse"] === "check") next();
+    else {
+      next(false);
+    }
   },
 };
 </script>

@@ -18,7 +18,9 @@
       <li>
         <router-link :to="{ name: 'QnAWrite' }"> 1:1 문의 작성</router-link>
       </li>
-      <li>QnA 내역</li>
+      <li>
+        <router-link :to="{ name: 'UserQnaList' }">QnA 내역</router-link>
+      </li>
       <li>FAQ</li>
     </ul>
   </section>
