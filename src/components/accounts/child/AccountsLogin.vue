@@ -15,7 +15,6 @@
             v-model="user.email"
             class="form__item__input"
             placeholder="Enter your email"
-            @blur="check"
             required
           />
         </div>
@@ -88,7 +87,7 @@ export default {
         this.show = true;
       }
     },
-    idcheck: function () {
+    check: function () {
       if (this.user.email !== null && this.user.password !== null) {
         return (this.checkblank = true);
       }
