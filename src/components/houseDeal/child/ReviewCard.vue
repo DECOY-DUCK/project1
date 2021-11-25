@@ -26,7 +26,7 @@
       <pre>{{ review.content }}</pre>
     </div>
     <div class="like-button">
-      <save-button :button="button" v-if="!isOwner" />
+      <save-button :button="button" :class="isOwner && 'button-prevent'" />
     </div>
     <edit-review-form
       v-if="isEditing"
@@ -127,6 +127,10 @@ export default {
     },
 
     async likeOnHandler() {
+      if (this.isOwner) {
+        return;
+      }
+
       try {
         const result = await saveHouseReviewLike(
           this.review.no,
@@ -148,6 +152,10 @@ export default {
       }
     },
     async likeOffHandler() {
+      if (this.isOwner) {
+        return;
+      }
+
       try {
         const result = await deleteHouseReviewLike(
           this.review.no,
@@ -240,6 +248,11 @@ export default {
 
 .like-button {
   text-align: right;
+}
+
+.button-prevent,
+.button-prevent * {
+  pointer-events: none;
 }
 
 .content {
