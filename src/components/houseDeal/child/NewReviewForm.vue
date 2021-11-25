@@ -1,5 +1,5 @@
 <template>
-  <form class="review-form" @submit="onSubmit">
+  <form class="review-form" @submit="onCreateHandler">
     <textarea
       placeholder="아파트와 관련된 이야기를 남겨주세요 (100자 이하)"
       v-model="review"
@@ -19,49 +19,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { postHouseReview } from "@/api/houseReview.js";
 import FormButton from "@/components/buttons/FormButton.vue";
-
-const accountsStore = "accountsStore";
 
 export default {
   components: { FormButton },
   name: "NewReviewForm",
-  props: { onError: Function },
+  props: { onCreate: Function, onError: Function },
   data() {
     return {
       review: "",
-      aptNo: 0,
-      authorNo: 0,
     };
   },
-  computed: {
-    ...mapState(accountsStore, ["userInfo"]),
-  },
-  created() {
-    this.aptNo = this.$route.params.aptNo;
-    this.authorNo = this.userInfo.no;
-  },
   methods: {
-    async onSubmit(e) {
+    async onCreateHandler(e) {
       e.preventDefault();
 
-      try {
-        const result = await postHouseReview({
-          aptNo: this.aptNo,
-          authorNo: this.authorNo,
-          content: this.review,
-        });
-        if (result === "success") {
-          this.content = "";
-          alert("등록 성공했습니다.");
-        } else {
-          this.onError("등록시 문제가 발생했습니다.");
-        }
-      } catch (e) {
-        this.onError(e);
-      }
+      this.onCreate(this.review);
+      this.review = "";
     },
   },
 };

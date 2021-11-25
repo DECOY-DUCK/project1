@@ -2,6 +2,10 @@ export function parseLocalName(sido) {
   return sido.replace(/특별|자치/g, "");
 }
 
+export function parseNumToStringJson(obj) {
+  return JSON.stringify(obj).replace(/:(\d+)([,}])/g, ':"$1"$2');
+}
+
 export function parseDate(tdate) {
   const created = new Date(tdate);
   const now = new Date();
