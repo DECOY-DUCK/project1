@@ -1,5 +1,7 @@
 import { httpClient } from ".";
 
+const SIZE_PER_PAGE = 15;
+
 /**
  * 현재 페이지의 공지사항 목록을 받아온다.
  *
@@ -7,12 +9,12 @@ import { httpClient } from ".";
  * @param {Number} sizePerPage : 페이지당 개수
  * @returns 해당 페이지의 공지사항 목록을 담은 Promise
  */
-const getNotices = async (pageNo, sizePerPage) => {
+const getNotices = async (pageNo) => {
   return httpClient.axios("/notice", {
     method: "GET",
     params: {
       pageNo,
-      sizePerPage,
+      sizePerPage: SIZE_PER_PAGE,
     },
   });
 };

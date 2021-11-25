@@ -1,5 +1,6 @@
 import { httpClient } from ".";
 
+const SIZE_PER_PAGE = 15;
 /**
  * 전국에 있는 도.광역시 리스트를 받아온다.
  *
@@ -42,6 +43,21 @@ const getDongs = async (gugunCode) => {
 };
 
 /**
+ * 해당 동이 속한 시.도와 구.군를 받아온다.
+ *
+ * @param {String} dongCode : 법정동 코드
+ * @returns 해당 법정동의 시.도와 구.군을 담은 Promise
+ */
+const getSidoGugunByDong = async (dongCode) => {
+  return httpClient.axios("/housedeal/sidogugun", {
+    method: "GET",
+    params: {
+      dongCode,
+    },
+  });
+};
+
+/**
  * 지역 정보를 이용하여 현재 페이지에 해당하는 아파트 정보를 받아온다.
  *
  * @param {Object} params : 구군 코드와 동 이름, 현재 페이지 번호, 페이지당 개수
@@ -50,7 +66,23 @@ const getDongs = async (gugunCode) => {
 const getHouseInfos = async (params) => {
   return httpClient.axios("/housedeal/apt", {
     type: "GET",
-    params,
+    params: {
+      pageNo: 0,
+      sizePerPage: SIZE_PER_PAGE,
+      ...params,
+    },
+  });
+};
+
+/**
+ * 아파트 번호를 이용하여 현재 페이지에 해당하는 아파트 정보를 받아온다.
+ *
+ * @param {Number} no: 아파트 번호
+ * @returns 해당 번호의 아파트 정보를 담은 Promise
+ */
+const getHouseInfoByNo = async (no) => {
+  return httpClient.axios(`/housedeal/apt/${no}`, {
+    type: "GET",
   });
 };
 
@@ -64,8 +96,20 @@ const getHouseInfos = async (params) => {
 const getHouseDeals = async (aptName, params) => {
   return httpClient.axios(`/housedeal/${aptName}`, {
     type: "GET",
-    params,
+    params: {
+      pageNo: 0,
+      sizePerPage: SIZE_PER_PAGE,
+      ...params,
+    },
   });
 };
 
-export { getSidos, getGuguns, getDongs, getHouseInfos, getHouseDeals };
+export {
+  getSidos,
+  getGuguns,
+  getDongs,
+  getSidoGugunByDong,
+  getHouseInfos,
+  getHouseInfoByNo,
+  getHouseDeals,
+};

@@ -97,7 +97,7 @@ const deleteHouseReview = async (no, aptNo) => {
  * 해당 아파트 리뷰를 특정 사용자의 좋아요 등록한다.
  *
  * @param {Number} reviewNo : 리뷰 고유 번호
- * @param {string} userNo : 사용자 고유 번호
+ * @param {Number} userNo : 사용자 고유 번호
  * @returns 성공 여부 문자열(success, fail)을 담은 Promise
  */
 const saveHouseReviewLike = async (reviewNo, userNo) => {
@@ -110,7 +110,7 @@ const saveHouseReviewLike = async (reviewNo, userNo) => {
  * 해당 아파트 리뷰를 특정 사용자의 좋아요에서 삭제한다.
  *
  * @param {Number} reviewNo : 리뷰 고유 번호
- * @param {string} userNo : 사용자 고유 번호
+ * @param {Number} userNo : 사용자 고유 번호
  * @returns 성공 여부 문자열(success, fail)을 담은 Promise
  */
 const deleteHouseReviewLike = async (reviewNo, userNo) => {

@@ -27,7 +27,7 @@ import AdminQnaList from "@/components/infomanagement/admin/AdminQnaList.vue";
 import AdminQnaView from "@/components/infomanagement/admin/AdminQnaView.vue";
 
 //정보관리-유저
-import QnAWrite from "@/components/infomanagement/user/qnaWrite";
+import QnAWrite from "@/components/infomanagement/user/QnAWrite";
 import UserQnaList from "@/components/infomanagement/user/UserQnaList";
 import UserQnaView from "@/components/infomanagement/user/UserQnaView";
 import InterestArea from "@/components/infomanagement/user/InterestArea.vue";

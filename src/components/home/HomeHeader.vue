@@ -2,7 +2,7 @@
   <header id="home-header">
     <img src="@/assets/images/home_cover.png" alt="main cover image" />
     <div class="contents">
-      <h1>HappyHouse</h1>
+      <h1>{{ title }}</h1>
       <p>원하시는 지역의 아파트 실거래가 정보를 찾아보세요</p>
       <div class="selector">
         <region-selector />
@@ -12,12 +12,18 @@
 </template>
 
 <script>
+import { config } from "@/config";
 import RegionSelector from "@/components/houseDeal/child/RegionSelector.vue";
 
 export default {
   name: "HomeHeader",
   components: {
     RegionSelector,
+  },
+  data() {
+    return {
+      title: config.title,
+    };
   },
 };
 </script>

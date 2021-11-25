@@ -6,13 +6,21 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import HomeHeader from "@/components/home/HomeHeader.vue";
 import HomeMain from "@/components/home/HomeMain.vue";
+
+const houseDealStore = "houseDealStore";
 export default {
   components: { HomeHeader, HomeMain },
   name: "Home",
   created() {
     window.scrollTo(0, 0);
+    this.clearLocation();
+  },
+  methods: {
+    ...mapActions(houseDealStore, ["clearLocation"]),
   },
 };
 </script>

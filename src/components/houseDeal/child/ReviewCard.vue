@@ -18,7 +18,7 @@
           <button class="delete-button" type="button" @click="onDeleteHandler">
             Delete
           </button>
-          <button type="button" @click="onCloseOption">Cancel</button>
+          <button type="button" @click="onCloseAll">Cancel</button>
         </div>
       </div>
     </div>
@@ -26,10 +26,7 @@
       <pre>{{ review.content }}</pre>
     </div>
     <div class="like-button">
-      <!-- onOff 버튼 활용 -->
-      <button type="button">
-        <i class="far fa-heart"></i>
-      </button>
+      <save-button :button="button" :class="isOwner && 'button-prevent'" />
     </div>
     <edit-review-form
       v-if="isEditing"
@@ -42,14 +39,24 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { parseDate } from "@/utils/parse.js";
-import EditReviewForm from "./EditReviewForm.vue";
+import {
+  saveHouseReviewLike,
+  deleteHouseReviewLike,
+} from "@/api/houseReview.js";
+
+import EditReviewForm from "@/components/houseDeal/child/EditReviewForm.vue";
+import SaveButton from "@/components/buttons/SaveButton.vue";
+
+const accountsStore = "accountsStore";
 
 export default {
-  components: { EditReviewForm },
+  components: { EditReviewForm, SaveButton },
   name: "ReviewCard",
   props: {
     isOwner: Boolean,
+    isLike: Boolean,
     review: {
       no: Number,
       authorName: String,
@@ -57,18 +64,33 @@ export default {
       content: String,
       createdAt: String,
       modifiedAt: String,
+      likeUsers: Array,
     },
     onUpdate: Function,
     onDelete: Function,
+    onAlert: Function,
   },
   data() {
     return {
       isEditing: false,
       isOptionOpen: false,
+      button: {
+        title: "like",
+        icon: '<i class="far fa-heart"></i>',
+        onHandler: this.likeOnHandler,
+        offHandler: this.likeOffHandler,
+        isSaved: this.isLike,
+        text: 0,
+      },
+      count: 0,
     };
   },
-
+  mounted() {
+    this.count = this.review.likeUsers.length;
+    this.$set(this.button, "text", this.count);
+  },
   computed: {
+    ...mapState(accountsStore, ["userInfo"]),
     authorEmail() {
       return this.review.authorEmail.split("@")[0];
     },
@@ -90,6 +112,10 @@ export default {
     onToggleOption() {
       this.isOptionOpen = !this.isOptionOpen;
     },
+    onCloseAll() {
+      this.onCloseOption();
+      this.onCloseEditor();
+    },
     onCloseOption() {
       this.isOptionOpen = false;
     },
@@ -99,14 +125,70 @@ export default {
       }
       this.onCloseOption();
     },
+
+    async likeOnHandler() {
+      if (this.isOwner) {
+        return;
+      }
+
+      try {
+        const result = await saveHouseReviewLike(
+          this.review.no,
+          this.userInfo.no
+        );
+
+        if (result >= 0) {
+          this.$set(this.button, "isSaved", true);
+          this.count = result;
+          this.$set(this.button, "text", this.count);
+
+          return true;
+        }
+        this.onError();
+        return false;
+      } catch (e) {
+        this.onError();
+        return false;
+      }
+    },
+    async likeOffHandler() {
+      if (this.isOwner) {
+        return;
+      }
+
+      try {
+        const result = await deleteHouseReviewLike(
+          this.review.no,
+          this.userInfo.no
+        );
+        console.log(result);
+        if (result >= 0) {
+          this.$set(this.button, "isSaved", false);
+          this.count = result;
+          this.$set(this.button, "text", this.count);
+
+          return true;
+        }
+        this.onError();
+        return false;
+      } catch (e) {
+        this.onError();
+        return false;
+      }
+    },
+    onError() {
+      this.onAlert("처리 중 문제가 발생했습니다.", true);
+    },
   },
 };
 </script>
 
 <style scoped>
 .review-card {
-  background-color: var(--color-back);
+  margin: var(--size-small) 0;
   padding: var(--size-regular);
+  border-radius: var(--size-micro);
+  background-color: var(--color-back);
 }
 
 .info {
@@ -114,6 +196,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.author-icon {
+  margin-right: var(--size-micro);
+  color: var(--color-grey);
 }
 
 .more-button {
@@ -130,6 +217,7 @@ export default {
   flex-direction: column;
   box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 0.05),
     10px 10px 20px -10px rgba(0, 0, 0, 0.15);
+  z-index: 99;
 }
 
 .more-options::before {
@@ -165,5 +253,19 @@ export default {
 
 .like-button {
   text-align: right;
+}
+
+.button-prevent,
+.button-prevent * {
+  pointer-events: none;
+}
+
+.content {
+  font-size: var(--font-small);
+  padding: var(--size-regular);
+}
+
+pre {
+  white-space: pre-wrap;
 }
 </style>

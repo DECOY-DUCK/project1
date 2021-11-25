@@ -1,7 +1,9 @@
 <template>
-  <p :class="['banner', isAlert ? 'banner-error' : 'banner-info']">
-    {{ text }}
-  </p>
+  <div class="banner-container">
+    <p :class="['banner', isAlert ? 'banner-error' : 'banner-info']">
+      {{ text }}
+    </p>
+  </div>
 </template>
 
 <script>
@@ -15,11 +17,17 @@ export default {
 </script>
 
 <style scoped>
+.banner-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
 .banner {
-  margin: var(--size-regular);
   padding: var(--size-regular);
-  font-size: var(--font-regular);
-  font-weight: var(--weight-semi-bold);
+  font-size: var(--font-small);
+  color: var(--color-white);
 }
 
 .banner-error {
@@ -27,6 +35,7 @@ export default {
 }
 
 .banner-info {
+  margin: 0;
   background-color: var(--color-green);
 }
 </style>

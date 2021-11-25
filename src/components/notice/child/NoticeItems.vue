@@ -22,7 +22,7 @@ export default {
     ...mapState(noticeStore, ["notices", "totalCnt"]),
   },
   created() {
-    this.asyncGetNotices({ pageNo: 0, sizePerPage: 15 });
+    this.asyncGetNotices();
   },
   methods: {
     ...mapActions(noticeStore, ["asyncGetNotices"]),

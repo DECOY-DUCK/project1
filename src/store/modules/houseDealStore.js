@@ -2,8 +2,8 @@ import {
   getSidos,
   getGuguns,
   getDongs,
+  getSidoGugunByDong,
   getHouseInfos,
-  getHouseDeals,
 } from "@/api/houseDeal";
 
 const houseDealStore = {
@@ -115,19 +115,30 @@ const houseDealStore = {
       }
     },
 
-    asyncGetHouseInfos: async (
-      { commit },
-      { gugunCode, dongName, pageNo, sizePerPage }
-    ) => {
+    asyncGetSidoGugunByDong: async ({ commit }, dongCode) => {
+      try {
+        const result = await getSidoGugunByDong(dongCode);
+        commit("SET_SIDO", {
+          sidoCode: result.sidoCode,
+          sidoName: result.sidoName,
+        });
+        commit("SET_GUGUN", {
+          gugunCode: result.gugunCode,
+          gugunName: result.gugunName,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+
+    asyncGetHouseInfos: async ({ commit }, { gugunCode, dongName, pageNo }) => {
       try {
         !pageNo && (pageNo = 0);
-        !sizePerPage && (sizePerPage = 15);
 
         const result = await getHouseInfos({
           gugunCode,
           dongName,
           pageNo,
-          sizePerPage,
         });
         commit("SET_HOUSEINFO_LIST", addAddress(result));
       } catch (e) {
@@ -135,25 +146,10 @@ const houseDealStore = {
       }
     },
 
-    asyncGetHouseDeals: async (
-      { commit },
-      { aptName, gugunCode, dongName, pageNo, sizePerPage }
-    ) => {
-      try {
-        !pageNo && (pageNo = 0);
-        !sizePerPage && (sizePerPage = 15);
-
-        const result = await getHouseDeals(aptName, {
-          gugunCode,
-          dongName,
-          pageNo,
-          sizePerPage,
-        });
-
-        commit("SET_HOUSEDEAL_LIST", addAddress(result));
-      } catch (e) {
-        console.error(e);
-      }
+    clearLocation: ({ commit }) => {
+      commit("CLEAR_SIDO");
+      commit("CLEAR_GUGUN");
+      commit("CLEAR_DONG");
     },
   },
 };

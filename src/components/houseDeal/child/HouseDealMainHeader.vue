@@ -4,13 +4,13 @@
       <div class="header-selector selector">
         <region-selector :onSearch="onSearchHandler" />
       </div>
-      <div class="header-buttons" v-if="isSaved !== null">
+      <div class="header-buttons">
         <on-off-button
           v-for="(button, index) in onOffButtons"
           :key="index"
           :button="button"
-          :isSaved="isSaved"
         />
+        <save-button :button="saveButton" />
       </div>
     </div>
   </header>
@@ -25,12 +25,13 @@ import {
 } from "@/api/interest.js";
 import RegionSelector from "@/components/houseDeal/child/RegionSelector.vue";
 import OnOffButton from "@/components/buttons/OnOffButton.vue";
+import SaveButton from "@/components/buttons/SaveButton.vue";
 
 const houseDealStore = "houseDealStore";
 const accountsStore = "accountsStore";
 
 export default {
-  components: { RegionSelector, OnOffButton },
+  components: { RegionSelector, OnOffButton, SaveButton },
   name: "HouseDealHeader",
   props: {
     onSearchHandler: Function,
@@ -53,14 +54,14 @@ export default {
           onHandler: this.onClickHandler.clinicOnHandler, // 맵에 마커띄우기 or 삭제
           offHandler: this.onClickHandler.clinicOffHandler,
         },
-        {
-          title: "관심지역",
-          icon: '<i class="far fa-bookmark"></i>',
-          onHandler: this.interestOnHandler, // 관심지역 설정 or 삭제
-          offHandler: this.interestOffHandler,
-        },
       ],
-      isSaved: null,
+      saveButton: {
+        title: "관심지역",
+        icon: '<i class="far fa-bookmark"></i>',
+        onHandler: this.interestOnHandler, // 관심지역 설정 or 삭제
+        offHandler: this.interestOffHandler,
+        isSaved: false,
+      },
     };
   },
   watch: {
@@ -86,7 +87,8 @@ export default {
         const result = await saveInterestArea(this.userInfo.no, this.dongCode);
         if (result == "success") {
           alert(`${this.dongName}: 관심지역으로 등록되었습니다.`);
-          this.isSaved = true;
+          this.$set(this.saveButton, "isSaved", true);
+
           return true;
         }
         alert("처리 중 문제가 발생했습니다.");
@@ -109,6 +111,8 @@ export default {
         );
         if (result == "success") {
           alert(`${this.dongName}: 관심지역에서 해제되었습니다.`);
+          this.$set(this.saveButton, "isSaved", false);
+
           return true;
         }
         alert("처리 중 문제가 발생했습니다.");
@@ -121,14 +125,14 @@ export default {
     },
     async checkIsSaved() {
       if (!this.isLogin) {
-        this.isSaved = false;
+        this.$set(this.saveButton, "isSaved", false);
         return;
       }
 
       try {
         if (this.isLogin) {
           const result = await getInterestArea(this.userInfo.no, this.dongCode);
-          this.isSaved = result == 1;
+          this.$set(this.saveButton, "isSaved", result == 1);
         }
       } catch (e) {
         console.error(e);

@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { getHouseDeals } from "@/api/houseDeal.js";
+import { mapActions, mapMutations, mapState } from "vuex";
+import { getHouseDeals, getHouseInfoByNo } from "@/api/houseDeal.js";
 import HouseDealViewChart from "./child/HouseDealViewChart.vue";
 import HouseDealViewInfo from "./child/HouseDealViewInfo.vue";
 import HouseDealViewCommunity from "./child/HouseDealViewCommunity.vue";
@@ -55,27 +55,40 @@ export default {
       "houseInfos",
     ]),
     address() {
-      if (!this.sidoName || !this.gugunName || !this.houseInfo) return;
+      if (!this.houseInfo) return;
+      if (!this.sidoName || !this.gugunName) return this.houseInfo.address;
       return `${this.sidoName} ${this.gugunName} ${this.houseInfo.dong} ${this.houseInfo.jibun}`;
     },
   },
   async created() {
     this.aptNo = this.$route.params.aptNo;
-    this.houseInfo = this.houseInfos.find((h) => h.no == this.aptNo);
+    try {
+      this.houseInfo = await getHouseInfoByNo(this.aptNo);
 
-    if (!this.houseInfo) {
-      this.$router.push({ name: "HouseDeal" });
+      if (!this.houseInfo) {
+        this.clearLocation();
+        this.$router.push({ name: "HouseDeal" });
+        return;
+      }
+
+      await this.setLocation();
+      this.aptName = this.houseInfo.aptName;
+
+      this.houseDeals = await getHouseDeals(this.aptName, {
+        gugunCode: this.gugunCode,
+        dongName: this.houseInfo.dong,
+      });
+    } catch (e) {
+      console.error(e);
     }
+  },
 
-    this.aptName = this.houseInfo.aptName;
-
-    const result = await getHouseDeals(this.aptName, {
-      gugunCode: this.gugunCode,
-      dongName: this.dongName,
-      pageNo: 0,
-      sizePerPage: 5,
-    });
-    this.houseDeals = result;
+  methods: {
+    ...mapActions(houseDealStore, ["asyncGetSidoGugunByDong", "clearLocation"]),
+    ...mapMutations(houseDealStore, ["SET_DONG"]),
+    async setLocation() {
+      await this.asyncGetSidoGugunByDong(this.houseInfo.code);
+    },
   },
 };
 </script>

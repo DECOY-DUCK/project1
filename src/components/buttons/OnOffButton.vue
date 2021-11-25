@@ -3,12 +3,9 @@
     :class="[isOn ? onClass : offClass, button.onColor, 'on-off-button']"
     :title="button.title"
     @click="onClickHandler"
-    v-if="button.title == '관심지역' ? isLogin : true"
   >
     <span v-html="button.icon"></span>
-    <span class="button__text">{{
-      button.title == "관심지역" ? "" : button.title
-    }}</span>
+    <span class="button__text">{{ button.title }}</span>
   </button>
 </template>
 
@@ -38,13 +35,11 @@ export default {
   },
 
   created() {
-    if (this.button.title !== "관심지역") return;
     this.isOn = this.isSaved;
   },
 
   watch: {
     isSaved() {
-      if (this.button.title !== "관심지역") return;
       this.isOn = this.isSaved;
     },
   },

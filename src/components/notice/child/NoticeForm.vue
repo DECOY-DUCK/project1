@@ -84,6 +84,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { setSaveImageUrl } from "@/utils/image.js";
 import FormButton from "@/components/buttons/FormButton.vue";
 
 const accountsStore = "accountsStore";
@@ -130,7 +131,7 @@ export default {
       if (this.type == "modify" && this.original) {
         this.notice = { ...this.original };
         this.notice.image &&
-          (this.previewImg = `${this.notice.image.saveFolder}/${this.notice.image.saveFile}`);
+          (this.previewImg = setSaveImageUrl(this.notice.image));
       }
     },
   },
