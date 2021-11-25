@@ -56,16 +56,22 @@
 
     <div class="buttons">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <button type="submit" class="button submit-button">등록</button>
       <button type="reset" class="button cancel-button" @click="moveList">
         Cancel
       </button>
 =======
+=======
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
       <form-button
         type="submit"
         :title="type === 'modify' ? 'Modify' : 'Register'"
       />
       <form-button type="reset" title="Cancel" :onClick="onCancel" />
+<<<<<<< HEAD
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
+=======
 >>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
     </div>
   </form>
@@ -75,7 +81,11 @@
 import store from "@/store/index";
 import { mapState } from "vuex";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { createQans } from "@/api/qna";
+=======
+import FormButton from "@/components/buttons/FormButton.vue";
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
 =======
 import FormButton from "@/components/buttons/FormButton.vue";
 >>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
@@ -84,8 +94,11 @@ const accountsStore = "accountsStore";
 
 export default {
 <<<<<<< HEAD
+<<<<<<< HEAD
   name: "qnawrite",
 =======
+=======
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
   components: { FormButton },
   name: "NoticeForm",
   props: {
@@ -293,6 +306,7 @@ export default {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .submit-button {
   color: var(--color-white);
   background-color: var(--color-dark-grey);
@@ -312,6 +326,8 @@ export default {
   color: var(--color-white);
   background-color: var(--color-red);
 =======
+=======
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
 #image-preview {
   align-self: baseline;
   position: relative;
