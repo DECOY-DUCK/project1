@@ -20,7 +20,12 @@
               <div class="interest__empty">등록된 관심지역이 없습니다.</div>
             </td>
           </tr>
-          <tr v-else v-for="(list, index) in InterestAreaList" :key="index">
+          <tr
+            v-else
+            v-for="(list, index) in InterestAreaList"
+            :key="index"
+            @click="jump(list.dong)"
+          >
             <td>{{ list.city }}</td>
             <td>{{ list.gugun }}</td>
             <td>{{ list.dong }}</td>
@@ -34,10 +39,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import store from "@/store/index";
+
 const interestStore = "interestStore";
 const accountsStore = "accountsStore";
+const houseDealStore = "houseDealStore";
 
 export default {
   computed: {
@@ -47,6 +54,7 @@ export default {
   methods: {
     ...mapActions(interestStore, ["asyncGetInterestAreas"]),
     ...mapActions(interestStore, ["asyncDeleteInterestArea"]),
+    ...mapState(houseDealStore, ["dongName"]),
     async confirm(num) {
       if (confirm(`${this.InterestAreaList[num].dong}을 삭제하시겠습니까?`)) {
         const no = this.checkUserInfo.no;
@@ -54,6 +62,10 @@ export default {
         await this.asyncDeleteInterestArea({ no, code });
         this.asyncGetInterestAreas(no);
       }
+    },
+    jump: function (dong) {
+      this.dongName = dong;
+      this.$router.push({ name: "HouseDealMain" });
     },
   },
   created() {
