@@ -22,7 +22,7 @@ export default {
   left: 0;
   top: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 102;
 }
 .banner {
   padding: var(--size-regular);

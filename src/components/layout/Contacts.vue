@@ -38,10 +38,6 @@ export default {
 </script>
 
 <style scoped>
-#contacts {
-  border-top: 1px solid var(--color-light-grey);
-}
-
 .container {
   width: 100%;
   max-width: var(--display-maxWidth);

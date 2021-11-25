@@ -40,6 +40,10 @@ export default {
 </script>
 
 <style scoped>
+#houseDeal {
+  border-bottom: 1px solid var(--color-light-grey);
+}
+
 .houseDeal-main {
   flex: auto;
   display: flex;
