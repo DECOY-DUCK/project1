@@ -19,13 +19,11 @@ export default {
     image: Object,
     content: String,
   },
-  data() {
-    return {
-      imageUrl: "",
-    };
-  },
-  created() {
-    this.imageUrl = this.image ? setSaveImageUrl(this.image) : defaultImg;
+
+  computed: {
+    imageUrl() {
+      return this.image ? setSaveImageUrl(this.image) : defaultImg;
+    },
   },
 };
 </script>
