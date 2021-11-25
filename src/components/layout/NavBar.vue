@@ -146,6 +146,7 @@ export default {
     },
     initLocation() {
       this.clearLocation();
+      this.closeMenu();
     },
   },
   // created() {
