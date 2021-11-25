@@ -4,7 +4,7 @@
       <header class="accounts__header">
         <h2>Edit Profile</h2>
       </header>
-      <form class="accounts__form" method="" action="">
+      <form class="accounts__form" @submit="onSubmit">
         <input type="hidden" name="act" value="modify" />
         <div class="accounts__form__item">
           <label for="email">Email</label>
@@ -55,14 +55,7 @@
             required
           />
         </div>
-
-        <button
-          class="accounts__form__submit-btn"
-          @click="confirm"
-          type="button"
-        >
-          Confirm
-        </button>
+        <form-button type="submit" title="Confirm" />
       </form>
     </div>
   </section>
@@ -71,10 +64,11 @@
 <script>
 import store from "@/store/index";
 import { mapActions } from "vuex";
-
+import FormButton from "@/components/buttons/FormButton.vue";
 const accountsStore = "accountsStore";
 
 export default {
+  components: { FormButton },
   data() {
     return {
       email: "",
@@ -92,7 +86,9 @@ export default {
   },
   methods: {
     ...mapActions(accountsStore, ["asyncUpdateUserInfo"]),
-    async confirm() {
+    async onSubmit(e) {
+      e.preventDefault();
+
       //user 번호 불러오기
       let userInfo = store.getters["accountsStore/checkUserInfo"];
       let user = {
@@ -106,7 +102,7 @@ export default {
         (this.password !== "" || this.password2 !== "")
       ) {
         await this.asyncUpdateUserInfo(user);
-        this.$router.push({ name: "MyPage" });
+        this.$router.push({ name: "Management" });
       } else {
         this.show = true;
       }

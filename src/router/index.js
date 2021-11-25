@@ -100,7 +100,7 @@ const routes = [
         component: HouseDealMain,
       },
       {
-        path: ":aptName",
+        path: ":aptNo",
         name: "HouseDealView",
         component: HouseDealView,
       },

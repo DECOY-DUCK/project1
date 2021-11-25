@@ -55,10 +55,18 @@
     </div>
 
     <div class="buttons">
+<<<<<<< HEAD
       <button type="submit" class="button submit-button">등록</button>
       <button type="reset" class="button cancel-button" @click="moveList">
         Cancel
       </button>
+=======
+      <form-button
+        type="submit"
+        :title="type === 'modify' ? 'Modify' : 'Register'"
+      />
+      <form-button type="reset" title="Cancel" :onClick="onCancel" />
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
     </div>
   </form>
 </template>
@@ -66,12 +74,34 @@
 <script>
 import store from "@/store/index";
 import { mapState } from "vuex";
+<<<<<<< HEAD
 import { createQans } from "@/api/qna";
+=======
+import FormButton from "@/components/buttons/FormButton.vue";
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
 
 const accountsStore = "accountsStore";
 
 export default {
+<<<<<<< HEAD
   name: "qnawrite",
+=======
+  components: { FormButton },
+  name: "NoticeForm",
+  props: {
+    type: String,
+    original: {
+      no: Number,
+      authorName: String,
+      authorNo: Number,
+      title: String,
+      content: String,
+      image: Object,
+    },
+    onSubmitHandler: Function,
+  },
+
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
   data() {
     return {
       qnaform: {
@@ -133,6 +163,51 @@ export default {
         console.error(e);
       }
     },
+<<<<<<< HEAD
+=======
+    onUploadAttach(e) {
+      this.onDeleteError("attach");
+
+      if (!e.target.files[0]) {
+        this.onDeleteAttach();
+        return;
+      }
+
+      const attach = e.target.files[0];
+      const MAX_BYTES = 1024 * 1024 * 5;
+      if (!attach.type.includes("image")) {
+        this.error.attach = "이미지 파일만 첨부 가능합니다.";
+        e.target.value = null;
+        return;
+      }
+
+      if (attach.size > MAX_BYTES) {
+        this.error.attach = "업로드 가능한 최대 크기는 5mb입니다.";
+        e.target.value = null;
+        return;
+      }
+      this.notice.image = attach;
+      this.setPreviewImage();
+    },
+    setPreviewImage() {
+      const reader = new FileReader();
+      reader.addEventListener("load", (e) => {
+        this.previewImg = e.target.result;
+      });
+
+      reader.readAsDataURL(this.notice.image);
+    },
+    onCancel() {
+      if (confirm("작성을 취소하시겠습니까?")) {
+        this.$router.push({ name: "Admin" });
+      }
+    },
+    onDeleteAttach() {
+      this.notice.image = "";
+      this.previewImg = "";
+      this.$refs.attach && (this.$refs.attach.value = null);
+    },
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
     onDeleteError(type) {
       this.error[type] && (this.error[type] = "");
     },
@@ -207,8 +282,6 @@ export default {
 .button {
   width: 48.75%;
   padding: var(--size-regular) var(--size-medium);
-  border-radius: var(--size-micro);
-  border: 1px solid var(--color-grey);
 }
 
 .attach-error__container {
@@ -219,6 +292,7 @@ export default {
   color: var(--color-black);
 }
 
+<<<<<<< HEAD
 .submit-button {
   color: var(--color-white);
   background-color: var(--color-dark-grey);
@@ -237,6 +311,17 @@ export default {
 .cancel-button:hover {
   color: var(--color-white);
   background-color: var(--color-red);
+=======
+#image-preview {
+  align-self: baseline;
+  position: relative;
+  margin: var(--size-medium) 0;
+}
+
+#image-preview img {
+  height: 7rem;
+  min-width: 200px;
+>>>>>>> a684380ff0bbf0cd03fcac7723d94d37cd408da8
 }
 
 .delete-button {

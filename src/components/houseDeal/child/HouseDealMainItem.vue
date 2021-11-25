@@ -3,7 +3,7 @@
     <router-link
       :to="{
         name: 'HouseDealView',
-        params: { aptName: item.aptName },
+        params: { aptNo: item.no },
       }"
       class="link"
     />

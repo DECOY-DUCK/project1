@@ -73,22 +73,23 @@
     </div>
 
     <div class="buttons">
-      <button type="submit" class="button submit-button">
-        {{ type === "modify" ? "Modify" : "Register" }}
-      </button>
-      <button type="reset" class="button cancel-button" @click="moveList">
-        Cancel
-      </button>
+      <form-button
+        type="submit"
+        :title="type === 'modify' ? 'Modify' : 'Register'"
+      />
+      <form-button type="reset" title="Cancel" :onClick="onCancel" />
     </div>
   </form>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import FormButton from "@/components/buttons/FormButton.vue";
 
 const accountsStore = "accountsStore";
 
 export default {
+  components: { FormButton },
   name: "NoticeForm",
   props: {
     type: String,
@@ -215,6 +216,11 @@ export default {
     onDeleteError(type) {
       this.error[type] && (this.error[type] = "");
     },
+    onCancel() {
+      if (confirm("작성을 취소하시겠습니까?")) {
+        this.$router.push({ name: "Admin" });
+      }
+    },
     scrollToError(element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     },
@@ -280,8 +286,6 @@ export default {
 .button {
   width: 48.75%;
   padding: var(--size-regular) var(--size-medium);
-  border-radius: var(--size-micro);
-  border: 1px solid var(--color-grey);
 }
 
 .attach-error__container {
@@ -290,26 +294,6 @@ export default {
 
 .attach-error__container button:hover {
   color: var(--color-black);
-}
-
-.submit-button {
-  color: var(--color-white);
-  background-color: var(--color-dark-grey);
-}
-
-.cancel-button {
-  color: var(--color-red);
-  background-color: var(--color-white);
-  border-color: var(--color-red);
-}
-
-.submit-button:hover {
-  background-color: var(--color-black);
-}
-
-.cancel-button:hover {
-  color: var(--color-white);
-  background-color: var(--color-red);
 }
 
 #image-preview {

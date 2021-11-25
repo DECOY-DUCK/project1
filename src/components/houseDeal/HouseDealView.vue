@@ -43,6 +43,7 @@ export default {
       houseInfo: {},
       houseDeals: null,
       aptName: "",
+      aptNo: 0,
     };
   },
   computed: {
@@ -59,16 +60,14 @@ export default {
     },
   },
   async created() {
-    if (!this.sidoName || !this.gugunName || !this.dongName) {
-      this.$router.push({ name: "HouseDeal" });
-    }
-
-    this.aptName = this.$route.params.aptName;
-    this.houseInfo = this.houseInfos.find((h) => h.aptName === this.aptName);
+    this.aptNo = this.$route.params.aptNo;
+    this.houseInfo = this.houseInfos.find((h) => h.no == this.aptNo);
 
     if (!this.houseInfo) {
       this.$router.push({ name: "HouseDeal" });
     }
+
+    this.aptName = this.houseInfo.aptName;
 
     const result = await getHouseDeals(this.aptName, {
       gugunCode: this.gugunCode,
@@ -122,5 +121,15 @@ export default {
 .view-contents {
   flex-basis: 72.5%;
   margin-right: calc(var(--size-large) * 2);
+}
+
+/* Media Query for below w640 */
+@media screen and (max-width: 640px) {
+  .view-body {
+    flex-direction: column;
+  }
+  .view-contents {
+    margin-right: 0;
+  }
 }
 </style>

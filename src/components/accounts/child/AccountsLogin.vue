@@ -37,10 +37,8 @@
         <router-link to="./findPwd" class="accounts__link">
           Forgot your password?
         </router-link>
-
-        <button class="accounts__form__submit-btn">Login</button>
+        <form-button type="submit" title="Login" />
       </form>
-
       Don't have an account?
       <router-link class="accounts__link" :to="{ name: 'SignUp' }">
         Sign up
@@ -51,10 +49,12 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import FormButton from "@/components/buttons/FormButton.vue";
 
 const accountsStore = "accountsStore";
 
 export default {
+  components: { FormButton },
   data() {
     return {
       user: {
