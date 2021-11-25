@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { getHouseDeals } from "@/api/houseDeal.js";
 import HouseDealViewChart from "./child/HouseDealViewChart.vue";
 import HouseDealViewInfo from "./child/HouseDealViewInfo.vue";
@@ -55,7 +55,8 @@ export default {
       "houseInfos",
     ]),
     address() {
-      if (!this.sidoName || !this.gugunName || !this.houseInfo) return;
+      if (!this.houseInfo) return;
+      if (!this.sidoName || !this.gugunName) return this.houseInfo.address;
       return `${this.sidoName} ${this.gugunName} ${this.houseInfo.dong} ${this.houseInfo.jibun}`;
     },
   },
@@ -66,16 +67,23 @@ export default {
     if (!this.houseInfo) {
       this.$router.push({ name: "HouseDeal" });
     }
-
+    this.setLocation();
     this.aptName = this.houseInfo.aptName;
 
     const result = await getHouseDeals(this.aptName, {
       gugunCode: this.gugunCode,
-      dongName: this.dongName,
+      dongName: this.dongName || this.houseInfo.dong,
       pageNo: 0,
       sizePerPage: 5,
     });
     this.houseDeals = result;
+  },
+
+  methods: {
+    ...mapActions(houseDealStore, ["asyncGetSidoGugunByDong"]),
+    setLocation() {
+      this.asyncGetSidoGugunByDong(this.houseInfo.code);
+    },
   },
 };
 </script>

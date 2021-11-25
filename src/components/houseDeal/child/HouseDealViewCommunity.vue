@@ -23,5 +23,6 @@ export default {
 <style scoped>
 .view-community {
   margin: var(--size-large) 0;
+  /* background-color: var(--color-back); */
 }
 </style>

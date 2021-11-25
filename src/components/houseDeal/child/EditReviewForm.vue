@@ -61,6 +61,7 @@ export default {
   border-radius: var(--size-micro);
   margin: var(--size-large) 0 var(--size-small);
   padding: var(--size-small);
+  background-color: var(--color-white);
 }
 
 .edit-input {

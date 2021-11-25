@@ -42,6 +42,21 @@ const getDongs = async (gugunCode) => {
 };
 
 /**
+ * 해당 동이 속한 시.도와 구.군를 받아온다.
+ *
+ * @param {String} dongCode : 법정동 코드
+ * @returns 해당 법정동의 시.도와 구.군을 담은 Promise
+ */
+const getSidoGugunByDong = async (dongCode) => {
+  return httpClient.axios("/housedeal/sidogugun", {
+    method: "GET",
+    params: {
+      dongCode,
+    },
+  });
+};
+
+/**
  * 지역 정보를 이용하여 현재 페이지에 해당하는 아파트 정보를 받아온다.
  *
  * @param {Object} params : 구군 코드와 동 이름, 현재 페이지 번호, 페이지당 개수
@@ -68,4 +83,11 @@ const getHouseDeals = async (aptName, params) => {
   });
 };
 
-export { getSidos, getGuguns, getDongs, getHouseInfos, getHouseDeals };
+export {
+  getSidos,
+  getGuguns,
+  getDongs,
+  getSidoGugunByDong,
+  getHouseInfos,
+  getHouseDeals,
+};

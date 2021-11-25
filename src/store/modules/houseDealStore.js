@@ -2,6 +2,7 @@ import {
   getSidos,
   getGuguns,
   getDongs,
+  getSidoGugunByDong,
   getHouseInfos,
   getHouseDeals,
 } from "@/api/houseDeal";
@@ -110,6 +111,22 @@ const houseDealStore = {
       try {
         const result = await getDongs(gugunCode);
         commit("SET_DONG_LIST", result);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+
+    asyncGetSidoGugunByDong: async ({ commit }, dongCode) => {
+      try {
+        const result = await getSidoGugunByDong(dongCode);
+        commit("SET_SIDO", {
+          sidoCode: result.sidoCode,
+          sidoName: result.sidoName,
+        });
+        commit("SET_GUGUN", {
+          gugunCode: result.gugunCode,
+          gugunName: result.gugunName,
+        });
       } catch (e) {
         console.error(e);
       }

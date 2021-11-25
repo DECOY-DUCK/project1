@@ -1,7 +1,7 @@
 <template>
   <div class="view-reviews">
     <h4>아파트 이야기 ({{ count }}개)</h4>
-    <new-review-form v-if="isLogin" :onCreate="onCreate" :onError="onError" />
+    <new-review-form :onCreate="onCreate" :onError="onError" />
     <ul class="reviews">
       <span v-if="!count"
         >등록된 이야기가 없습니다. 아파트의 첫 이야기를 남겨주세요.</span
@@ -12,7 +12,9 @@
         :review="review"
         :onUpdate="onUpdate"
         :onDelete="onDelete"
-        :isOwner="userInfo.no === review.authorNo"
+        :onError="onError"
+        :isOwner="userNo === review.authorNo"
+        :isLike="review.likeUsers.includes(userNo)"
       />
     </ul>
   </div>
@@ -26,8 +28,6 @@ import {
   postHouseReview,
   updateHouseReview,
   deleteHouseReview,
-  //saveHouseReviewLike,
-  //deleteHouseReviewLike,
 } from "@/api/houseReview.js";
 
 import NewReviewForm from "@/components/houseDeal/child/NewReviewForm.vue";
@@ -44,7 +44,8 @@ export default {
       reviews: [],
       count: 0,
       error: "",
-      authorNo: 0,
+      userNo: null,
+      isLike: false,
     };
   },
   computed: {
@@ -52,7 +53,7 @@ export default {
   },
   created() {
     this.aptNo = this.$route.params.aptNo;
-    this.authorNo = this.userInfo.no;
+    this.userNo = this.userInfo && this.userInfo.no;
     this.getReviews();
   },
 
@@ -69,7 +70,7 @@ export default {
       try {
         const result = await postHouseReview({
           aptNo: this.aptNo,
-          authorNo: this.authorNo,
+          authorNo: this.userNo,
           content,
         });
 
@@ -88,7 +89,7 @@ export default {
         const result = await updateHouseReview({
           no,
           aptNo: this.aptNo,
-          authorNo: this.authorNo,
+          authorNo: this.userNo,
           content,
         });
 
@@ -135,8 +136,8 @@ export default {
 .view-reviews {
   width: 100%;
   border-radius: var(--size-micro);
-  background-color: var(--color-white);
-  padding: var(--size-large) 0;
+  /* background-color: var(--color-white); */
+  padding: var(--size-large) var(--size-regular);
 }
 
 .reviews {
