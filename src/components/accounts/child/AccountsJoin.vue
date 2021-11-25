@@ -1,6 +1,6 @@
 <template>
   <section class="accounts" id="signup" @submit="onSubmit">
-    <div class="accounts__container">
+    <div class="accounts__container" v-if="!authk">
       <header class="accounts__header">
         <h2>Sign up</h2>
         <p>Welcome!</p>
@@ -61,14 +61,38 @@
             required
           />
         </div>
-        <form-button type="submit" title="Register" />
+        <div>
+          <form-button type="submit" title="Register" />
+        </div>
       </form>
+    </div>
+    <div v-else>
+      <div class="accounts__container findPwd__home">
+        <header class="accounts__header">
+          <h2>Find password</h2>
+        </header>
+        <form class="accounts__form">
+          <div class="accounts__form__item">
+            <label for="email">인증번호</label>
+            <input
+              type="text"
+              id="authkey"
+              name="authkey"
+              v-model="authkey"
+              class="form__item__input"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+        </form>
+        <button @click="sendAuthkey">인증하기</button>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import { signup, idcheck } from "@/api/auth";
+import { signup, idcheck, authkeycheck } from "@/api/auth";
 import { mapActions } from "vuex";
 import FormButton from "@/components/buttons/FormButton.vue";
 
@@ -82,8 +106,10 @@ export default {
       password: "",
       password2: "",
       name: "",
+      authkey: "",
       check: false,
       idrecheck: false,
+      authk: false,
     };
   },
   created() {
@@ -111,7 +137,20 @@ export default {
       }
       return this.check;
     },
-
+    async sendAuthkey() {
+      const user = {
+        email: this.email,
+        password: this.password,
+        name: this.name,
+        authkey: this.authkey,
+      };
+      console.log(user);
+      const result = await authkeycheck(user);
+      if (result == 1) {
+        alert("가입을 축하드립니다");
+        this.$router.push({ name: "LogIn" });
+      }
+    },
     ...mapActions(accountsStore, ["asyncSignup", "asyncGetUserInfo"]),
     async onSubmit(e) {
       e.preventDefault();
@@ -122,10 +161,10 @@ export default {
         name: this.name,
       };
       try {
-        const result = signup(user);
-        if (result == "success") {
-          alert("회원가입 성공! 로그인 해주세요.");
-          this.$router.push({ name: "LogIn" });
+        const result = await signup(user);
+        if (result === "success") {
+          alert("이메일을 통해 인증번호를 입력해 주세요");
+          this.authk = true;
         } else {
           alert("회원가입 실패.");
         }

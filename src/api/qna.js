@@ -33,6 +33,7 @@ const insertQnAReply = async (no, qnaReply) => {
     data: { ...qnaReply },
   });
 };
+
 export {
   createQans,
   qnaUserList,

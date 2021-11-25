@@ -25,6 +25,14 @@ const idcheck = async (email) => {
     data: { email },
   });
 };
+const authkeycheck = async (user) => {
+  return httpClient.axios("/auth/signup/authkeycheck", {
+    method: "POST",
+    data: {
+      ...user,
+    },
+  });
+};
 
 // const logout = async () => {
 //   return httpClient.axios("/auth/logout", {
@@ -97,4 +105,5 @@ export {
   me,
   getUserInfolist,
   deleteUser,
+  authkeycheck,
 };
