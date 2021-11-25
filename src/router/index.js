@@ -25,7 +25,7 @@ import Admin from "@/components/infomanagement/admin/useradmin.vue";
 import NoticeWrite from "@/components/infomanagement/admin//NoticeWrite.vue";
 
 //정보관리-유저
-import QnAWrite from "@/components/infomanagement/user/QnaWrite";
+import QnAWrite from "@/components/infomanagement/user/qnaWrite";
 import UserQnaList from "@/components/infomanagement/user/UserQnaList";
 import InterestArea from "@/components/infomanagement/user/InterestArea.vue";
 import AccountsDelete from "@/components/infomanagement/user/AccountsDelete.vue";

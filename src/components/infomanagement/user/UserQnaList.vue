@@ -25,8 +25,9 @@
             <td>{{ list.no }}</td>
             <td>{{ list.category }}</td>
             <td>{{ list.title }}</td>
-            <td>답변대기</td>
             <td>{{ list.createdAt }}</td>
+            <td v-if="list.replies == 0" v-text="답변대기"></td>
+            <td v-else v-text="답변완료"></td>
             <td><button @click="confirm(list.no)">삭제</button></td>
           </tr>
         </tBody>
