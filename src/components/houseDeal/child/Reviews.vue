@@ -7,7 +7,7 @@
         등록된 이야기가 없습니다. 아파트의 첫 이야기를 남겨주세요.
       </span>
       <review-card
-        v-for="(review, index) in reviews"
+        v-for="(review, index) in reviewData"
         :key="index"
         :review="review"
         :onUpdate="onUpdate"
@@ -17,6 +17,12 @@
         :isLike="review.likeUsers.includes(userNo)"
       />
     </ul>
+    <show-more-button
+      :onClick="onShowMore"
+      :text="`더보기 (+${restReviews})`"
+      v-if="isShowMore"
+    />
+    <show-more-button :onClick="onHideMore" text="접기" v-if="isHideMore" />
     <alert-banner v-if="msg" :isAlert="isAlert" :text="msg" />
   </div>
 </template>
@@ -34,11 +40,13 @@ import {
 import NewReviewForm from "@/components/houseDeal/child/NewReviewForm.vue";
 import ReviewCard from "@/components/houseDeal/child/ReviewCard.vue";
 import AlertBanner from "@/components/banner/AlertBanner.vue";
+import ShowMoreButton from "@/components/buttons/ShowMoreButton.vue";
 
+const REVIEW_SIZE = 5;
 const accountsStore = "accountsStore";
 
 export default {
-  components: { NewReviewForm, ReviewCard, AlertBanner },
+  components: { NewReviewForm, ReviewCard, AlertBanner, ShowMoreButton },
   name: "Reviews",
   data() {
     return {
@@ -49,10 +57,23 @@ export default {
       msg: "",
       userNo: null,
       isLike: false,
+      reviewIdx: REVIEW_SIZE,
     };
   },
   computed: {
     ...mapState(accountsStore, ["isLogin", "userInfo"]),
+    reviewData() {
+      return this.reviews.slice(0, this.reviewIdx);
+    },
+    restReviews() {
+      return this.reviews.length - this.reviewIdx;
+    },
+    isShowMore() {
+      return this.restReviews > 0;
+    },
+    isHideMore() {
+      return this.reviews.length != REVIEW_SIZE && this.restReviews == 0;
+    },
   },
   created() {
     this.aptNo = this.$route.params.aptNo;
@@ -144,6 +165,25 @@ export default {
       this.reviews = result.list;
       this.count = result.count;
     },
+    onShowMore() {
+      if (!this.isLogin) {
+        if (confirm("로그인이 필요한 기능입니다. 로그인 하시겠습니까?")) {
+          this.$router.push({ name: "LogIn" });
+        }
+        return;
+      }
+
+      this.reviewIdx =
+        this.restReviews < REVIEW_SIZE
+          ? this.reviews.length
+          : this.reviewIdx + REVIEW_SIZE;
+    },
+    onHideMore() {
+      this.initShowMore();
+    },
+    initShowMore() {
+      this.reviewIdx = REVIEW_SIZE;
+    },
   },
 };
 </script>
@@ -163,5 +203,26 @@ export default {
 .reviews span {
   display: block;
   text-align: center;
+}
+
+.show-more-button {
+  margin: var(--size-regular) auto;
+  display: block;
+  text-align: center;
+}
+
+.show-more-button:hover {
+  color: var(--color-dark-grey);
+  animation: up-down 1500ms linear 3;
+}
+
+@keyframes up-down {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(var(--size-micro));
+  }
 }
 </style>

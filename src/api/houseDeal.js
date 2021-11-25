@@ -1,5 +1,6 @@
 import { httpClient } from ".";
 
+const SIZE_PER_PAGE = 15;
 /**
  * 전국에 있는 도.광역시 리스트를 받아온다.
  *
@@ -65,7 +66,11 @@ const getSidoGugunByDong = async (dongCode) => {
 const getHouseInfos = async (params) => {
   return httpClient.axios("/housedeal/apt", {
     type: "GET",
-    params,
+    params: {
+      pageNo: 0,
+      sizePerPage: SIZE_PER_PAGE,
+      ...params,
+    },
   });
 };
 
@@ -91,7 +96,11 @@ const getHouseInfoByNo = async (no) => {
 const getHouseDeals = async (aptName, params) => {
   return httpClient.axios(`/housedeal/${aptName}`, {
     type: "GET",
-    params,
+    params: {
+      pageNo: 0,
+      sizePerPage: SIZE_PER_PAGE,
+      ...params,
+    },
   });
 };
 

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import { getHouseDeals, getHouseInfoByNo } from "@/api/houseDeal.js";
 import HouseDealViewChart from "./child/HouseDealViewChart.vue";
 import HouseDealViewInfo from "./child/HouseDealViewInfo.vue";
@@ -74,14 +74,10 @@ export default {
       await this.setLocation();
       this.aptName = this.houseInfo.aptName;
 
-      const result = await getHouseDeals(this.aptName, {
+      this.houseDeals = await getHouseDeals(this.aptName, {
         gugunCode: this.gugunCode,
         dongName: this.houseInfo.dong,
-        pageNo: 0,
-        sizePerPage: 5,
       });
-
-      this.houseDeals = result;
     } catch (e) {
       console.error(e);
     }
@@ -89,9 +85,8 @@ export default {
 
   methods: {
     ...mapActions(houseDealStore, ["asyncGetSidoGugunByDong", "clearLocation"]),
-
+    ...mapMutations(houseDealStore, ["SET_DONG"]),
     async setLocation() {
-      this.clearLocation();
       await this.asyncGetSidoGugunByDong(this.houseInfo.code);
     },
   },

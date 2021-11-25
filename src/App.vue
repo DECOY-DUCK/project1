@@ -26,7 +26,7 @@ export default {
     Contacts,
   },
   created() {
-    this.asyncGetNotices({ pageNo: 0, sizePerPage: 15 });
+    this.asyncGetNotices();
   },
   methods: {
     ...mapActions(noticeStore, ["asyncGetNotices"]),

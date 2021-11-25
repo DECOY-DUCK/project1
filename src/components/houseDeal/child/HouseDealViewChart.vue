@@ -6,7 +6,7 @@
       <bar-chart :options="barChart" :data="barChartData" />
     </div>
 
-    <div class="view-recentDeals">
+    <div class="view-table">
       <div class="filter-buttons">
         <filter-button
           v-for="(py, index) in pySet"
@@ -17,16 +17,26 @@
           :filterHandler="filterHandler"
         />
       </div>
-      <common-table :items="houseDealsByPy.slice(0, 8)" />
+      <common-table :items="tableData" />
+      <show-more-button
+        :onClick="onShowMore"
+        :text="`더보기 (+${restTableData})`"
+        v-if="isShowMore"
+      />
+      <show-more-button :onClick="onHideMore" text="접기" v-if="isHideMore" />
     </div>
   </section>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import FilterButton from "@/components/buttons/FilterButton.vue";
 import CommonTable from "@/components/chart/CommonTable.vue";
 import LineChart from "@/components/chart/LineChart.vue";
 import BarChart from "@/components/chart/BarChart.vue";
+import ShowMoreButton from "@/components/buttons/ShowMoreButton.vue";
+
 const lineChartOpts = {
   responsive: true,
   scales: {
@@ -72,9 +82,17 @@ const barChartOpts = {
     },
   },
 };
+const TABLE_SIZE = 5;
+const accountsStore = "accountsStore";
 
 export default {
-  components: { FilterButton, CommonTable, LineChart, BarChart },
+  components: {
+    FilterButton,
+    CommonTable,
+    LineChart,
+    BarChart,
+    ShowMoreButton,
+  },
   name: "HouseDealViewChart",
   props: {
     houseDeals: Array,
@@ -96,11 +114,27 @@ export default {
         opts: barChartOpts,
       },
       barChartData: [],
+      tableIdx: TABLE_SIZE,
     };
   },
   computed: {
+    ...mapState(accountsStore, ["isLogin"]),
     houseDealsByPy() {
       return this.allHouseDealsByPy[this.filterPy];
+    },
+    tableData() {
+      return this.houseDealsByPy.slice(0, this.tableIdx);
+    },
+    restTableData() {
+      return this.houseDealsByPy.length - this.tableIdx;
+    },
+    isShowMore() {
+      return this.restTableData > 0;
+    },
+    isHideMore() {
+      return (
+        this.houseDealsByPy.length != TABLE_SIZE && this.restTableData == 0
+      );
     },
   },
 
@@ -135,6 +169,7 @@ export default {
       return Math.round(area * 0.3025);
     },
     filterHandler(py) {
+      this.initShowMore();
       this.filterPy = py;
       this.setChartData();
       this.setLineChartOpts();
@@ -185,6 +220,25 @@ export default {
       lineChartOpts.scales.y.max =
         Math.ceil(Math.max(...temp) / 10000) * 10000 + 5000;
     },
+    onShowMore() {
+      if (!this.isLogin) {
+        if (confirm("로그인이 필요한 기능입니다. 로그인 하시겠습니까?")) {
+          this.$router.push({ name: "LogIn" });
+        }
+        return;
+      }
+
+      this.tableIdx =
+        this.restTableData < TABLE_SIZE
+          ? this.houseDealsByPy.length
+          : this.tableIdx + TABLE_SIZE;
+    },
+    onHideMore() {
+      this.initShowMore();
+    },
+    initShowMore() {
+      this.tableIdx = TABLE_SIZE;
+    },
   },
 };
 </script>
@@ -194,7 +248,28 @@ export default {
   text-align: right;
 }
 
-.view-recentDeals {
+.view-table {
   margin-top: var(--size-medium);
+}
+
+.show-more-button {
+  margin: var(--size-regular) auto;
+  display: block;
+  text-align: center;
+}
+
+.show-more-button:hover {
+  color: var(--color-dark-grey);
+  animation: up-down 1500ms linear 3;
+}
+
+@keyframes up-down {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(var(--size-micro));
+  }
 }
 </style>

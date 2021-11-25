@@ -4,7 +4,6 @@ import {
   getDongs,
   getSidoGugunByDong,
   getHouseInfos,
-  getHouseDeals,
 } from "@/api/houseDeal";
 
 const houseDealStore = {
@@ -132,42 +131,16 @@ const houseDealStore = {
       }
     },
 
-    asyncGetHouseInfos: async (
-      { commit },
-      { gugunCode, dongName, pageNo, sizePerPage }
-    ) => {
+    asyncGetHouseInfos: async ({ commit }, { gugunCode, dongName, pageNo }) => {
       try {
         !pageNo && (pageNo = 0);
-        !sizePerPage && (sizePerPage = 15);
 
         const result = await getHouseInfos({
           gugunCode,
           dongName,
           pageNo,
-          sizePerPage,
         });
         commit("SET_HOUSEINFO_LIST", addAddress(result));
-      } catch (e) {
-        console.error(e);
-      }
-    },
-
-    asyncGetHouseDeals: async (
-      { commit },
-      { aptName, gugunCode, dongName, pageNo, sizePerPage }
-    ) => {
-      try {
-        !pageNo && (pageNo = 0);
-        !sizePerPage && (sizePerPage = 15);
-
-        const result = await getHouseDeals(aptName, {
-          gugunCode,
-          dongName,
-          pageNo,
-          sizePerPage,
-        });
-
-        commit("SET_HOUSEDEAL_LIST", addAddress(result));
       } catch (e) {
         console.error(e);
       }

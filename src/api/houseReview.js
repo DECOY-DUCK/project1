@@ -101,7 +101,6 @@ const deleteHouseReview = async (no, aptNo) => {
  * @returns 성공 여부 문자열(success, fail)을 담은 Promise
  */
 const saveHouseReviewLike = async (reviewNo, userNo) => {
-  console.log(reviewNo, userNo);
   return httpClient.axios(`/housereview/${reviewNo}/${userNo}`, {
     method: "POST",
   });

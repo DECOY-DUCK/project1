@@ -14,12 +14,11 @@ const noticeStore = {
     },
   },
   actions: {
-    asyncGetNotices: async ({ commit }, { pageNo, sizePerPage }) => {
+    asyncGetNotices: async ({ commit }, pageNo) => {
       try {
         !pageNo && (pageNo = 0);
-        !sizePerPage && (sizePerPage = 15);
 
-        const result = await getNotices(pageNo, sizePerPage);
+        const result = await getNotices(pageNo);
 
         commit("SET_NOTICE_LIST", {
           notices: result.list,

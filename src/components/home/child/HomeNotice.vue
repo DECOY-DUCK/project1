@@ -1,11 +1,7 @@
 <template>
   <li class="home-notice">
     <div>
-      <img
-        class="image"
-        src="@/assets/images/default_notice.png"
-        alt="home notice image"
-      />
+      <img class="image" :src="imageUrl" alt="home notice image" />
     </div>
 
     <router-link
@@ -37,7 +33,7 @@ export default {
   },
 
   created() {
-    this.imageUrl = this.image || defaultImg;
+    this.imageUrl = `@/assets/resources${this.image}` || defaultImg;
   },
 };
 </script>
