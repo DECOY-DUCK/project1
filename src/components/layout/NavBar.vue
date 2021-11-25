@@ -3,7 +3,7 @@
     <div class="navbar-container">
       <div class="logo" @click="closeMenu">
         <router-link :to="{ name: 'Home' }" exact class="link">
-          HappyHouse
+          {{ title }}
         </router-link>
       </div>
 
@@ -86,6 +86,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import { config } from "@/config";
 import store from "@/store/index";
 
 const accountsStore = "accountsStore";
@@ -97,6 +98,7 @@ export default {
     return {
       loginUser: false,
       isMenuOpen: false,
+      title: config.title,
     };
   },
   created() {

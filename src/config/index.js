@@ -8,6 +8,7 @@ function required(key, defaultValue = undefined) {
 
 // 사용할 vue 파일에서 import config 한다음에 config.api.baseUrl 이런식으로 사용하면 됩니다@@@@
 export const config = {
+  title: "SunnySideUp",
   api: {
     serverUrl: required(
       "VUE_APP_SERVER_URL",

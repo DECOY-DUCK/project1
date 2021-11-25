@@ -198,6 +198,11 @@ export default {
   align-items: center;
 }
 
+.author-icon {
+  margin-right: var(--size-micro);
+  color: var(--color-grey);
+}
+
 .more-button {
   position: relative;
 }

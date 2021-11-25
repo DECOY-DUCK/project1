@@ -26,13 +26,12 @@ export default {
 }
 .banner {
   padding: var(--size-regular);
-  font-size: var(--font-regular);
+  font-size: var(--font-small);
   color: var(--color-white);
 }
 
 .banner-error {
   background-color: var(--color-red);
-  color: var(--color-white);
 }
 
 .banner-info {
