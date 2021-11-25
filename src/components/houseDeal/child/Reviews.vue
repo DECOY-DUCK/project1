@@ -1,22 +1,23 @@
 <template>
   <div class="view-reviews">
     <h4>아파트 이야기 ({{ count }}개)</h4>
-    <new-review-form :onCreate="onCreate" :onError="onError" />
+    <new-review-form :onCreate="onCreate" :onAlert="onAlert" />
     <ul class="reviews">
-      <span v-if="!count"
-        >등록된 이야기가 없습니다. 아파트의 첫 이야기를 남겨주세요.</span
-      >
+      <span v-if="!count">
+        등록된 이야기가 없습니다. 아파트의 첫 이야기를 남겨주세요.
+      </span>
       <review-card
         v-for="(review, index) in reviews"
         :key="index"
         :review="review"
         :onUpdate="onUpdate"
         :onDelete="onDelete"
-        :onError="onError"
+        :onAlert="onAlert"
         :isOwner="userNo === review.authorNo"
         :isLike="review.likeUsers.includes(userNo)"
       />
     </ul>
+    <alert-banner v-if="msg" :isAlert="isAlert" :text="msg" />
   </div>
 </template>
 
@@ -32,18 +33,20 @@ import {
 
 import NewReviewForm from "@/components/houseDeal/child/NewReviewForm.vue";
 import ReviewCard from "@/components/houseDeal/child/ReviewCard.vue";
+import AlertBanner from "@/components/banner/AlertBanner.vue";
 
 const accountsStore = "accountsStore";
 
 export default {
-  components: { NewReviewForm, ReviewCard },
+  components: { NewReviewForm, ReviewCard, AlertBanner },
   name: "Reviews",
   data() {
     return {
       aptNo: "",
       reviews: [],
       count: 0,
-      error: "",
+      isAlert: false,
+      msg: "",
       userNo: null,
       isLike: false,
     };
@@ -59,6 +62,8 @@ export default {
 
   methods: {
     async getReviews() {
+      if (!this.aptNo) return;
+
       try {
         const result = await getHouseReviews(this.aptNo);
         this.setReviewInfo(result);
@@ -76,12 +81,12 @@ export default {
 
         if (result.msg === "success") {
           this.setReviewInfo(result);
-          alert("등록 성공했습니다.");
+          this.onSuccess("등록");
         } else {
-          this.onError("등록시 문제가 발생했습니다.");
+          this.onError("등록");
         }
       } catch (e) {
-        this.onError(e);
+        this.onError("등록");
       }
     },
     async onUpdate(no, content) {
@@ -95,12 +100,12 @@ export default {
 
         if (result.msg === "success") {
           this.setReviewInfo(result);
-          alert("수정 성공했습니다.");
+          this.onSuccess("수정");
         } else {
-          this.onError("수정시 문제가 발생했습니다.");
+          this.onError("수정");
         }
       } catch (e) {
-        this.onError(e);
+        this.onError("수정");
       }
     },
     async onDelete(no) {
@@ -109,21 +114,32 @@ export default {
 
         if (result.msg === "success") {
           this.setReviewInfo(result);
-          alert("삭제 성공했습니다.");
+          this.onSuccess("삭제");
         } else {
-          this.onError("삭제시 문제가 발생했습니다.");
+          this.onError("삭제");
         }
       } catch (e) {
         console.error(e);
-        this.onError(e);
+        this.onError("삭제");
       }
     },
-    onError(e) {
-      this.error = e;
+
+    onAlert(msg, isAlert) {
+      this.msg = msg;
+      this.isAlert = isAlert;
       setTimeout(() => {
-        this.error = "";
-      }, 3000);
+        this.msg = "";
+        this.isAlert = false;
+      }, 2000);
     },
+
+    onSuccess(type) {
+      this.onAlert(`${type} 완료!`, false);
+    },
+    onError(type) {
+      this.onAlert(`${type}시 문제가 발생했습니다.`, true);
+    },
+
     setReviewInfo(result) {
       this.reviews = result.list;
       this.count = result.count;

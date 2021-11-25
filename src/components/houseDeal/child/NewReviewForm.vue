@@ -3,17 +3,18 @@
     <textarea
       :placeholder="
         isLogin
-          ? '아파트와 관련된 이야기를 남겨주세요 (20자 이상 100자 이하)'
+          ? '아파트와 관련된 이야기를 남겨주세요 (20자 이상 200자 이하)'
           : '로그인이 필요한 기능입니다.'
       "
       v-model="review"
       class="review-input"
-      maxlength="100"
+      maxlength="200"
       autoFocus
       :readonly="!isLogin"
     ></textarea>
 
-    <div class="buttons">
+    <div class="util">
+      <span class="length">{{ this.review.length }} / 200</span>
       <form-button
         type="submit"
         title="<span><i class='fas fa-pen'></i></span>"
@@ -31,7 +32,7 @@ const accountsStore = "accountsStore";
 export default {
   components: { FormButton },
   name: "NewReviewForm",
-  props: { onCreate: Function, onError: Function },
+  props: { onCreate: Function, onAlert: Function },
   data() {
     return {
       review: "",
@@ -55,8 +56,13 @@ export default {
         return;
       }
 
-      if (!this.review.length < 20) {
-        this.onError("20자 이상 작성해주세요.");
+      if (this.review.length < 20) {
+        this.onAlert("20자 이상 작성해주세요.", true);
+        return;
+      }
+
+      if (this.review.length > 200) {
+        this.onAlert("200자 이하로 작성해주세요.", true);
         return;
       }
 
@@ -84,7 +90,13 @@ export default {
   height: 4rem;
 }
 
-.buttons {
+.util {
+  text-align: right;
+}
+
+.length {
+  margin-right: var(--size-regular);
+  font-size: var(--size-regular);
   text-align: right;
 }
 

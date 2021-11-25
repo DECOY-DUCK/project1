@@ -25,7 +25,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { getHouseDeals } from "@/api/houseDeal.js";
+import { getHouseDeals, getHouseInfoByNo } from "@/api/houseDeal.js";
 import HouseDealViewChart from "./child/HouseDealViewChart.vue";
 import HouseDealViewInfo from "./child/HouseDealViewInfo.vue";
 import HouseDealViewCommunity from "./child/HouseDealViewCommunity.vue";
@@ -62,27 +62,37 @@ export default {
   },
   async created() {
     this.aptNo = this.$route.params.aptNo;
-    this.houseInfo = this.houseInfos.find((h) => h.no == this.aptNo);
+    try {
+      this.houseInfo = await getHouseInfoByNo(this.aptNo);
 
-    if (!this.houseInfo) {
-      this.$router.push({ name: "HouseDeal" });
+      if (!this.houseInfo) {
+        this.clearLocation();
+        this.$router.push({ name: "HouseDeal" });
+        return;
+      }
+
+      await this.setLocation();
+      this.aptName = this.houseInfo.aptName;
+
+      const result = await getHouseDeals(this.aptName, {
+        gugunCode: this.gugunCode,
+        dongName: this.houseInfo.dong,
+        pageNo: 0,
+        sizePerPage: 5,
+      });
+
+      this.houseDeals = result;
+    } catch (e) {
+      console.error(e);
     }
-    this.setLocation();
-    this.aptName = this.houseInfo.aptName;
-
-    const result = await getHouseDeals(this.aptName, {
-      gugunCode: this.gugunCode,
-      dongName: this.dongName || this.houseInfo.dong,
-      pageNo: 0,
-      sizePerPage: 5,
-    });
-    this.houseDeals = result;
   },
 
   methods: {
-    ...mapActions(houseDealStore, ["asyncGetSidoGugunByDong"]),
-    setLocation() {
-      this.asyncGetSidoGugunByDong(this.houseInfo.code);
+    ...mapActions(houseDealStore, ["asyncGetSidoGugunByDong", "clearLocation"]),
+
+    async setLocation() {
+      this.clearLocation();
+      await this.asyncGetSidoGugunByDong(this.houseInfo.code);
     },
   },
 };

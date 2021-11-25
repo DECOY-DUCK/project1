@@ -70,6 +70,18 @@ const getHouseInfos = async (params) => {
 };
 
 /**
+ * 아파트 번호를 이용하여 현재 페이지에 해당하는 아파트 정보를 받아온다.
+ *
+ * @param {Number} no: 아파트 번호
+ * @returns 해당 번호의 아파트 정보를 담은 Promise
+ */
+const getHouseInfoByNo = async (no) => {
+  return httpClient.axios(`/housedeal/apt/${no}`, {
+    type: "GET",
+  });
+};
+
+/**
  * 아파트 이름과 지역 정보를 이용하여 현재 페이지에 해당하는 아파트 매물 정보를 받아온다.
  *
  * @param {String} aptName : 아파트 이름
@@ -89,5 +101,6 @@ export {
   getDongs,
   getSidoGugunByDong,
   getHouseInfos,
+  getHouseInfoByNo,
   getHouseDeals,
 };

@@ -68,6 +68,7 @@ export default {
       "dongName",
     ]),
   },
+
   created() {
     if (!this.$route.path.includes("housedeal")) {
       this.clearSidoList();

@@ -172,6 +172,12 @@ const houseDealStore = {
         console.error(e);
       }
     },
+
+    clearLocation: ({ commit }) => {
+      commit("CLEAR_SIDO");
+      commit("CLEAR_GUGUN");
+      commit("CLEAR_DONG");
+    },
   },
 };
 

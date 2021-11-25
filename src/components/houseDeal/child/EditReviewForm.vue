@@ -1,11 +1,11 @@
 <template>
   <form class="edit-form" @submit="onSubmitHandler">
     <textarea
-      placeholder="이야기를 수정해 주세요 (100자 이하)"
+      placeholder="이야기를 수정해 주세요 (20자 이상 200자 이하)"
       v-model="review"
       class="edit-input"
       required
-      maxlength="100"
+      maxlength="200"
       autoFocus
     ></textarea>
 
@@ -15,10 +15,14 @@
         title="<span><i class='fas fa-times'></i></span>"
         :onClick="onClose"
       />
-      <form-button
-        type="submit"
-        title="<span><i class='fas fa-pen'></i></span>"
-      />
+
+      <div class="util">
+        <span class="length">{{ this.review.length }} / 200</span>
+        <form-button
+          type="submit"
+          title="<span><i class='fas fa-pen'></i></span>"
+        />
+      </div>
     </div>
   </form>
 </template>
@@ -67,13 +71,27 @@ export default {
 .edit-input {
   flex-basis: 95%;
   resize: none;
-  height: 4rem;
+  height: 6rem;
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: flex-end;
+}
+
+.util {
+  position: relative;
+  display: flex;
+}
+
+.length {
+  position: absolute;
+  right: 0;
+  bottom: var(--size-micro);
+  width: 5rem;
+  font-size: var(--size-regular);
 }
 
 .button {

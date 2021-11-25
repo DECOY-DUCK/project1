@@ -68,7 +68,7 @@ export default {
     },
     onUpdate: Function,
     onDelete: Function,
-    onError: Function,
+    onAlert: Function,
   },
   data() {
     return {
@@ -132,20 +132,18 @@ export default {
           this.review.no,
           this.userInfo.no
         );
-        console.log(result);
 
         if (result >= 0) {
-          alert("좋아요 등록되었습니다.");
           this.$set(this.button, "isSaved", true);
           this.count = result;
           this.$set(this.button, "text", this.count);
 
           return true;
         }
-        this.onError("처리 중 문제가 발생했습니다.");
+        this.onError();
         return false;
       } catch (e) {
-        this.onError(e);
+        this.onError();
         return false;
       }
     },
@@ -157,19 +155,21 @@ export default {
         );
         console.log(result);
         if (result >= 0) {
-          alert("좋아요 해제되었습니다.");
           this.$set(this.button, "isSaved", false);
           this.count = result;
           this.$set(this.button, "text", this.count);
 
           return true;
         }
-        this.onError("처리 중 문제가 발생했습니다.");
+        this.onError();
         return false;
       } catch (e) {
-        this.onError(e);
+        this.onError();
         return false;
       }
+    },
+    onError() {
+      this.onAlert("처리 중 문제가 발생했습니다.", true);
     },
   },
 };
@@ -243,6 +243,11 @@ export default {
 }
 
 .content {
+  font-size: var(--font-small);
   padding: var(--size-regular);
+}
+
+pre {
+  white-space: pre-wrap;
 }
 </style>

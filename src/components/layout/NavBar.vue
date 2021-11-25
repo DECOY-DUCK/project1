@@ -9,7 +9,7 @@
 
       <div class="menu-container">
         <ul class="items">
-          <li class="item" @click="closeMenu">
+          <li class="item" @click="initLocation">
             <router-link
               :to="{ name: 'HouseDeal' }"
               class="link"
@@ -85,10 +85,11 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import store from "@/store/index";
 
 const accountsStore = "accountsStore";
+const houseDealStore = "houseDealStore";
 
 export default {
   name: "NavBar",
@@ -100,14 +101,20 @@ export default {
   },
   created() {
     this.loginUser = this.isLogin;
+    this.clearLocation();
   },
   watch: {
     isLogin() {
       this.loginUser = this.isLogin;
     },
   },
+  computed: {
+    ...mapState(accountsStore, ["isLogin"]),
+    ...mapState(houseDealStore, ["sidoName"]),
+  },
   methods: {
     ...mapMutations(accountsStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    ...mapActions(houseDealStore, ["clearLocation"]),
     logoutHandler() {
       // 로그아웃 처리
       this.SET_IS_LOGIN(false);
@@ -135,13 +142,13 @@ export default {
         this.loginUser = true;
       }
     },
+    initLocation() {
+      this.clearLocation();
+    },
   },
   // created() {
   //   this.changeLoginUser();
   // },
-  computed: {
-    ...mapState(accountsStore, ["isLogin"]),
-  },
 };
 </script>
 
