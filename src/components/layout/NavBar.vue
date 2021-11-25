@@ -253,7 +253,7 @@ export default {
     cursor: pointer;
   }
 
-  #navbar {
+  .navbar-container {
     flex-direction: column;
     align-items: flex-start;
   }
